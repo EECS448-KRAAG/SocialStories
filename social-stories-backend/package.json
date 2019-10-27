@@ -1,0 +1,23 @@
+{
+  "name": "social-stories-backend",
+  "version": "1.0.0",
+  "description": "Backend for KRAAG's Social Stories Project",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EECS448-KRAAG/SocialStories.git"
+  },
+  "author": "KRAAG",
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/EECS448-KRAAG/SocialStories/issues"
+  },
+  "homepage": "https://github.com/EECS448-KRAAG/SocialStories#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}

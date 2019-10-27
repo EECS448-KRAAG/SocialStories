@@ -31,15 +31,6 @@ router.get('/search', async (req, res) => {
     res.json(result.body.hits.hits.map(x => x['_source']));
 });
 
-// DEPRECATED?
-router.get('/:course_id', async (req, res) => {
-    const result = await client.search({
-        index: req.params['course_id'].toLowerCase(),
-        body: {}
-    });
-    res.json(result.body.hits.hits.map(x => x['_source']));
-});
-
 // Search for posts under a course
 router.get('/:course_id/search', async (req, res) => {
     const valid_courses = await client.search({
@@ -59,7 +50,6 @@ router.get('/:course_id/search', async (req, res) => {
     if (valid_courses.body.hits.total.value == 0) {
         res.sendStatus(404);
     } else {
-        console.log(valid_courses.body.hits.hits[0]['_source'].title.toLowerCase());
         const posts = await client.search({
             index: valid_courses.body.hits.hits[0]['_source'].title.toLowerCase(),
             body: {
@@ -67,7 +57,8 @@ router.get('/:course_id/search', async (req, res) => {
                     query_string: {
                         query: `*${req.query.title}*`,
                         fields: [
-                            'title'
+                            'title',
+                            'content'
                         ]
                     }
                 }

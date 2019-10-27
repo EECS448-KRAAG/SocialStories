@@ -1,0 +1,27 @@
+version: '3'
+services:
+  backend:
+    build: ./social-stories-backend/
+    ports:
+      - 9000:9000
+    expose: 
+      - 9000
+    links:
+    - elasticsearch
+  frontend:
+    build: ./social-stories-frontend/
+    ports:
+      - 8080:80
+    links:
+      - backend
+  elasticsearch:
+    image: elasticsearch:7.4.1
+    ports:
+      - 9200:9200
+      - 9300:9300
+    expose: 
+      - 9200
+      - 9300
+    environment: 
+      - "discovery.type=single-node"
+

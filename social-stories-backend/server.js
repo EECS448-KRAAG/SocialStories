@@ -11,7 +11,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(morgan('dev'));
 
-app.use("/course", storiesRoute);
+app.use("/api/course", storiesRoute);
 app.listen(port, () => {
     console.log(`Server started on port ${port}`);
 });

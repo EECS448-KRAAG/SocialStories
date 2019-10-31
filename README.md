@@ -38,7 +38,7 @@ Alternatively, you can build the frontend for production with docker by running,
 
 ## Backend
 
-The easiest way to run the backend is to follow the instructions in `Putting it together` below since the backend needs an Elasticsearch instance in order to function.
+The easiest way to run the backend is to follow the instructions in `Putting it together` below since the backend needs an Elasticsearch instance in order to function. To generate fake data for testing follow the instructions below under `bootstrapping`.
 
 ## Putting it together
 
@@ -49,3 +49,8 @@ docker-compose up --build
 `
 
 to start the project. The frontend will be running on http://localhost:3000 and the backend is accessible at http://localhost:9000
+
+### Bootstrapping
+To bootstrap the environment with fake data for testing simply run the following after running the `docker-compose` command above
+
+`docker-compose exec backend node bootstrap.js`

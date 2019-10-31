@@ -55,7 +55,7 @@ router.get('/:course_id/search', async (req, res) => {
             body: {
                 query: {
                     query_string: {
-                        query: `*${req.query.title}*`,
+                        query: `*${req.query.content}*`,
                         fields: [
                             'title',
                             'content'

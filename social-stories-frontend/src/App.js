@@ -1,14 +1,28 @@
 import React from 'react';
+import Filter from './FilterComponents/filter'
+// import VisibleCourses from './FilterComponents/VisibleCourses'
 import Header from './Header';
+import ResultFilter from './FilterComponents/ReactFilter'
 import './App.css';
+// import VisibleCourses from './Filter/VisibleCourses';
+
 
 
 function App() {
   return (
     <div className="App">
       <Header />
+      {/* <VisibleCourses /> */}
+      <p>hey this is before the filter</p>
+      {/* <Filter /> <br /> */}
+      <p>Hey this is the filter back</p><br />
+      <ResultFilter />
+      
+      
     </div>
   );
 }
 
 export default App;
+
+// React.render(<App courses ={courses} />, document.getElementById('app'))

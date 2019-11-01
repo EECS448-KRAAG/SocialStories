@@ -50,7 +50,7 @@ for (i = 0; i < 10; i++) {
         body: {
             id: id,
             title: `Help Me Please: ${i}`,
-            body: `This is the body of post ${i}`
+            content: `This is the body of post ${i}`
         }
     })
 }
@@ -63,7 +63,7 @@ for (i = 0; i < 10; i++) {
         body: {
             id: id,
             title: `Help Me Please: ${i}`,
-            body: `This is the body of post ${i}`
+            content: `This is the body of post ${i}`
         }
     })
 }
@@ -76,7 +76,7 @@ for (i = 0; i < 10; i++) {
         body: {
             id: id,
             title: `Help Me Please: ${i}`,
-            body: `This is the body of post ${i}`
+            content: `This is the body of post ${i}`
         }
     })
 }    

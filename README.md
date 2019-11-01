@@ -54,3 +54,8 @@ to start the project. The frontend will be running on http://localhost:3000 and 
 To bootstrap the environment with fake data for testing simply run the following after running the `docker-compose` command above
 
 `docker-compose exec backend node bootstrap.js`
+
+## Documentation
+To view the most up to date documentation simply open [./documentation/index.html]. To generate documentation run:
+
+`npx jsdoc -r -c jsdoc.config.json .`

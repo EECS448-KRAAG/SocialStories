@@ -4,6 +4,7 @@ import Filter from './FilterComponents/filter'
 import Header from './Header';
 import ResultFilter from './FilterComponents/ReactFilter'
 import './App.css';
+import Dropdown from './FilterComponents/Dropdown';
 // import VisibleCourses from './Filter/VisibleCourses';
 
 
@@ -13,10 +14,11 @@ function App() {
     <div className="App">
       <Header />
       {/* <VisibleCourses /> */}
-      <p>hey this is before the filter</p>
+      {/* <p>hey this is before the filter</p> */}
       {/* <Filter /> <br /> */}
-      <p>Hey this is the filter back</p><br />
-      <ResultFilter />
+      <Dropdown />
+      {/* <p>Hey this is the filter back</p><br /> */}
+      {/* <ResultFilter /> */}
       
       
     </div>

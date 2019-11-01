@@ -1,63 +1,41 @@
 import React from 'react'
+import Select from 'react-select'
 
 
 let courses= [ 
-    {
-        name: "EECS 448",
-        content: "This is a cool class. Learn Github",
-        creator: "Antonette Gichohu"
-    },
-    {
-        name: "EECS 210",
-        content: "One of the harder courses, definitely memorize what they tell you to",
-        creator: "Karen Setiawan"
-    },
-    {
-        name: "EECS 368",
-        content: "Great stuff",
-        creator: "Antonette Gichohu"
-    },
-    {
-        name: "EECS 268",
-        content: "Lol, good luck",
-        creator: "Antonette Gichohu"
-    }
+    {title: "EECS 448"},
+    {title: "EECS 210"},
+    {title: "EECS 368"},
+    {title: "EECS 268"}
 ];
 
-class Dropdown extends React.Component()
+class Dropdown extends React.Component
 {
     state = {
-        classes: [],
+        courses: [],
         selectedCourses: "",
-        validationError: ""
+        validationError: "",
+        
     }
-    componentDidMount()
+
+    componentWillMount()
     {
-        window.fetch('/api/course')
-        .then((response) => {
-            return response.json();
-          })
-        .then(data => {
-            let coursesFromApi = data.map(team => { return {id: courseID, title: courseTitle} })
-            this.setState({ classes: [{id: '', display: '(Select courses)'}].concat(coursesFromApi) });
-            }).catch(error => {
-            console.log(error);
-        });
+        window.fetch('api/courses')
+        .then(response=> response.json())
+        .then(json=> this.setState({courses: json}));
     }
+
 
     render()
     {
-        return( 
-            <div>
-                <select value={this.state.selectedCourses}
-                    onChange={(e)=> this.setState({selectedCourse: e.target.value, 
-                        validationError: e.target.value === "" ? "You must select a course" : ""})}></select>
-                <div style={{color: 'red', marginTop: '5px'}}>
-                {this.state.validationError} 
+        return(
+            <div className="dropdown">
+                <div className="container">
+                    <Select value={'EECS140'} options={this.state.courses.map(x => {return {'value': x.title, 'label': x.title}})} onChange={opt => console.log(opt.title)} />
+                </div>
             </div>
-            </div>
-            
         )
+        
     }
 }
 

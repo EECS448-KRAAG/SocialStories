@@ -17,7 +17,7 @@ class App extends React.Component{
       await this.updateView();
     }
 
-    this.setSearch = (search) => {
+    this.setSearch = async (search) => {
       await this.setState({searchParam: search});
       await this.updateView();
     }

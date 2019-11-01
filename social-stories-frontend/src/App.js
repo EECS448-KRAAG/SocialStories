@@ -3,6 +3,7 @@ import Filter from './FilterComponents/filter'
 // import VisibleCourses from './FilterComponents/VisibleCourses'
 import Header from './Header';
 import ResultFilter from './FilterComponents/ReactFilter'
+import HomeDisplay from './HomeDisplay';
 import './App.css';
 import Dropdown from './FilterComponents/Dropdown';
 // import VisibleCourses from './Filter/VisibleCourses';
@@ -21,9 +22,11 @@ function App() {
       {/* <ResultFilter /> */}
       
       
+      <HomeDisplay />
     </div>
   );
 }
+
 
 export default App;
 

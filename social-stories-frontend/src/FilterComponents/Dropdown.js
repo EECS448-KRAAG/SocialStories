@@ -20,7 +20,7 @@ class Dropdown extends React.Component
 
     componentWillMount()
     {
-        window.fetch('api/courses')
+        window.fetch('/api/course')
         .then(response=> response.json())
         .then(json=> this.setState({courses: json}));
     }

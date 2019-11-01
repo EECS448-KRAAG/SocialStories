@@ -1,41 +1,35 @@
 import React from 'react'
 import Select from 'react-select'
 
-
-let courses= [ 
-    {title: "EECS 448"},
-    {title: "EECS 210"},
-    {title: "EECS 368"},
-    {title: "EECS 268"}
-];
-
-class Dropdown extends React.Component
-{
-    state = {
-        courses: [],
-        selectedCourses: "",
-        validationError: "",
-        
+class Dropdown extends React.Component {
+    constructor() {
+        super();
+        this.state = {
+            courses: [],
+            selectedCourse: {},
+            validationError: "",
+        }
+        this.onChange = (opt) => {
+            this.props.setCourse(opt.value);
+            this.setState({selectedCourse: opt});
+        }
     }
 
-    componentWillMount()
-    {
+    componentWillMount() {
         window.fetch('/api/course')
         .then(response=> response.json())
         .then(json=> this.setState({courses: json}));
     }
 
 
-    render()
-    {
+    render() {
         return(
             <div className="dropdown">
                 <div className="container">
-                    <Select value={'EECS140'} options={this.state.courses.map(x => {return {'value': x.title, 'label': x.title}})} onChange={opt => console.log(opt.title)} />
+                    <Select value={this.state.selectedCourse} options={this.state.courses.map(x => {return {'value': x.title, 'label': x.title}})} onChange={this.onChange}/>
                 </div>
             </div>
         )
-        
     }
 }
 

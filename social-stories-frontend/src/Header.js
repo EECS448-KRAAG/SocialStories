@@ -2,12 +2,10 @@ import React from 'react';
 import {render} from 'react-dom';
 import {Navbar, Nav, Modal, Button, Form,DropdownButton,Dropdown} from "react-bootstrap";
 
-
-
 const Dropdownoptions = ["Option 1", "Option 2", "Option 3", "Option 4", "Option 5"];
 //TODO: Make sure that content is required
 export default class Header extends React.Component {
-  
+
   state = {
     show: false,
     Post: {
@@ -18,19 +16,33 @@ export default class Header extends React.Component {
   showModal = e => {this.setState({show: true});};
   closeModal = e => {this.setState({show: false});};
 
-  //ask grant why hv to add coursename for handleContentChange and vice versa 
+  //ask grant why hv to add coursename for handleContentChange and vice versa
   handleDropDownChange = (evtKey,e) => { this.setState({Post:{coursename: Dropdownoptions[evtKey], content: this.state.Post.content}})};
   handleContentChange = e => { this.setState({Post:{content: e.target.value, coursename: this.state.Post.coursename}})};
   handleSubmit = e => {
     this.closeModal();
+    this.postData();
     console.log("Form data", this.state.Post.coursename, this.state.Post.content);
   }
-  // postData(){
-  //   //create a new XMLHttpRequest
-  //   var xhr = new XMLHttpRequest();
+  async postData(){
+    //create a new XMLHttpRequest
+    const postURL = " /api/course/{{course_id}}/post";
+    const data = this.state.Post;
 
-  //   const postURL = " /api/course/{{course_id}}/post";
-  // }
+    try {
+      const response = await fetch(postURL, {
+        method: 'POST', // or 'PUT'
+        body: JSON.stringify(data), // data can be `string` or {object}!
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      const json = await response.json();
+      console.log('Success:', JSON.stringify(json));
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  }
 
   render() {
     return (
@@ -46,7 +58,7 @@ export default class Header extends React.Component {
                   <Modal.Title>Add Post</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <Form  onSubmit={this.handleSubmit}> 
+                    <Form  onSubmit={this.handleSubmit}>
                       <Form.Group>
                         <Form.Label>Course: </Form.Label>
                         <DropdownButton onSelect={this.handleDropDownChange.bind(this) } id="dropdown-basic-button" title={this.state.Post.coursename}>
@@ -58,8 +70,8 @@ export default class Header extends React.Component {
                       <Form.Group controlId="exampleForm.ControlTextarea1">
                         <Form.Label>Post: </Form.Label>
                         <Form.Control onChange={this.handleContentChange} required as="textarea" rows="3" name="content" />
-                      </Form.Group>                  
-                    </Form>    
+                      </Form.Group>
+                    </Form>
                 </Modal.Body>
                 <Modal.Footer>
                 <Button type="submit" variant="primary" onClick={this.handleSubmit}>
@@ -73,5 +85,5 @@ export default class Header extends React.Component {
       </Navbar>
     );
   }
-  
+
 }

@@ -1,9 +1,23 @@
+/**
+ * Route manager for courses.
+ * @module routes/courses
+ * @requires express
+ * @requires uuid
+ * @requires module:elastic-client
+ */
+
 const express = require('express');
 const router = express.Router();
 const client = require('../utils/elastic-client');
 const uuid = require('uuid');
 
-// Get list of all courses
+/**
+ * Get all courses
+ * @name (GET) '/api/course/'
+ * @memberof module:routes/courses
+ * @function
+ * @returns All courses
+*/
 router.get('/', async (req, res) => {
     const result = await client.search({
         index: 'course',
@@ -12,7 +26,14 @@ router.get('/', async (req, res) => {
     res.json(result.body.hits.hits.map(x => x['_source']));
 });
 
-// Search for course by title
+/**
+ * Search for a course by title
+ * @name (GET) '/api/course/search'
+ * @memberof module:routes/courses
+ * @function
+ * @param course {GET-Parameter} Object with 'course' set to the query string
+ * @returns All courses matching search query
+ */
 router.get('/search', async (req, res) => {
     const result = await client.search({
         index: 'course',
@@ -31,7 +52,15 @@ router.get('/search', async (req, res) => {
     res.json(result.body.hits.hits.map(x => x['_source']));
 });
 
-// Search for posts under a course
+/**
+ * Search for a post under a course
+ * @name (GET) '/api/course/:course_id:/search'
+ * @memberof module:routes/courses
+ * @function
+ * @param course_id {Route-parameter} The name of the course to search under
+ * @param body {GET-Query-parameter} Object with 'content' field set to the query string
+ * @returns All posts under a course matching the given query string
+ */
 router.get('/:course_id/search', async (req, res) => {
     const valid_courses = await client.search({
         index: 'course',
@@ -68,7 +97,14 @@ router.get('/:course_id/search', async (req, res) => {
     }
 });
 
-// Get all posts corresponding to a course
+/**
+ * Get all posts under a couse
+ * @name (GET) '/api/course/:course_id:/post'
+ * @memberof module:routes/courses
+ * @function
+ * @param course_id {Route-parameter} The name of the course to get courses for
+ * @returns All posts under a given course
+ */
 router.get('/:course_id/post', async (req, res) => {
     const response = await client.search({
         index: req.params['course_id'].toLowerCase(),
@@ -77,7 +113,15 @@ router.get('/:course_id/post', async (req, res) => {
     res.json(response.body.hits.hits.map(x => x['_source']));
 });
 
-// Create new post under a course
+/**
+ * Create new post under a course
+ * @name (POST) '/api/course/:course_id:/post'
+ * @memberof module:routes/courses
+ * @function
+ * @param course_id {Route-parameter} The name of the course to add a post to
+ * @param Body {POST-Body} Post object with a 'title' and 'content' field
+ * @returns Status code of success of creating post
+ */
 router.post('/:course_id/post', async (req, res) => {
     const id = uuid.v4();
     const response = await client.create({
@@ -93,7 +137,15 @@ router.post('/:course_id/post', async (req, res) => {
     res.sendStatus(response.statusCode);
 })
 
-// Get course by id
+/**
+ * Gets specific post under a course
+ * @name (GET) '/api/course/:course_id:/post/:post_id:'
+ * @memberof module:routes/courses
+ * @function
+ * @param course_id {Route-parameter} The name of the course
+ * @param post_id {Route-parameter} The id of the post to get
+ * @returns Post under a course with given id
+ */
 router.get('/:course_id/post/:post_id', async (req, res) => {
     try {
         const response = await client.get({

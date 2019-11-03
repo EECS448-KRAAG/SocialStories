@@ -5,6 +5,15 @@ import './App.css';
 import Dropdown from './FilterComponents/Dropdown';
 
 class App extends React.Component{
+
+  /**
+ * Constructor for the app
+ * @name constructor
+ * @memberof module:component
+ * @function 
+ * @param props: variables needed by this method
+ * @returns none
+ */
   constructor(props) {
     super(props);
     this.state = {
@@ -12,6 +21,8 @@ class App extends React.Component{
       searchParam: "6",
       data: []
     }
+
+
     this.setCourse = async (courseName) => {
       await this.setState({courseName: courseName});
       await this.updateView();

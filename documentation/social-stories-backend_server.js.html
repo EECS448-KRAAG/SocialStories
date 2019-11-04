@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Home</title>
+    <title>JSDoc: Source: social-stories-backend/server.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,32 +17,43 @@
 
 <div id="main">
 
-    <h1 class="page-title">Home</h1>
+    <h1 class="page-title">Source: social-stories-backend/server.js</h1>
 
     
 
 
 
     
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Main module to run backend server. Starts server on port 9000
+ * @module server
+ * @requires express
+ * @requires morgan
+ * @requires body-parser
+ * @requires module:routes/courses
+ */
 
+const express = require("express");
+const morgan = require("morgan");
+const bodyParser = require('body-parser');
 
-    <h3> </h3>
+const coursesRoute = require("./routes/courses");
 
+const app = express();
+const port = 9000;
 
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(morgan('dev'));
 
-
-
-
-
-
-
-
-    
-
-
-
-
-
+app.use("/api/course", coursesRoute);
+app.listen(port, () => {
+    console.log(`Server started on port ${port}`);
+});</code></pre>
+        </article>
+    </section>
 
 
 

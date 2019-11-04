@@ -11,7 +11,7 @@ class Dropdown extends React.Component {
     /**
      * Constructor
      * @name constructor
-     * @memberof module: FilterComponent/Dropdown
+     * @memberof module:FilterComponent/Dropdown
      * @function constructor
      * @returns none
     */
@@ -25,7 +25,7 @@ class Dropdown extends React.Component {
         /**
          * onChange functions - handles when user types in the dropdown
          * @name onChange
-         * @memberof module: FilterComponent/Dropdown
+         * @memberof module:FilterComponent/Dropdown
          * @function onChange
          * @returns none
         */
@@ -38,7 +38,7 @@ class Dropdown extends React.Component {
     /**
      * Fetching courses from backend
      * @name componentWillMount
-     * @memberof module: FilterComponent/Dropdown
+     * @memberof module:FilterComponent/Dropdown
      * @function componentWillMount
      * @returns list of courses from backend
     */
@@ -51,7 +51,7 @@ class Dropdown extends React.Component {
     /**
      *Render - provides UI for dropdown
      * @name render
-     * @memberof module: FilterComponent/Dropdown
+     * @memberof module:FilterComponent/Dropdown
      * @function render
      * @returns UI
     */

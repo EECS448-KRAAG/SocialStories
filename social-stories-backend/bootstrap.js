@@ -11,7 +11,7 @@ client.indices.create({
 });
 
 client.indices.create({
-    index: 'eecs168'
+    index: 'eecs140'
 });
 
 client.indices.create({

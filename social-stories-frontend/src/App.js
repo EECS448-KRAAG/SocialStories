@@ -17,7 +17,7 @@ class App extends React.Component{
     super(props);
     this.state = {
       courseName: "",
-      searchParam: "6",
+      searchParam: "",
       data: []
     }
 

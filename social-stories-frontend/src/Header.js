@@ -5,24 +5,25 @@
  */
 
 import React from 'react';
-import {Navbar, Nav, Modal, Button, Form,DropdownButton,Dropdown} from "react-bootstrap";
+import {Navbar, Nav, Modal, Button, Form} from "react-bootstrap";
 import TextSearch from './textSearch';
+import Dropdown from './FilterComponents/Dropdown';
 
-const Dropdownoptions = ["Option 1", "Option 2", "Option 3", "Option 4", "Option 5"];
 //TODO: Make sure that content is required
 export default class Header extends React.Component {
 
   state = {
     show: false,
     Post: {
-      coursename : Dropdownoptions[0],
+      courseName : " ",
+      title: "",
       content: ""
     }
   };
   /**
   * Updates the value of show state to true when the user click on the add post on navbar
   * @name showModal
-  * @memberof module:textSearch
+  * @memberof module:Header
   * @function
   * @param event {Object} The event object created when the user click on the add post on navbar
   * @returns none
@@ -31,34 +32,36 @@ export default class Header extends React.Component {
   /**
   * Updates the value of show state to false when the user click on the add post on navbar
   * @name closeModal
-  * @memberof module:textSearch
+  * @memberof module:Header
   * @function
   * @param event {Object} The event object created when the user click on the add post on navbar
   * @returns none
   */
   closeModal = e => {this.setState({show: false});};
   /**
-  * Updates the value of Post coursename to the selected value when the user click on the drop down on the modal
-  * @name handleDropDownChange
-  * @memberof module:textSearch
+  /**
+  * Updates the value of Post title to the input value when user input to the textbox
+  * @name handleTitleChange
+  * @memberof module:Header
   * @function
-  * @param event {Object} The event object created when the user click on the drop down on the modal
+  * @param event {Object} The event object created when user input to the textbox
   * @returns none
   */
-  handleDropDownChange = (evtKey,e) => { this.setState({Post:{coursename: Dropdownoptions[evtKey], content: this.state.Post.content}})};
+  handleTitleChange = e => { this.setState({Post:{title: e.target.value, courseName: this.state.Post.courseName,content: this.state.Post.content}})};
+  /**
   /**
   * Updates the value of Post content to the input value when user input to the textarea
   * @name handleContentChange
-  * @memberof module:textSearch
+  * @memberof module:Header
   * @function
   * @param event {Object} The event object created when user input to the textarea
   * @returns none
   */
-  handleContentChange = e => { this.setState({Post:{content: e.target.value, coursename: this.state.Post.coursename}})};
+  handleContentChange = e => { this.setState({Post:{content: e.target.value, courseName: this.state.Post.courseName,title:this.state.Post.title}})};
   /**
-  * Close the modal and post the data 
+  * Close the modal and post the data
   * @name handleSubmit
-  * @memberof module:textSearch
+  * @memberof module:Header
   * @function
   * @param event {Object} The event object hit on the submit button at the modal
   * @returns none
@@ -66,18 +69,17 @@ export default class Header extends React.Component {
   handleSubmit = e => {
     this.closeModal();
     this.postData();
-    console.log("Form data", this.state.Post.coursename, this.state.Post.content);
+    console.log("Form data", this.state.Post.courseName, this.state.Post.title,this.state.Post.content);
   }
   /**
-  * Posts the data to the " /api/course/{{course_id}}/post" 
+  * Posts the data to the " /api/course/{{course_id}}/post"
   * @name postData
-  * @memberof module:textSearch
+  * @memberof module:Header
   * @function
   * @returns none
   */
   async postData(){
-    //create a new XMLHttpRequest
-    const postURL = " /api/course/{{course_id}}/post";
+    const postURL = `/api/course/${this.state.Post.courseName.toLowerCase()}/post`;
     const data = this.state.Post;
 
     try {
@@ -95,6 +97,9 @@ export default class Header extends React.Component {
     }
   }
 
+  setCourse = async (courseName) => {
+    await this.setState({Post:{courseName: courseName}});
+  }
    /**
     * Provides UI for navbar and modal
     * @name render
@@ -111,6 +116,7 @@ export default class Header extends React.Component {
           <Nav className="mr-auto">
             <Nav.Link href="#home">Home</Nav.Link>
             <Nav.Link onClick={this.showModal}>Create Post</Nav.Link>
+
             <Modal show={this.state.show} onHide={this.closeModal}>
                 <Modal.Header closeButton>
                   <Modal.Title>Add Post</Modal.Title>
@@ -119,11 +125,11 @@ export default class Header extends React.Component {
                     <Form  onSubmit={this.handleSubmit}>
                       <Form.Group>
                         <Form.Label>Course: </Form.Label>
-                        <DropdownButton onSelect={this.handleDropDownChange.bind(this) } id="dropdown-basic-button" title={this.state.Post.coursename}>
-                          {Dropdownoptions.map((option, i) => {
-                             return (<Dropdown.Item key={i} eventKey={i}>{option}</Dropdown.Item>);
-                          })}
-                        </DropdownButton>
+                        <Dropdown setCourse={this.setCourse} />
+                      </Form.Group>
+                      <Form.Group controlId="exampleForm.ControlInput1">
+                        <Form.Label>Title:</Form.Label>
+                        <Form.Control onChange={this.handleTitleChange} placeholder="Enter Title" />
                       </Form.Group>
                       <Form.Group controlId="exampleForm.ControlTextarea1">
                         <Form.Label>Post: </Form.Label>
@@ -137,6 +143,7 @@ export default class Header extends React.Component {
                 </Button>
                 </Modal.Footer>
             </Modal>
+
             <Nav.Link href="#view">View Posts</Nav.Link>
             </Nav>
             <TextSearch setSearch={this.props.setSearch} />

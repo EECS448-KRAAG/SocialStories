@@ -1,6 +1,7 @@
 import React from 'react';
 import {render} from 'react-dom';
 import {Navbar, Nav, Modal, Button, Form,DropdownButton,Dropdown} from "react-bootstrap";
+import TextSearch from './textSearch';
 
 const Dropdownoptions = ["Option 1", "Option 2", "Option 3", "Option 4", "Option 5"];
 //TODO: Make sure that content is required
@@ -80,7 +81,8 @@ export default class Header extends React.Component {
                 </Modal.Footer>
             </Modal>
             <Nav.Link href="#view">View Posts</Nav.Link>
-          </Nav>
+            </Nav>
+            <TextSearch setSearch={this.props.setSearch} />
         </Navbar.Collapse>
       </Navbar>
     );

@@ -42,7 +42,7 @@ class App extends React.Component{
   render() {
     return (
       <div className="App">
-        <Header />
+        <Header setSearch={this.setSearch} />
         <Dropdown setCourse={this.setCourse} />
         {this.state.courseName && <HomeDisplay data={this.state.data} />}
       </div>

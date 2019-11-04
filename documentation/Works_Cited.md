@@ -7,3 +7,6 @@ For the class textSearch:
 
 For the Dropdown menu
 - the dropdown was found from https://www.npmjs.com/package/react-dropdown
+
+For the Modal 
+- the modal was found from https://react-bootstrap.github.io/components/modal/

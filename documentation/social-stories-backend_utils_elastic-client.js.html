@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Home</title>
+    <title>JSDoc: Source: social-stories-backend/utils/elastic-client.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,32 +17,27 @@
 
 <div id="main">
 
-    <h1 class="page-title">Home</h1>
+    <h1 class="page-title">Source: social-stories-backend/utils/elastic-client.js</h1>
 
     
 
 
 
     
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Singleton for Elasticsearch Client
+ * @module elastic-client
+ */
 
+const { Client } = require('@elastic/elasticsearch');
+const client = new Client({ node: 'http://elasticsearch:9200' });
 
-    <h3> </h3>
-
-
-
-
-
-
-
-
-
-
-    
-
-
-
-
-
+/** Export the client. */
+module.exports = client;</code></pre>
+        </article>
+    </section>
 
 
 

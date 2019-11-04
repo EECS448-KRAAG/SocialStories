@@ -11,7 +11,7 @@ client.indices.create({
 });
 
 client.indices.create({
-    index: 'eecs140'
+    index: 'eecs168'
 });
 
 client.indices.create({
@@ -30,7 +30,7 @@ client.create({
     index: "course",
     id: uuid.v4(),
     body: {
-        "title": "EECS140"
+        "title": "EECS168"
     }
 });
 

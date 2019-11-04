@@ -1,5 +1,10 @@
+/**
+ * Header module.
+ * @module Header
+ * @requires none
+ */
+
 import React from 'react';
-import {render} from 'react-dom';
 import {Navbar, Nav, Modal, Button, Form,DropdownButton,Dropdown} from "react-bootstrap";
 import TextSearch from './textSearch';
 
@@ -14,17 +19,62 @@ export default class Header extends React.Component {
       content: ""
     }
   };
+  /**
+  * Updates the value of show state to true when the user click on the add post on navbar
+  * @name showModal
+  * @memberof module:textSearch
+  * @function
+  * @param event {Object} The event object created when the user click on the add post on navbar
+  * @returns none
+  */
   showModal = e => {this.setState({show: true});};
+  /**
+  * Updates the value of show state to false when the user click on the add post on navbar
+  * @name closeModal
+  * @memberof module:textSearch
+  * @function
+  * @param event {Object} The event object created when the user click on the add post on navbar
+  * @returns none
+  */
   closeModal = e => {this.setState({show: false});};
-
-  //ask grant why hv to add coursename for handleContentChange and vice versa
+  /**
+  * Updates the value of Post coursename to the selected value when the user click on the drop down on the modal
+  * @name handleDropDownChange
+  * @memberof module:textSearch
+  * @function
+  * @param event {Object} The event object created when the user click on the drop down on the modal
+  * @returns none
+  */
   handleDropDownChange = (evtKey,e) => { this.setState({Post:{coursename: Dropdownoptions[evtKey], content: this.state.Post.content}})};
+  /**
+  * Updates the value of Post content to the input value when user input to the textarea
+  * @name handleContentChange
+  * @memberof module:textSearch
+  * @function
+  * @param event {Object} The event object created when user input to the textarea
+  * @returns none
+  */
   handleContentChange = e => { this.setState({Post:{content: e.target.value, coursename: this.state.Post.coursename}})};
+  /**
+  * Close the modal and post the data 
+  * @name handleSubmit
+  * @memberof module:textSearch
+  * @function
+  * @param event {Object} The event object hit on the submit button at the modal
+  * @returns none
+  */
   handleSubmit = e => {
     this.closeModal();
     this.postData();
     console.log("Form data", this.state.Post.coursename, this.state.Post.content);
   }
+  /**
+  * Posts the data to the " /api/course/{{course_id}}/post" 
+  * @name postData
+  * @memberof module:textSearch
+  * @function
+  * @returns none
+  */
   async postData(){
     //create a new XMLHttpRequest
     const postURL = " /api/course/{{course_id}}/post";
@@ -45,6 +95,13 @@ export default class Header extends React.Component {
     }
   }
 
+   /**
+    * Provides UI for navbar and modal
+    * @name render
+    * @memberof module:Header
+    * @function
+    * @returns The UI to be displayed.
+    */
   render() {
     return (
       <Navbar collapseOnSelect bg="dark" variant="dark" expand="md" sticky="top">

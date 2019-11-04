@@ -1,7 +1,6 @@
 import React from 'react';
 import Header from './Header';
 import HomeDisplay from './HomeDisplay';
-import './App.css';
 import Dropdown from './FilterComponents/Dropdown';
 
 class App extends React.Component{

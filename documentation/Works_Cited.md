@@ -10,3 +10,6 @@ For the Dropdown menu
 
 For the Modal 
 - the modal was found from https://react-bootstrap.github.io/components/modal/
+
+For Elasticsearch:
+- The official reference and API was used from https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html

@@ -138,7 +138,7 @@ Topics:
 - Docker (what we are using to connect the frontend and the backend) does not work on Windows without paying for a special version, so some people are not able to test their own code.
 
 # Features not in the Demo:
-- Everything that is currently in the product backlog on Trello.
+- Everything that is currently in the product backlog and not in the "done" category on Trello.
 
 # Retrospective
 - If we had more time we would have made the website more visually appealing. As for right now, it is extremely bare bones. However, we did a great job of finishing our goals for the demo in the short amount of time that we had.

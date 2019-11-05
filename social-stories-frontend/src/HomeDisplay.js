@@ -1,6 +1,14 @@
 import React from "react";
 import Card from "react-bootstrap/Card";
 
+/**
+* HomeDisplay Module
+* @name HomeDisplay
+* @memberof App Module
+* @function HomeDisplay
+* @param props: variables needed by this method
+* @returns cards with post id as title and content
+*/
 function HomeDisplay(props) {
   return (
     <>

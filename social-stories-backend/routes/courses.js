@@ -199,7 +199,28 @@ router.get('/:course_id/post/:post_id', async (req, res) => {
         console.error(e);
         res.sendStatus(500);
     }
-})
+});
 
+/**
+ * Delete specific post in specific course
+ * @name (DELETE) '/api/course/:course_id/post/:post_id
+ * @memberof module:routes/courses
+ * @function
+ * @param course_id {Route-parameter} The name of the course
+ * @param post_id {Route-parameter} The id of the post to get
+ * @returns None.
+ */
+router.delete('/:course_id/post/:post_id', async (req, res) => {
+    try {
+        const response = await client.delete({
+            index: req.params['course_id'].toLowerCase(),
+            id: req.params['post_id']
+        });
+        res.sendStatus(200);
+    } catch (e) {
+        console.error(e);
+        res.sendStatus(404);
+    }
+});
 
 module.exports = router;

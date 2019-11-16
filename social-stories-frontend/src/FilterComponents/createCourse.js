@@ -2,7 +2,7 @@ import React from 'react'
 import { Modal, Button, Form } from 'react-bootstrap';
 import './filter.css'
 
-class CreateClass extends React.Component
+export default class CreateClass extends React.Component
 {
     constructor()
     {
@@ -29,8 +29,6 @@ class CreateClass extends React.Component
         console.log(this.state.course);
         this.closeModal();
         this.postData();
-
-        
     }
 
     async postData(){
@@ -38,6 +36,7 @@ class CreateClass extends React.Component
             method:'POST',
             body: { title:this.state.course.toUpperCase() }
         })
+    }
 
     closeModal= () =>
     {
@@ -82,5 +81,3 @@ class CreateClass extends React.Component
     }
     
 }
-
-export default CreateClass;

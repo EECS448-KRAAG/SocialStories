@@ -1,5 +1,6 @@
 import React from 'react'
 import { Modal, Button, Form } from 'react-bootstrap';
+import './filter.css'
 
 class CreateClass extends React.Component
 {
@@ -31,7 +32,7 @@ class CreateClass extends React.Component
         console.log(e.target.value)
     }
 
-    handleSubmit = () =>
+    handleSubmit = (e) =>
     {
 
     }
@@ -53,7 +54,7 @@ class CreateClass extends React.Component
         return(
             
             <div className="addCourseModal" onHide={this.closeModal}>
-                <button className="button" value ="add course" onClick={this.onClick}>Add Course</button>
+                <Button variant="primary" className="button" value ="add course" onClick={this.onClick}>Add Course</Button>
                 <Modal show={this.state.show} onHide={this.closeModal}>
                     <Modal.Header closeButton>
                     <Modal.Title>Add Course</Modal.Title>

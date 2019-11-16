@@ -71,9 +71,8 @@ class Dropdown extends React.Component {
         return(
             <div className="dropdown">
                 <div className="container">
-                    <Select value={this.state.selectedCourse} options={this.state.courses.map(x => {return {'value': x.title, 'label': x.title}})} onChange={this.onChange}/>
+                    <Select className="selectDrop" value={this.state.selectedCourse} options={this.state.courses.map(x => {return {'value': x.title, 'label': x.title}})} onChange={this.onChange}/>
                     <CreateClass/>
-                {this.state.show === true && <CreateClass/> }
                 </div>
             </div>
         )

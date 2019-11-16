@@ -52,7 +52,9 @@ router.get('/:user_id/permission', async (req, res) => {
             id: req.params['user_id'],
             body: {
                 user_id: req.params['user_id'],
-                permission: 0
+                name: req.query.name,
+                permission: 0,
+                courses: []
             }
         });
         res.json({permission: 0});

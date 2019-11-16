@@ -16,7 +16,7 @@ export default class Header extends React.Component {
   handleGoogleLogin = async (account) => {
     localStorage.setItem("user", JSON.stringify(account));
     this.forceUpdate();
-    const raw_permissions = await window.fetch(`/api/user/${account.googleId}/permission`);
+    const raw_permissions = await window.fetch(`/api/user/${account.googleId}/permission?name=${account.profileObj.name}`);
     const data = await raw_permissions.json();
     localStorage.setItem('userPermissions', data.permission);
   }

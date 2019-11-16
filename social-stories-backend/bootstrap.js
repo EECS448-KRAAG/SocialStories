@@ -15,7 +15,9 @@ client.create({
     id: "110911772696331606638",
     body: {
         user_id: "110911772696331606638",
-        permission: 2
+        permission: 2,
+        name: "Grant Gollier",
+        courses: []
     }
 });
 

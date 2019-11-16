@@ -9,7 +9,21 @@
 const express = require("express");
 const router = express.Router();
 const client = require("../utils/elastic-client");
-const uuid = require("uuid");
+
+
+/**
+ * @name (GET) '/api/user/'
+ * @memberof module:routes/users
+ * @function
+ * @returns All users
+ */
+router.get('/', async (req, res) => {
+    const response = await client.search({
+        index: 'permission',
+        body: {}
+    });
+    res.json(response.body.hits.hits.map(x => x['_source']));
+})
 
 /**
  * @name (GET) '/api/user/:user_id:/permission'
@@ -70,6 +84,28 @@ router.put('/:user_id/permission', async (req, res) => {
         console.error(e);
         res.sendStatus(404);
     }
+});
+
+router.put('/:user_id/course', async (req, res) => {
+    const userResponse = await client.get({
+        index: 'permission',
+        id: req.params['user_id']
+    });
+    const courses = [req.body.course];
+    if (userResponse.body['_source'].courses) {
+        userResponse.body['_source'].courses.map(x => courses.push(x));
+    }
+
+    await client.update({
+        index: 'permission',
+        id: req.params['user_id'],
+        body: {
+            doc: {
+                courses: courses
+            }
+        }
+    });
+    res.sendStatus(200);
 });
 
 module.exports = router;

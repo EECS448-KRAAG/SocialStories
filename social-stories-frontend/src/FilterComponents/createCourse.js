@@ -18,7 +18,6 @@ export default class CreateClass extends React.Component
     {
         console.log("clicked!");
         this.setState({show:true})
-        // return< AddCourse />
     }
 
 

@@ -104,7 +104,7 @@ export default class AddPostModal extends React.Component {
                 <Form  onSubmit={this.handleSubmit}>
                   <Form.Group>
                     <Form.Label>Course: </Form.Label>
-                    <Dropdown setCourse={this.setCourse} />
+                    <Dropdown setCourse={this.setCourse} show={false} />
                   </Form.Group>
                   <Form.Group controlId="exampleForm.ControlInput1">
                     <Form.Label>Title:</Form.Label>

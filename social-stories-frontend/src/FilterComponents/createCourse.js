@@ -21,21 +21,23 @@ class CreateClass extends React.Component
         // return< AddCourse />
     }
 
-    addCourse = (e) =>
-    {
-        console.log("course adding attempt");
-        if(e.target.value="")
-        {
-            alert("course name required")
-        }
-        this.setState({course: e.target.value})
-        console.log(e.target.value)
-    }
 
     handleSubmit = (e) =>
     {
+        console.log("course adding attempt");
+        
+        console.log(this.state.course);
+        this.closeModal();
+        this.postData();
 
+        
     }
+
+    async postData(){
+        window.fetch('/api/course', {
+            method:'POST',
+            body: { title:this.state.course.toUpperCase() }
+        })
 
     closeModal= () =>
     {
@@ -45,7 +47,8 @@ class CreateClass extends React.Component
 
     handleCourseChange= (e) =>
     {
-        this.setState({course:e.target.value})
+        this.setState({course:e.target.value});
+        console.log(e.target.value);
     }
 
 
@@ -61,7 +64,7 @@ class CreateClass extends React.Component
                     </Modal.Header> 
                     <Modal.Body>
                         <Form onSubmit={this.handleSubmit}>
-                            <p>Enter class to add:</p>
+                            <Form.Label>Enter class to add:</Form.Label>
                             <Form.Control onChange={this.handleCourseChange}  />
                         </Form>
                         
@@ -69,7 +72,7 @@ class CreateClass extends React.Component
 
                     <Modal.Footer>
                         <Button variant="secondary" onClick={this.closeModal}>Close</Button>
-                        <Button variant="primary" onClick={this.addCourse}>Submit</Button>
+                        <Button type="submit" variant="primary" onClick={this.handleSubmit}>Submit</Button>
                     </Modal.Footer>
                 </Modal>
                 

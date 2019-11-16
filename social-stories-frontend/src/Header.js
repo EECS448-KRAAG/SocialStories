@@ -112,7 +112,7 @@ export default class Header extends React.Component {
       <Navbar collapseOnSelect bg="dark" variant="dark" expand="md" sticky="top">
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse>
-          <Navbar.Brand>Social Stores</Navbar.Brand>
+          <Navbar.Brand>Classes++</Navbar.Brand>
           <Nav className="mr-auto">
             <Nav.Link href="#home">Home</Nav.Link>
             <Nav.Link onClick={this.showModal}>Create Post</Nav.Link>

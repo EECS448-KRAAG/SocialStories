@@ -32,10 +32,15 @@ export default class CreateClass extends React.Component
     }
 
     async postData(){
-        window.fetch('/api/course', {
-            method:'POST',
-            body: { title:this.state.course.toUpperCase() }
-        })
+        const data = { title: this.state.course.toUpperCase() };
+        const response = await fetch('/api/course', {
+            method: 'POST', // or 'PUT'
+            body: JSON.stringify(data), // data can be `string` or {object}!
+            headers: {
+              'Content-Type': 'application/json'
+            }
+        });
+        console.error(await response.json());
     }
 
     closeModal= () =>

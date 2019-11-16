@@ -55,7 +55,7 @@ client.create({
     }
 });
 
-for (i = 0; i < 10; i++) {
+for (i = 0; i < 5; i++) {
     id = uuid.v4();
     client.create({
         index: "eecs101",
@@ -68,7 +68,7 @@ for (i = 0; i < 10; i++) {
     })
 }
 
-for (i = 0; i < 10; i++) {
+for (i = 0; i < 5; i++) {
     id = uuid.v4();
     client.create({
         index: "eecs168",
@@ -81,7 +81,7 @@ for (i = 0; i < 10; i++) {
     })
 }
 
-for (i = 0; i < 10; i++) {
+for (i = 0; i < 5; i++) {
     id = uuid.v4();
     client.create({
         index: "eecs448",

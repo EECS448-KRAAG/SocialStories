@@ -1,6 +1,7 @@
 import React from 'react';
 import Header from './Header';
 import HomeDisplay from './HomeDisplay';
+import CreateClass from './FilterComponents/createCourse';
 import Dropdown from './FilterComponents/Dropdown';
 
 
@@ -82,6 +83,7 @@ class App extends React.Component{
       <div className="App">
         <Header setSearch={this.setSearch} />
         <Dropdown setCourse={this.setCourse} />
+        {/* <CreateClass /> */}
         {this.state.data && <HomeDisplay data={this.state.data} />}
       </div>
     );

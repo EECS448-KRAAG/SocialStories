@@ -1,5 +1,7 @@
-import React from 'react'
-import Select from 'react-select'
+import React from 'react';
+import Select from 'react-select';
+import CreateClass from './createCourse';
+import { Modal, Button } from 'react-bootstrap';
 
 /**
  * Dropdown module
@@ -21,6 +23,7 @@ class Dropdown extends React.Component {
             courses: [],
             selectedCourse: {},
             validationError: "",
+            show: false
         }
         /**
          * onChange functions - handles when user types in the dropdown
@@ -33,6 +36,10 @@ class Dropdown extends React.Component {
             this.props.setCourse(opt.value);
             this.setState({selectedCourse: opt});
         }
+
+       
+
+       
     }
 
     /**
@@ -48,6 +55,11 @@ class Dropdown extends React.Component {
         .then(json=> this.setState({courses: json}));
     }
 
+   
+
+
+    
+
     /**
      *Render - provides UI for dropdown
      * @name render
@@ -60,6 +72,8 @@ class Dropdown extends React.Component {
             <div className="dropdown">
                 <div className="container">
                     <Select value={this.state.selectedCourse} options={this.state.courses.map(x => {return {'value': x.title, 'label': x.title}})} onChange={this.onChange}/>
+                    <CreateClass/>
+                {this.state.show === true && <CreateClass/> }
                 </div>
             </div>
         )

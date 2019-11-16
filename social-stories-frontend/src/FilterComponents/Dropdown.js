@@ -1,7 +1,6 @@
 import React from 'react';
 import Select from 'react-select';
 import CreateClass from './createCourse';
-import { Modal, Button } from 'react-bootstrap';
 
 /**
  * Dropdown module

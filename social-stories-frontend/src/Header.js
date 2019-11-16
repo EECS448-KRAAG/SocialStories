@@ -59,7 +59,7 @@ export default class Header extends React.Component {
           <Nav className="mr-auto">
             <Nav.Link href="#home">Home</Nav.Link>
             
-            <AddPostModal show/>
+            <AddPostModal />
             <Nav.Link href="#view">View Posts</Nav.Link>
             </Nav>
             {localStorage.getItem("user") ? logoutButton : loginButton};

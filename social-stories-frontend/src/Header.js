@@ -43,12 +43,14 @@ export default class Header extends React.Component {
         onSuccess={this.handleGoogleLogin}
         onFailure={console.error}
         cookiePolicy={'single_host_origin'}
+        theme="dark"
       />;
 
       const logoutButton = <GoogleLogout 
         clientId="701234863585-26m47ep06fv24ebas5j934t0shn0a9ru.apps.googleusercontent.com"
         buttonText="Logout"
         onLogoutSuccess={this.handleGoogleLogout}
+        theme="dark"
       />;
     
     return (
@@ -56,14 +58,11 @@ export default class Header extends React.Component {
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse>
           <Navbar.Brand>Classes++</Navbar.Brand>
+          <TextSearch setSearch={this.props.setSearch} />
           <Nav className="mr-auto">
-            <Nav.Link href="#home">Home</Nav.Link>
-            
-            <AddPostModal />
-            <Nav.Link href="#view">View Posts</Nav.Link>
-            </Nav>
+          <AddPostModal />
+          </Nav>
             {localStorage.getItem("user") ? logoutButton : loginButton};
-            <TextSearch setSearch={this.props.setSearch} />
         </Navbar.Collapse>
       </Navbar>
     );

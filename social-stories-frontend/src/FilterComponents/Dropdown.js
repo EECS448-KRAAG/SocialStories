@@ -1,7 +1,6 @@
 import React from 'react';
 import Select from 'react-select';
 import CreateClass from './createCourse';
-import { Modal, Button } from 'react-bootstrap';
 
 /**
  * Dropdown module
@@ -17,14 +16,15 @@ class Dropdown extends React.Component {
      * @function constructor
      * @returns none
     */
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             courses: [],
-            selectedCourse: {},
+            selectedCourse: {'value': "EECS101", 'label': "EECS101"},
             validationError: "",
             show: false
         }
+        props.setCourse("EECS101");
         /**
          * onChange functions - handles when user types in the dropdown
          * @name onChange
@@ -71,9 +71,8 @@ class Dropdown extends React.Component {
         return(
             <div className="dropdown">
                 <div className="container">
-                    <Select value={this.state.selectedCourse} options={this.state.courses.map(x => {return {'value': x.title, 'label': x.title}})} onChange={this.onChange}/>
+                    <Select className="selectDrop" value={this.state.selectedCourse} options={this.state.courses.map(x => {return {'value': x.title, 'label': x.title}})} onChange={this.onChange}/>
                     <CreateClass/>
-                {this.state.show === true && <CreateClass/> }
                 </div>
             </div>
         )

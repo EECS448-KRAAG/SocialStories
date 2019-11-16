@@ -1,5 +1,6 @@
 import React from "react";
 import Card from "react-bootstrap/Card";
+import {Button} from 'react-bootstrap';
 import './HomeDisplay.css';
 
 /**
@@ -11,6 +12,9 @@ import './HomeDisplay.css';
 * @returns cards with post id as title and content
 */
 function HomeDisplay(props) {
+
+  const button = <Button variant="outline-danger">delete</Button>
+
   return (
     <>
       {props.data.map(post => (
@@ -20,6 +24,7 @@ function HomeDisplay(props) {
           </Card.Header>
           <Card.Body>
             <Card.Text>{post.content}</Card.Text>
+            {localStorage.getItem('userPermissions')>0 && button}
           </Card.Body>
         </Card>
       ))}

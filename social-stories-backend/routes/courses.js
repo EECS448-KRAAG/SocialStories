@@ -27,6 +27,47 @@ router.get('/', async (req, res) => {
 });
 
 /**
+ * Create new Course
+ * @name (POST) '/api/course'
+ * @memberof module:routes/courses
+ * @function
+ * @param course {POST-Body} Post object with 'title' corresponding to the name of the new course
+ */
+router.post('/', async (req, res) => {
+    const id = uuid.v4();
+    const course_title = req.body.title.toLowerCase();
+
+    const existing_courses = await client.search({
+        index: 'course',
+        body: {
+            query: {
+                term: {
+                    "title": course_title
+                }
+            }
+        }
+    });
+
+    if (existing_courses.body.hits.hits.length !== 0 ) {
+        res.sendStatus(409);
+    } else {
+        await client.indices.create({
+            index: course_title
+        });
+        await client.create({
+            index: "course",
+            type: '_doc',
+            id: id,
+            body: {
+                title: course_title,
+                id: id
+            }
+        });
+        res.sendStatus(201);
+    }
+})
+
+/**
  * Search for a course by title
  * @name (GET) '/api/course/search'
  * @memberof module:routes/courses

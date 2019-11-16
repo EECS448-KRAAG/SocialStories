@@ -7,6 +7,19 @@ client.indices.create({
 });
 
 client.indices.create({
+    index: 'permission'
+});
+
+client.create({
+    index: 'permission',
+    id: "110911772696331606638",
+    body: {
+        user_id: "110911772696331606638",
+        permission: 2
+    }
+});
+
+client.indices.create({
     index: 'eecs101'
 });
 

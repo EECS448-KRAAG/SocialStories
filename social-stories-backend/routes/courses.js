@@ -139,7 +139,7 @@ router.get('/:course_id/search', async (req, res) => {
 });
 
 /**
- * Get all posts under a couse
+ * Get all posts under a course
  * @name (GET) '/api/course/:course_id:/post'
  * @memberof module:routes/courses
  * @function

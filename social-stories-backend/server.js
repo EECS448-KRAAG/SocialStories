@@ -12,6 +12,7 @@ const morgan = require("morgan");
 const bodyParser = require('body-parser');
 
 const coursesRoute = require("./routes/courses");
+const usersRoute = require("./routes/users");
 
 const app = express();
 const port = 9000;
@@ -21,6 +22,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(morgan('dev'));
 
 app.use("/api/course", coursesRoute);
+app.use("/api/user", usersRoute);
+
 app.listen(port, () => {
     console.log(`Server started on port ${port}`);
 });

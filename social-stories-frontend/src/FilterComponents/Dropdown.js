@@ -17,14 +17,15 @@ class Dropdown extends React.Component {
      * @function constructor
      * @returns none
     */
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             courses: [],
-            selectedCourse: {},
+            selectedCourse: {'value': "EECS101", 'label': "EECS101"},
             validationError: "",
             show: false
         }
+        props.setCourse("EECS101");
         /**
          * onChange functions - handles when user types in the dropdown
          * @name onChange

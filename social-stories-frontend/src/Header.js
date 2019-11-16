@@ -14,12 +14,36 @@ export default class Header extends React.Component {
 
   state = {
     show: false,
+    showAddInstruc: false,
+    showRemoveInstruc: false,
+    users: [],
     Post: {
       courseName : " ",
       title: "",
       content: ""
     }
-  };
+    };
+
+    //Add comment
+    showAddInstrucModal = e => { this.setState({ showAddInstruc: true }); }
+
+    //Add comment
+    closeAddInstrucModal = e => { this.setState({ showAddInstruc: false }); }
+
+    showRemoveInstrucModal = e => { this.setState({ showRemoveInstruc: true }); }
+
+    closeRemoveInstrucModal = e => { this.setState({ showRemoveInstruc: false }); }
+
+    componentWillMount() {
+        window.fetch('/api/user')
+        .then(response => response.json())
+        .then(json => this.setState({ users: json }));
+    }
+
+    handleAdminModalSubmit = e => {
+
+    }
+
   /**
   * Updates the value of show state to true when the user click on the add post on navbar
   * @name showModal
@@ -71,6 +95,7 @@ export default class Header extends React.Component {
     this.postData();
     console.log("Form data", this.state.Post.courseName, this.state.Post.title,this.state.Post.content);
   }
+
   /**
   * Posts the data to the " /api/course/{{course_id}}/post"
   * @name postData
@@ -108,6 +133,8 @@ export default class Header extends React.Component {
     * @returns The UI to be displayed.
     */
   render() {
+    const addInstructorButton = <Nav.Link onClick={this.showAddInstrucModal}>Add Instructor</Nav.Link>;
+    const removeInstructorButton = <Nav.Link onClick={this.showRemoveInstrucModal}>Remove Instructor</Nav.Link>;
     return (
       <Navbar collapseOnSelect bg="dark" variant="dark" expand="md" sticky="top">
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
@@ -144,7 +171,31 @@ export default class Header extends React.Component {
                 </Modal.Footer>
             </Modal>
 
-            <Nav.Link href="#view">View Posts</Nav.Link>
+            {localStorage.getItem('userPermissions') == 2 && addInstructorButton}
+            <Modal show={this.state.showAddInstruc} onHide={this.closeAddInstrucModal}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Add Instructor to Class</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    List of Users:
+                    <Dropdown users.name/>
+                    <Form onSubmit={this.handleAdminModalSubmit}>
+                        
+                    </Form>
+                </Modal.Body>
+            </Modal>
+
+            {localStorage.getItem('userPermissions') == 2 && removeInstructorButton}
+            <Modal show={this.state.showRemoveInstruc} onHide={this.closeRemoveInstrucModal}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Remove Instructor to Class</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    List of Users:
+                    <Dropdown users.name/>
+        
+                </Modal.Body>
+            </Modal>
             </Nav>
             <TextSearch setSearch={this.props.setSearch} />
         </Navbar.Collapse>

@@ -84,7 +84,7 @@ class App extends React.Component{
         <Header setSearch={this.setSearch} />
         <Dropdown setCourse={this.setCourse} />
         {/* <CreateClass /> */}
-        {this.state.data && <HomeDisplay data={this.state.data} />}
+        {this.state.data && <HomeDisplay data={this.state.data} course={this.state.courseName}/>}
       </div>
     );
   }

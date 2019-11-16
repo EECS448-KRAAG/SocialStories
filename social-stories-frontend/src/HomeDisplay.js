@@ -13,7 +13,10 @@ import './HomeDisplay.css';
 */
 function HomeDisplay(props) {
 
-  const button = <Button variant="outline-danger">delete</Button>
+  const onDelete = (id) =>
+  {
+    window.fetch(`/api/course/${props.course}/post/${id}`, {method: "DELETE"})
+  }
 
   return (
     <>
@@ -24,7 +27,7 @@ function HomeDisplay(props) {
           </Card.Header>
           <Card.Body>
             <Card.Text>{post.content}</Card.Text>
-            {localStorage.getItem('userPermissions')>0 && button}
+            {localStorage.getItem('userPermissions')>0 && <Button variant="outline-danger" onClick={onDelete(post.id)}>Delete</Button>}
           </Card.Body>
         </Card>
       ))}

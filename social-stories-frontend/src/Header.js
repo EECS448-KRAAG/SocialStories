@@ -87,12 +87,6 @@ export default class Header extends React.Component {
                 <Modal.Title>Add Instructor to Class</Modal.Title>
               </Modal.Header>
               <Modal.Body>
-                <Form>
-                  <Form.Group>
-                    Users:
-                    <Dropdown></Dropdown>
-                  </Form.Group>
-                </Form>
               </Modal.Body>
             </Modal>
             {localStorage.getItem('userPermissions') == 2 && adminRemoveButton}

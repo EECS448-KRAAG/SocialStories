@@ -5,7 +5,8 @@
  */
 
 import React from 'react';
-import {Navbar, Nav, Modal, Form, DropdownButton, Dropdown} from "react-bootstrap";
+import {Navbar, Nav, Modal, Form, DropdownButton, Dropdown, Button} from "react-bootstrap";
+import Select from 'react-select';
 import TextSearch from './textSearch';
 import AddPostModal from './AddPostModal';
 import {GoogleLogin, GoogleLogout} from 'react-google-login';
@@ -16,6 +17,7 @@ export default class Header extends React.Component {
   state = {
     showAdd: false,
     showRemove: false,
+    selectedUser: {},
     users: []
   };
 
@@ -24,8 +26,12 @@ export default class Header extends React.Component {
   showRemoveInstrucModal = e => {this.setState({showRemove: true});};
   closeRemoveInstrucModal = e => {this.setState({showRemove: false});};
 
+  onChange = e => {
+    this.setState({selectedUser: e});
+  }
+
   componentWillMount() {
-    window.fetch('/api/course')
+    window.fetch('/api/user')
     .then(response=> response.json())
     .then(json=> this.setState({users: json}));
   }
@@ -42,6 +48,14 @@ export default class Header extends React.Component {
     localStorage.removeItem("user");
     localStorage.removeItem("userPermissions");
     this.forceUpdate();
+  }
+
+  handleASubmit = e => {
+    this.closeAddInstrucModal();
+  }
+
+  handleRSubmit = e => {
+    this.closeRemoveInstrucModal();
   }
 
    /**
@@ -87,7 +101,18 @@ export default class Header extends React.Component {
                 <Modal.Title>Add Instructor to Class</Modal.Title>
               </Modal.Header>
               <Modal.Body>
+                <Form  onSubmit={this.handleASubmit}>
+                  <Form.Group>
+                    <Form.Label>Users: </Form.Label>
+                      <Select value={this.state.selectedUser} options={this.state.users.map(x => {return {'value': x, 'label': x.name}})} onChange={this.onChange}/>
+                  </Form.Group>
+                </Form>
               </Modal.Body>
+              <Modal.Footer>
+                <Button type="submit" variant="primary" onClick={this.handleASubmit}>
+                Confirm Change
+                </Button>
+            </Modal.Footer>
             </Modal>
             {localStorage.getItem('userPermissions') == 2 && adminRemoveButton}
             <Modal show={this.state.showRemove} onHide={this.closeRemoveInstrucModal}>

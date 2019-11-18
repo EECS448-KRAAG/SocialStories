@@ -42,12 +42,14 @@ export default class Header extends React.Component {
     const raw_permissions = await window.fetch(`/api/user/${account.googleId}/permission?name=${account.profileObj.name}`);
     const data = await raw_permissions.json();
     localStorage.setItem('userPermissions', data.permission);
+    window.location.reload();
   }
 
   handleGoogleLogout = async () => {
     localStorage.removeItem("user");
     localStorage.removeItem("userPermissions");
     this.forceUpdate();
+    window.location.reload();
   }
 
   handleASubmit = e => {

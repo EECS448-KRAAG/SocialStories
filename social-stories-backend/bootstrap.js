@@ -66,7 +66,8 @@ for (i = 0; i < 5; i++) {
             id: id,
             title: `Help Me Please: ${i}`,
             content: `This is the body of post ${i}`,
-            tags: [`${i}`, 'Free']
+            tags: [`${i}`, 'Free'],
+            flagged: false
         }
     })
 }
@@ -80,7 +81,8 @@ for (i = 0; i < 5; i++) {
             id: id,
             title: `Help Me Please: ${i}`,
             content: `This is the body of post ${i}`,
-            tags: [`${i+5}`, "C++"]
+            tags: [`${i+5}`, "C++"],
+            flagged: false
         }
     })
 }
@@ -94,7 +96,8 @@ for (i = 0; i < 5; i++) {
             id: id,
             title: `Help Me Please: ${i}`,
             content: `This is the body of post ${i}`,
-            tags: [`${i+10}`, "Unity"]
+            tags: [`${i+10}`, "Unity"],
+            flagged: false
         }
     })
 }    

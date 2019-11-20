@@ -174,7 +174,8 @@ router.post('/:course_id/post', async (req, res) => {
             title: req.body.title,
             content: req.body.content,
             id: id,
-            tags: req.body.tags
+            tags: req.body.tags,
+            flagged: false
         }
     });
     res.sendStatus(response.statusCode);
@@ -209,7 +210,7 @@ router.get('/:course_id/post/:post_id', async (req, res) => {
  * @memberof module:routes/courses
  * @function
  * @param course_id {Route-parameter} The name of the course
- * @param post_id {Route-parameter} The id of the post to get
+ * @param post_id {Route-parameter} The id of the post to delete
  * @returns None.
  */
 router.delete('/:course_id/post/:post_id', async (req, res) => {
@@ -217,6 +218,34 @@ router.delete('/:course_id/post/:post_id', async (req, res) => {
         const response = await client.delete({
             index: req.params['course_id'].toLowerCase(),
             id: req.params['post_id']
+        });
+        res.sendStatus(200);
+    } catch (e) {
+        console.error(e);
+        res.sendStatus(404);
+    }
+});
+
+/**
+ * Flags or un-flags specified post
+ * @name (PUT) '/api/course/:course_id/post/:post_id/flag
+ * @memberof module:routes/courses
+ * @function
+ * @param course_id {Route-parameter} The name of the course
+ * @param post_id {Route-parameter} The id of the post to flag
+ * @param flagged {PUT-Body} Object with flagged property set to true or false, regarding the flagged state to set the post
+ * @returns None.
+ */
+router.put('/:course_id/post/:post_id/flag', async (req, res) => {
+    try {
+        const response = await client.update({
+            index: req.params['course_id'].toLowerCase(),
+            id: req.params['post_id'],
+            body: {
+                doc: {
+                    flagged: req.body.flagged ? req.body.flagged.toLowerCase() === 'true' : false
+                }
+            }
         });
         res.sendStatus(200);
     } catch (e) {

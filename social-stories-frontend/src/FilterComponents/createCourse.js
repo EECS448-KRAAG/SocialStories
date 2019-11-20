@@ -2,8 +2,20 @@ import React from 'react'
 import { Modal, Button, Form } from 'react-bootstrap';
 import './filter.css'
 
+/**
+ * Create class component
+ * @module FilterComponent/CreateClass
+ * @requires none
+ */
 export default class CreateClass extends React.Component
 {
+    /**
+     * Constructor
+     * @name constructor
+     * @memberof module:FilterComponent/CreateClass
+     * @function constructor
+     * @returns none
+    */
     constructor()
     {
         super();
@@ -13,13 +25,26 @@ export default class CreateClass extends React.Component
             show:false
         }
     }
-
+    /**
+     * onClick function - handles when user clicks the addCourse button
+     * @name onClick
+     * @memberof module:FilterComponent/CreateClass
+     * @function onClick
+     * @returns none
+    */
     onClick = () =>
     {
         console.log("clicked!");
         this.setState({show:true})
     }
 
+    /**
+     * handleSubmit function - handles submission of createClass form
+     * @name handleSubmit
+     * @memberof module:FilterComponent/CreateClass
+     * @function handleSubmit
+     * @returns none
+    */
 
     handleSubmit = (e) =>
     {
@@ -29,6 +54,14 @@ export default class CreateClass extends React.Component
         this.closeModal();
         this.postData();
     }
+
+    /**
+     * postData function - posts data given by user to the backend
+     * @name postData
+     * @memberof module:FilterComponent/CreateClass
+     * @function postData
+     * @returns none
+    */
 
     async postData(){
         const data = { title: this.state.course.toUpperCase() };
@@ -42,11 +75,27 @@ export default class CreateClass extends React.Component
         console.error(await response.json());
     }
 
+    /**
+     * closeModal function - handles exit for modal
+     * @name closeModal
+     * @memberof module:FilterComponent/createClass
+     * @function closeModal
+     * @returns none
+    */
+
     closeModal= () =>
     {
         this.setState({show:false});
         console.log("close attempt");
     }
+
+     /**
+     * handleCourseChange function - handles changes in text field
+     * @name handleCourseChange
+     * @memberof module:FilterComponent/createClass
+     * @function handleCourseChange
+     * @returns none
+    */
 
     handleCourseChange= (e) =>
     {
@@ -54,7 +103,13 @@ export default class CreateClass extends React.Component
         console.log(e.target.value);
     }
 
-
+    /**
+     *Render - provides UI for adding a course
+     * @name render
+     * @memberof module:FilterComponent/createClass
+     * @function render
+     * @returns UI
+    */
     render ()
     { 
         return(

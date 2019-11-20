@@ -1,6 +1,6 @@
 import React from "react";
 import Card from "react-bootstrap/Card";
-import {Button} from 'react-bootstrap';
+import {Button, Badge} from 'react-bootstrap';
 import './HomeDisplay.css';
 
 /**
@@ -22,6 +22,7 @@ function HomeDisplay(props) {
           </Card.Header>
           <Card.Body>
             <Card.Text>{post.content}</Card.Text>
+            <h4>{post.tags.map(x => <Badge variant="dark" style={{marginRight: "4px"}}>{x}</Badge>)}</h4>
             {localStorage.getItem('userPermissions')>0 && 
             <Button variant="outline-danger" 
             onClick={() => window.fetch(`/api/course/${props.course}/post/${post.id}`, {method: "DELETE"})}> Delete</Button> }

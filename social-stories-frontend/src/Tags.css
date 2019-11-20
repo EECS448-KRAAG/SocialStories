@@ -1,0 +1,24 @@
+
+.tagContainer {
+    border: 1px solid #ddd;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.tagItems {
+    /* Prevent the black dot  */
+    display: inline-block;
+    padding: 2px; 
+    font-family: Helvetica, sans-serif;
+    font-size: 18px;
+    border-radius: 5px;
+    margin-right: 5px;
+    cursor: pointer; 
+}
+
+.tagInput {
+    outline: none;
+    border: none;
+    font-size: 14px;
+    font: Helvetica, sans-serif;
+}

@@ -3,6 +3,7 @@ import Header from './Header';
 import HomeDisplay from './HomeDisplay';
 import CreateClass from './FilterComponents/createCourse';
 import Dropdown from './FilterComponents/Dropdown';
+import {Footer} from 'react-bootstrap';
 
 
 
@@ -85,6 +86,11 @@ class App extends React.Component{
         <Dropdown setCourse={this.setCourse} />
         {/* <CreateClass /> */}
         {this.state.data && <HomeDisplay data={this.state.data} course={this.state.courseName}/>}
+        <hr />
+        
+        <div style={{textAlign: 'center'}}>
+          <p>Made with ❤️ by KRAAG</p>
+        </div>
       </div>
     );
   }

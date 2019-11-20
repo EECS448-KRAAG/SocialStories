@@ -128,7 +128,8 @@ router.get('/:course_id/search', async (req, res) => {
                         query: `*${req.query.content}*`,
                         fields: [
                             'title',
-                            'content'
+                            'content',
+                            'tags'
                         ]
                     }
                 }
@@ -172,7 +173,8 @@ router.post('/:course_id/post', async (req, res) => {
         body: {
             title: req.body.title,
             content: req.body.content,
-            id: id
+            id: id,
+            tags: req.body.tags
         }
     });
     res.sendStatus(response.statusCode);

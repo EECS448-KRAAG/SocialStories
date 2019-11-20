@@ -93,7 +93,7 @@ export default class Header extends React.Component {
       <Navbar collapseOnSelect bg="dark" variant="dark" expand="md" sticky="top">
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse>
-          <Navbar.Brand><img src="./logo.png" height="40px" /></Navbar.Brand>
+          <Navbar.Brand href="/"><img src="./logo.png" height="40px" /></Navbar.Brand>
           <TextSearch setSearch={this.props.setSearch} />
           <Nav className="mr-auto">
           <AddPostModal />

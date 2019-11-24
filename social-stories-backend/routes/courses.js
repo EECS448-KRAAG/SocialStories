@@ -165,7 +165,7 @@ router.get('/:course_id/post', async (req, res) => {
  * @memberof module:routes/courses
  * @function
  * @param course_id {Route-parameter} The name of the course to add a post to
- * @param Body {POST-Body} Post object with a 'title' and 'content' field
+ * @param Body {POST-Body} Post object with a 'title', 'content', and 'tags' field
  * @returns Status code of success of creating post
  */
 router.post('/:course_id/post', async (req, res) => {

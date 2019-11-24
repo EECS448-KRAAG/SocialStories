@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Module: Header</title>
+    <title>JSDoc: Module: App</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Module: Header</h1>
+    <h1 class="page-title">Module: App</h1>
 
     
 
@@ -38,7 +38,7 @@
     <div class="container-overview">
     
         
-            <div class="description">Header module.</div>
+            <div class="description">Dropdown module</div>
         
 
         
@@ -87,7 +87,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="social-stories-frontend_src_Header.js.html">social-stories-frontend/src/Header.js</a>, <a href="social-stories-frontend_src_Header.js.html#line1">line 1</a>
+        <a href="social-stories-frontend_src_App.js.html">social-stories-frontend/src/App.js</a>, <a href="social-stories-frontend_src_App.js.html#line8">line 8</a>
     </li></ul></dd>
     
 
@@ -150,7 +150,7 @@
     
 
     
-    <h4 class="name" id=".closeModal"><span class="type-signature">(static) </span>closeModal<span class="signature">(event)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".constructor"><span class="type-signature">(static) </span>constructor<span class="signature">(props:)</span><span class="type-signature"></span></h4>
     
 
     
@@ -158,7 +158,7 @@
 
 
 <div class="description">
-    Updates the value of show state to false when the user click on the add post on navbar
+    Constructor for the app
 </div>
 
 
@@ -194,15 +194,10 @@
 
         <tr>
             
-                <td class="name"><code>event</code></td>
+                <td class="name"><code>props:</code></td>
             
 
             <td class="type">
-            
-                
-<span class="param-type">Object</span>
-
-
             
             </td>
 
@@ -210,7 +205,7 @@
 
             
 
-            <td class="description last">The event object created when the user click on the add post on navbar</td>
+            <td class="description last">variables needed by this method</td>
         </tr>
 
     
@@ -251,546 +246,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="social-stories-frontend_src_AddPostModal.js.html">social-stories-frontend/src/AddPostModal.js</a>, <a href="social-stories-frontend_src_AddPostModal.js.html#line25">line 25</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    none
-</div>
-
-
-
-    
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id=".handleContentChange"><span class="type-signature">(static) </span>handleContentChange<span class="signature">(event)</span><span class="type-signature"></span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    Updates the value of Post content to the input value when user input to the textarea
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>event</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Object</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">The event object created when user input to the textarea</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="social-stories-frontend_src_AddPostModal.js.html">social-stories-frontend/src/AddPostModal.js</a>, <a href="social-stories-frontend_src_AddPostModal.js.html#line43">line 43</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    none
-</div>
-
-
-
-    
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id=".handleSubmit"><span class="type-signature">(static) </span>handleSubmit<span class="signature">(event)</span><span class="type-signature"></span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    Close the modal and post the data
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>event</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Object</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">The event object hit on the submit button at the modal</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="social-stories-frontend_src_AddPostModal.js.html">social-stories-frontend/src/AddPostModal.js</a>, <a href="social-stories-frontend_src_AddPostModal.js.html#line52">line 52</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    none
-</div>
-
-
-
-    
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id=".handleTitleChange"><span class="type-signature">(static) </span>handleTitleChange<span class="signature">(event)</span><span class="type-signature"></span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    Updates the value of Post title to the input value when user input to the textbox
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>event</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Object</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">The event object created when user input to the textbox</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="social-stories-frontend_src_AddPostModal.js.html">social-stories-frontend/src/AddPostModal.js</a>, <a href="social-stories-frontend_src_AddPostModal.js.html#line34">line 34</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    none
-</div>
-
-
-
-    
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id=".postData"><span class="type-signature">(static) </span>postData<span class="signature">()</span><span class="type-signature"></span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    Posts the data to the " /api/course/{{course_id}}/post"
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="social-stories-frontend_src_AddPostModal.js.html">social-stories-frontend/src/AddPostModal.js</a>, <a href="social-stories-frontend_src_AddPostModal.js.html#line65">line 65</a>
+        <a href="social-stories-frontend_src_App.js.html">social-stories-frontend/src/App.js</a>, <a href="social-stories-frontend_src_App.js.html#line15">line 15</a>
     </li></ul></dd>
     
 
@@ -844,7 +300,7 @@
 
 
 <div class="description">
-    Provides UI for navbar and modal
+    Render - provides UI for front page
 </div>
 
 
@@ -888,7 +344,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="social-stories-frontend_src_Header.js.html">social-stories-frontend/src/Header.js</a>, <a href="social-stories-frontend_src_Header.js.html#line64">line 64</a>
+        <a href="social-stories-frontend_src_App.js.html">social-stories-frontend/src/App.js</a>, <a href="social-stories-frontend_src_App.js.html#line73">line 73</a>
     </li></ul></dd>
     
 
@@ -917,7 +373,7 @@
 
         
 <div class="param-desc">
-    The UI to be displayed.
+    UI
 </div>
 
 
@@ -934,7 +390,7 @@
     
 
     
-    <h4 class="name" id=".showModal"><span class="type-signature">(static) </span>showModal<span class="signature">(event)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".setCourse"><span class="type-signature">(static) </span>setCourse<span class="signature">(courseName:)</span><span class="type-signature"></span></h4>
     
 
     
@@ -942,7 +398,7 @@
 
 
 <div class="description">
-    Updates the value of show state to true when the user click on the add post on navbar
+    Sets course accodrding to user input
 </div>
 
 
@@ -978,15 +434,10 @@
 
         <tr>
             
-                <td class="name"><code>event</code></td>
+                <td class="name"><code>courseName:</code></td>
             
 
             <td class="type">
-            
-                
-<span class="param-type">Object</span>
-
-
             
             </td>
 
@@ -994,7 +445,7 @@
 
             
 
-            <td class="description last">The event object created when the user click on the add post on navbar</td>
+            <td class="description last">course name given by user</td>
         </tr>
 
     
@@ -1035,7 +486,291 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="social-stories-frontend_src_AddPostModal.js.html">social-stories-frontend/src/AddPostModal.js</a>, <a href="social-stories-frontend_src_AddPostModal.js.html#line16">line 16</a>
+        <a href="social-stories-frontend_src_App.js.html">social-stories-frontend/src/App.js</a>, <a href="social-stories-frontend_src_App.js.html#line31">line 31</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    none
+</div>
+
+
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id=".setSearch"><span class="type-signature">(static) </span>setSearch<span class="signature">(search:)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Sets search query to user input
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>search:</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">string to search for</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="social-stories-frontend_src_App.js.html">social-stories-frontend/src/App.js</a>, <a href="social-stories-frontend_src_App.js.html#line44">line 44</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    none
+</div>
+
+
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id=".updateView"><span class="type-signature">(static) </span>updateView<span class="signature">(none)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Pulls data and displays it
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>none</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="social-stories-frontend_src_App.js.html">social-stories-frontend/src/App.js</a>, <a href="social-stories-frontend_src_App.js.html#line58">line 58</a>
     </li></ul></dd>
     
 

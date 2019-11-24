@@ -40,6 +40,13 @@ Alternatively, you can build the frontend for production with docker by running,
 
 The easiest way to run the backend is to follow the instructions in `Putting it together` below since the backend needs an Elasticsearch instance in order to function. To generate fake data for testing follow the instructions below under `bootstrapping`.
 
+### Testing
+The backend tests are built and run using Mocha and Chai. You can execute them in the docker-compose environnement described below by running
+
+`
+docker-compose run backend npm test
+`
+
 ## Putting it together
 
 To run the full stack at once, first make sure you have docker installed and running. Checkout [their website for more info](https://www.docker.com/). Once docker is installed, simply run the following in the root directory of the project,

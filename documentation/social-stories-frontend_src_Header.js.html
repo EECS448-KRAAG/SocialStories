@@ -33,94 +33,60 @@
  */
 
 import React from 'react';
-import {Navbar, Nav, Modal, Button, Form,DropdownButton,Dropdown} from "react-bootstrap";
+import {Navbar, Nav, Modal, Form, Button} from "react-bootstrap";
+import Select from 'react-select';
 import TextSearch from './textSearch';
+import AddPostModal from './AddPostModal';
+import {GoogleLogin, GoogleLogout} from 'react-google-login';
 
-const Dropdownoptions = ["Option 1", "Option 2", "Option 3", "Option 4", "Option 5"];
 //TODO: Make sure that content is required
 export default class Header extends React.Component {
 
   state = {
-    show: false,
-    Post: {
-      coursename : Dropdownoptions[0],
-      content: ""
-    }
+    showAdd: false,
+    showRemove: false,
+    selectedUser: {},
+    users: []
   };
-  /**
-  * Updates the value of show state to true when the user click on the add post on navbar
-  * @name showModal
-  * @memberof module:textSearch
-  * @function
-  * @param event {Object} The event object created when the user click on the add post on navbar
-  * @returns none
-  */
-  showModal = e => {this.setState({show: true});};
-  /**
-  * Updates the value of show state to false when the user click on the add post on navbar
-  * @name closeModal
-  * @memberof module:textSearch
-  * @function
-  * @param event {Object} The event object created when the user click on the add post on navbar
-  * @returns none
-  */
-  closeModal = e => {this.setState({show: false});};
-  /**
-  * Updates the value of Post coursename to the selected value when the user click on the drop down on the modal
-  * @name handleDropDownChange
-  * @memberof module:textSearch
-  * @function
-  * @param event {Object} The event object created when the user click on the drop down on the modal
-  * @returns none
-  */
-  handleDropDownChange = (evtKey,e) => { this.setState({Post:{coursename: Dropdownoptions[evtKey], content: this.state.Post.content}})};
-  /**
-  * Updates the value of Post content to the input value when user input to the textarea
-  * @name handleContentChange
-  * @memberof module:textSearch
-  * @function
-  * @param event {Object} The event object created when user input to the textarea
-  * @returns none
-  */
-  handleContentChange = e => { this.setState({Post:{content: e.target.value, coursename: this.state.Post.coursename}})};
-  /**
-  * Close the modal and post the data 
-  * @name handleSubmit
-  * @memberof module:textSearch
-  * @function
-  * @param event {Object} The event object hit on the submit button at the modal
-  * @returns none
-  */
-  handleSubmit = e => {
-    this.closeModal();
-    this.postData();
-    console.log("Form data", this.state.Post.coursename, this.state.Post.content);
-  }
-  /**
-  * Posts the data to the " /api/course/{{course_id}}/post" 
-  * @name postData
-  * @memberof module:textSearch
-  * @function
-  * @returns none
-  */
-  async postData(){
-    //create a new XMLHttpRequest
-    const postURL = " /api/course/{{course_id}}/post";
-    const data = this.state.Post;
 
-    try {
-      const response = await fetch(postURL, {
-        method: 'POST', // or 'PUT'
-        body: JSON.stringify(data), // data can be `string` or {object}!
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
-      const json = await response.json();
-      console.log('Success:', JSON.stringify(json));
-    } catch (error) {
-      console.error('Error:', error);
-    }
+  showAddInstrucModal = e => {this.setState({showAdd: true});};
+  closeAddInstrucModal = e => {this.setState({showAdd: false});};
+  showRemoveInstrucModal = e => {this.setState({showRemove: true});};
+  closeRemoveInstrucModal = e => {this.setState({showRemove: false});};
+
+  onChange = e => {
+    console.log(e);
+    this.setState({selectedUser: e});
+  }
+
+  componentWillMount() {
+    window.fetch('/api/user')
+    .then(response=> response.json())
+    .then(json=> this.setState({users: json}));
+  }
+
+  handleGoogleLogin = async (account) => {
+    localStorage.setItem("user", JSON.stringify(account));
+    this.forceUpdate();
+    const raw_permissions = await window.fetch(`/api/user/${account.googleId}/permission?name=${account.profileObj.name}`);
+    const data = await raw_permissions.json();
+    localStorage.setItem('userPermissions', data.permission);
+    window.location.reload();
+  }
+
+  handleGoogleLogout = async () => {
+    localStorage.removeItem("user");
+    localStorage.removeItem("userPermissions");
+    this.forceUpdate();
+    window.location.reload();
+  }
+
+  handleASubmit = e => {
+    this.closeAddInstrucModal();
+  }
+
+  handleRSubmit = e => {
+    this.closeRemoveInstrucModal();
   }
 
    /**
@@ -131,43 +97,65 @@ export default class Header extends React.Component {
     * @returns The UI to be displayed.
     */
   render() {
+
+    const adminAddButton = &lt;Nav.Link onClick={this.showAddInstrucModal}>Add Instructor&lt;/Nav.Link>;
+    const adminRemoveButton = &lt;Nav.Link onClick={this.showRemoveInstrucModal}>Remove Instructor&lt;/Nav.Link>;
+
+    const loginButton =
+      &lt;GoogleLogin 
+        clientId = "701234863585-26m47ep06fv24ebas5j934t0shn0a9ru.apps.googleusercontent.com"
+        buttonText="Login"
+        onSuccess={this.handleGoogleLogin}
+        onFailure={console.error}
+        cookiePolicy={'single_host_origin'}
+        theme="dark"
+      />;
+
+      const logoutButton = &lt;GoogleLogout 
+        clientId="701234863585-26m47ep06fv24ebas5j934t0shn0a9ru.apps.googleusercontent.com"
+        buttonText="Logout"
+        onLogoutSuccess={this.handleGoogleLogout}
+        theme="dark"
+      />;
+    
     return (
       &lt;Navbar collapseOnSelect bg="dark" variant="dark" expand="md" sticky="top">
         &lt;Navbar.Toggle aria-controls="responsive-navbar-nav" />
         &lt;Navbar.Collapse>
-          &lt;Navbar.Brand>Social Stores&lt;/Navbar.Brand>
+          &lt;Navbar.Brand href="/">&lt;img src="./logo.png" height="40px" alt="Classes++" />&lt;/Navbar.Brand>
+          &lt;TextSearch setSearch={this.props.setSearch} />
           &lt;Nav className="mr-auto">
-            &lt;Nav.Link href="#home">Home&lt;/Nav.Link>
-            &lt;Nav.Link onClick={this.showModal}>Create Post&lt;/Nav.Link>
-            &lt;Modal show={this.state.show} onHide={this.closeModal}>
-                &lt;Modal.Header closeButton>
-                  &lt;Modal.Title>Add Post&lt;/Modal.Title>
-                &lt;/Modal.Header>
-                &lt;Modal.Body>
-                    &lt;Form  onSubmit={this.handleSubmit}>
-                      &lt;Form.Group>
-                        &lt;Form.Label>Course: &lt;/Form.Label>
-                        &lt;DropdownButton onSelect={this.handleDropDownChange.bind(this) } id="dropdown-basic-button" title={this.state.Post.coursename}>
-                          {Dropdownoptions.map((option, i) => {
-                             return (&lt;Dropdown.Item key={i} eventKey={i}>{option}&lt;/Dropdown.Item>);
-                          })}
-                        &lt;/DropdownButton>
-                      &lt;/Form.Group>
-                      &lt;Form.Group controlId="exampleForm.ControlTextarea1">
-                        &lt;Form.Label>Post: &lt;/Form.Label>
-                        &lt;Form.Control onChange={this.handleContentChange} required as="textarea" rows="3" name="content" />
-                      &lt;/Form.Group>
-                    &lt;/Form>
-                &lt;/Modal.Body>
-                &lt;Modal.Footer>
-                &lt;Button type="submit" variant="primary" onClick={this.handleSubmit}>
-                    Submit Post
+          &lt;AddPostModal />
+          {parseInt(localStorage.getItem('userPermissions')) === 2 &amp;&amp; adminAddButton}
+            &lt;Modal show={this.state.showAdd} onHide={this.closeAddInstrucModal}>
+              &lt;Modal.Header closeButton>
+                &lt;Modal.Title>Add Instructor to Class&lt;/Modal.Title>
+              &lt;/Modal.Header>
+              &lt;Modal.Body>
+                &lt;Form  onSubmit={this.handleASubmit}>
+                  &lt;Form.Group>
+                    &lt;Form.Label>Users: &lt;/Form.Label>
+                      &lt;Select value={this.state.selectedUser} options={this.state.users.map(x => {return {'value': x, 'label': x.name}})} onChange={this.onChange}/>
+                  &lt;/Form.Group>
+                &lt;/Form>
+              &lt;/Modal.Body>
+              &lt;Modal.Footer>
+                &lt;Button type="submit" variant="primary" onClick={this.handleASubmit}>
+                Confirm Change
                 &lt;/Button>
-                &lt;/Modal.Footer>
+            &lt;/Modal.Footer>
+            &lt;/Modal> 
+            {parseInt(localStorage.getItem('userPermissions')) === 2 &amp;&amp; adminRemoveButton}
+            &lt;Modal show={this.state.showRemove} onHide={this.closeRemoveInstrucModal}>
+              &lt;Modal.Header closeButton>
+                &lt;Modal.Title>Remove Instructor from Class&lt;/Modal.Title>
+              &lt;/Modal.Header>
+              &lt;Modal.Body>
+
+              &lt;/Modal.Body>
             &lt;/Modal>
-            &lt;Nav.Link href="#view">View Posts&lt;/Nav.Link>
-            &lt;/Nav>
-            &lt;TextSearch setSearch={this.props.setSearch} />
+          &lt;/Nav>
+            {localStorage.getItem("user") ? logoutButton : loginButton};
         &lt;/Navbar.Collapse>
       &lt;/Navbar>
     );
@@ -184,13 +172,13 @@ export default class Header extends React.Component {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-elastic-client.html">elastic-client</a></li><li><a href="module-FilterComponent_Dropdown.html">FilterComponent/Dropdown</a></li><li><a href="module-Header.html">Header</a></li><li><a href="module-routes_courses.html">routes/courses</a></li><li><a href="module-server.html">server</a></li><li><a href="module-textSearch.html">textSearch</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-App.html">App</a></li><li><a href="module-elastic-client.html">elastic-client</a></li><li><a href="module-FilterComponent_CreateClass.html">FilterComponent/CreateClass</a></li><li><a href="module-FilterComponent_Dropdown.html">FilterComponent/Dropdown</a></li><li><a href="module-Header.html">Header</a></li><li><a href="module-routes_courses.html">routes/courses</a></li><li><a href="module-routes_users.html">routes/users</a></li><li><a href="module-server.html">server</a></li><li><a href="module-textSearch.html">textSearch</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Mon Nov 04 2019 11:19:16 GMT-0600 (Central Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Sun Nov 24 2019 15:06:40 GMT-0600 (Central Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>

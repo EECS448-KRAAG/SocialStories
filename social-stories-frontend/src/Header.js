@@ -5,7 +5,7 @@
  */
 
 import React from 'react';
-import {Navbar, Nav, Modal, Form, DropdownButton, Dropdown, Button} from "react-bootstrap";
+import {Navbar, Nav, Modal, Form, Button} from "react-bootstrap";
 import Select from 'react-select';
 import TextSearch from './textSearch';
 import AddPostModal from './AddPostModal';
@@ -33,6 +33,7 @@ export default class Header extends React.Component {
   closeRemoveAdminModal = e => {this.setState({showRemoveA: false});};
 
   onChange = e => {
+    console.log(e);
     this.setState({selectedUser: e});
   }
 
@@ -165,12 +166,12 @@ export default class Header extends React.Component {
       <Navbar collapseOnSelect bg="dark" variant="dark" expand="md" sticky="top">
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse>
-          <Navbar.Brand href="/"><img src="./logo.png" height="40px" /></Navbar.Brand>
+          <Navbar.Brand href="/"><img src="./logo.png" height="40px" alt="Classes++" /></Navbar.Brand>
           <TextSearch setSearch={this.props.setSearch} />
           <Nav className="mr-auto">
           <AddPostModal />
-          {localStorage.getItem('userPermissions') == 2 && InstrucAddButton}
-            <Modal show={this.state.showAddI} onHide={this.closeAddInstrucModal}>
+          {parseInt(localStorage.getItem('userPermissions')) === 2 && adminAddButton}
+            <Modal show={this.state.showAdd} onHide={this.closeAddInstrucModal}>
               <Modal.Header closeButton>
                 <Modal.Title>Add Instructor</Modal.Title>
               </Modal.Header>
@@ -187,9 +188,9 @@ export default class Header extends React.Component {
                 Confirm Change
                 </Button>
             </Modal.Footer>
-            </Modal>
-            {localStorage.getItem('userPermissions') == 2 && InstrucRemoveButton}
-            <Modal show={this.state.showRemoveI} onHide={this.closeRemoveInstrucModal}>
+            </Modal> 
+            {parseInt(localStorage.getItem('userPermissions')) === 2 && adminRemoveButton}
+            <Modal show={this.state.showRemove} onHide={this.closeRemoveInstrucModal}>
               <Modal.Header closeButton>
                 <Modal.Title>Remove Instructor</Modal.Title>
               </Modal.Header>

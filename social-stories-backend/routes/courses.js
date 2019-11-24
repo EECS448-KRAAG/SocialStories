@@ -51,19 +51,23 @@ router.post('/', async (req, res) => {
     if (existing_courses.body.hits.hits.length !== 0 ) {
         res.sendStatus(409);
     } else {
-        await client.indices.create({
-            index: course_title
-        });
-        await client.create({
-            index: "course",
-            type: '_doc',
-            id: id,
-            body: {
-                title: course_title,
-                id: id
-            }
-        });
-        res.sendStatus(201);
+        try {
+            await client.indices.create({
+                index: course_title
+            });
+            await client.create({
+                index: "course",
+                type: '_doc',
+                id: id,
+                body: {
+                    title: course_title,
+                    id: id
+                }
+            });
+            res.sendStatus(201);
+        } catch(e) {
+            res.sendStatus(500);
+        }
     }
 })
 

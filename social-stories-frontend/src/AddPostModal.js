@@ -103,7 +103,7 @@ export default class AddPostModal extends React.Component {
     // console.log("Post", this.state.Post);
       return (
         <>
-        <Nav.Link onClick={this.showModal}>Create Post</Nav.Link>
+        <Nav.Link id="nav-modal" onClick={this.showModal}>Create Post</Nav.Link>
         <Modal show={this.state.show} onHide={this.closeModal}>
         <Modal.Header closeButton>
           <Modal.Title>Add Post</Modal.Title>

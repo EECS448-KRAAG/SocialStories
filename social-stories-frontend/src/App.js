@@ -1,9 +1,7 @@
 import React from 'react';
 import Header from './Header';
 import HomeDisplay from './HomeDisplay';
-import CreateClass from './FilterComponents/createCourse';
 import Dropdown from './FilterComponents/Dropdown';
-import {Footer} from 'react-bootstrap';
 
 
 
@@ -89,7 +87,7 @@ class App extends React.Component{
         <hr />
         
         <div style={{textAlign: 'center'}}>
-          <p>Made with ❤️ by KRAAG</p>
+          <p>Made with <span role="img" aria-label="heart emoji" >❤️</span> by KRAAG</p>
         </div>
       </div>
     );

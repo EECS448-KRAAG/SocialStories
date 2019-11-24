@@ -34,7 +34,7 @@ export default class AddPostModal extends React.Component {
   * @param event {Object} The event object created when the user click on the add post on navbar
   * @returns none
   */
-  closeModal = e => {this.setState({show: false});};
+  closeModal = e => {this.setState({show: false,Post: {}, errors: {}});};
   /**
   * Updates the value of Post title to the input value when user input to the textbox
   * @name handleTitleChange
@@ -43,7 +43,7 @@ export default class AddPostModal extends React.Component {
   * @param event {Object} The event object created when user input to the textbox
   * @returns none
   */
-  // handleTitleChange = async e => { await this.setState({Post:{ ...this.state.Post,title: e.target.value}});}
+  handleTitleChange = async e => { await this.setState({Post:{ ...this.state.Post,title: e.target.value}});};
   /**
   * Updates the value of Post content to the input value when user input to the textarea
   * @name handleContentChange
@@ -52,13 +52,8 @@ export default class AddPostModal extends React.Component {
   * @param event {Object} The event object created when user input to the textarea
   * @returns none
   */
-  // handleContentChange = async e => { await this.setState({Post:{...this.state.Post,content: e.target.value}});}
+  handleContentChange = async e => { await this.setState({Post:{...this.state.Post,content: e.target.value}});};
 
-  handleChange= async (field,e) => {
-    let data = this.state.Post;
-    data[field] = e.target.value;
-    await this.setState({Post:{...this.state.Post,data}});
-  }
   handleTagsChange= async (newArray) => {
     await this.setState({
       Post: {...this.state.Post,tags: [...newArray]}
@@ -75,14 +70,14 @@ export default class AddPostModal extends React.Component {
   handleSubmit = e => {
     // e.preventDefault();
     if (this.handleValidation()){
-      this.closeModal();
       this.postData();
+      this.closeModal();
       console.log("Form data", this.state.Post.courseName, this.state.Post.title,this.state.Post.content);
     } else {
+      console.log("Failed:", this.state.Post.courseName, this.state.Post.title,this.state.Post.content);
       alert("Form has errors!! Fill the form properly");
     }
-    
-   
+
   }
   /**
   * Posts the data to the " /api/course/{{course_id}}/post"
@@ -141,7 +136,7 @@ export default class AddPostModal extends React.Component {
         <>
         <Nav.Link id="nav-modal" onClick={this.showModal}>Create Post</Nav.Link>
         <Modal show={this.state.show} onHide={this.closeModal}>
-        <Modal.Header closeButton>
+        <Modal.Header closeButton={this.closeModal}>
           <Modal.Title>Add Post</Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -152,12 +147,12 @@ export default class AddPostModal extends React.Component {
               </Form.Group>
               <Form.Group >
                 <Form.Label>Title:</Form.Label>
-                <Form.Control id="form-title" onChange={this.handleChange.bind(this,"title")} placeholder="Enter Title" />
+                <Form.Control id="form-title" onChange={this.handleTitleChange} placeholder="Enter Title" />
                 <span style={{color: "red"}}>{this.state.errors["title"]}</span>
               </Form.Group>
               <Form.Group c>
                 <Form.Label>Post: </Form.Label>
-                <Form.Control id="form-post" onChange={this.handleChange.bind(this,"content")} required as="textarea" rows="3" name="content" />
+                <Form.Control id="form-post" onChange={this.handleContentChange} required as="textarea" rows="3" name="content" />
                 <span style={{color: "red"}}>{this.state.errors["content"]}</span>
               </Form.Group>
             </Form>
@@ -174,5 +169,5 @@ export default class AddPostModal extends React.Component {
     </Modal>
     </>
       );
-  }
+  };
 }

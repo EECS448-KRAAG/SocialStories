@@ -33,11 +33,11 @@ export default class Tags extends React.Component {
     if ( e.keyCode === 13 ) {
       const {value} = e.target;
       
-      this.setState(state => ({
-        items: [...state.items, value],
+      this.setState({
+        items: [...this.state.items, value],
         input: ''
-      }));
-      this.props.tagsChange(this.state.items);
+      });
+      this.props.tagsChange([...this.state.items, value]);
     }
   }
 

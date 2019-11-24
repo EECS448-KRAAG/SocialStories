@@ -27,6 +27,7 @@ export default class Header extends React.Component {
   closeRemoveInstrucModal = e => {this.setState({showRemove: false});};
 
   onChange = e => {
+    console.log(e);
     this.setState({selectedUser: e});
   }
 
@@ -97,7 +98,7 @@ export default class Header extends React.Component {
           <TextSearch setSearch={this.props.setSearch} />
           <Nav className="mr-auto">
           <AddPostModal />
-          {localStorage.getItem('userPermissions') === 2 && adminAddButton}
+          {parseInt(localStorage.getItem('userPermissions')) === 2 && adminAddButton}
             <Modal show={this.state.showAdd} onHide={this.closeAddInstrucModal}>
               <Modal.Header closeButton>
                 <Modal.Title>Add Instructor to Class</Modal.Title>
@@ -115,8 +116,8 @@ export default class Header extends React.Component {
                 Confirm Change
                 </Button>
             </Modal.Footer>
-            </Modal>
-            {localStorage.getItem('userPermissions') === 2 && adminRemoveButton}
+            </Modal> 
+            {parseInt(localStorage.getItem('userPermissions')) === 2 && adminRemoveButton}
             <Modal show={this.state.showRemove} onHide={this.closeRemoveInstrucModal}>
               <Modal.Header closeButton>
                 <Modal.Title>Remove Instructor from Class</Modal.Title>

@@ -17,7 +17,7 @@ describe('Dropdown component', () =>
         ReactDOM.render(<Dropdown/>, div);
     })
 
-    it('renders correctlyq', done => { // 1
+    it('renders correctly', done => { // 1
         const mockSuccessResponse = {};
         const mockJsonPromise = Promise.resolve(mockSuccessResponse); // 2
         const mockFetchPromise = Promise.resolve({ // 3
@@ -41,5 +41,6 @@ describe('Dropdown component', () =>
           global.fetch.mockClear(); // 7
           done(); // 8
         });
+
     });
 });

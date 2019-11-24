@@ -18,6 +18,15 @@ function HomeDisplay(props) {
     window.location.reload();
   }
 
+  const flagPost = async(id) => {
+    await window.fetch(`/api/course/${props.course}/post/${id}/flag`, {
+      method: "PUT",
+      body: JSON.stringify({
+        flagged: true
+      })
+    });
+  }
+
   return (
     <>
       {props.data.map(post => (
@@ -28,8 +37,11 @@ function HomeDisplay(props) {
           <Card.Body>
             <Card.Text>{post.content}</Card.Text>
             <h4>{post.tags.map(x => <Badge variant="dark" style={{marginRight: "4px"}}>{x}</Badge>)}</h4>
-            {localStorage.getItem('userPermissions')>0 && 
-            <Button variant="outline-danger" 
+            <Button variant="warning" size="sm" onClick={() => flagPost(post.id)}>Flag</Button>
+            <br />
+            <br />
+            {localStorage.getItem('userPermissions')>0 &&
+            <Button variant="outline-danger"
             onClick={() => deletePost(post.id)}> Delete</Button> }
           </Card.Body>
         </Card>

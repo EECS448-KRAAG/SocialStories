@@ -15,16 +15,22 @@ import {GoogleLogin, GoogleLogout} from 'react-google-login';
 export default class Header extends React.Component {
 
   state = {
-    showAdd: false,
-    showRemove: false,
+    showAddI: false,
+    showRemoveI: false,
+    showAddA: false,
+    showRemoveA: false,
     selectedUser: {},
     users: []
   };
 
-  showAddInstrucModal = e => {this.setState({showAdd: true});};
-  closeAddInstrucModal = e => {this.setState({showAdd: false});};
-  showRemoveInstrucModal = e => {this.setState({showRemove: true});};
-  closeRemoveInstrucModal = e => {this.setState({showRemove: false});};
+  showAddInstrucModal = e => {this.setState({showAddI: true});};
+  closeAddInstrucModal = e => {this.setState({showAddI: false});};
+  showRemoveInstrucModal = e => {this.setState({showRemoveI: true});};
+  closeRemoveInstrucModal = e => {this.setState({showRemoveI: false});};
+  showAddAdminModal = e => {this.setState({showAddA: true});};
+  closeAddAdminModal = e => {this.setState({showAddA: false});};
+  showRemoveAdminModal = e => {this.setState({showRemoveA: true});};
+  closeRemoveAdminModal = e => {this.setState({showRemoveA: false});};
 
   onChange = e => {
     this.setState({selectedUser: e});
@@ -52,12 +58,76 @@ export default class Header extends React.Component {
     window.location.reload();
   }
 
-  handleASubmit = e => {
-    this.closeAddInstrucModal();
+  AddInstrucData = async () => {
+        const data = { level: 1 };
+        console.log("Selected User inside fetch call function");
+        console.log(this.state.selectedUser);
+        const response = await fetch(`/api/user/${this.state.selectedUser.value.user_id}/permission`, {
+        method: 'PUT', // or 'PUT'
+        body: JSON.stringify(data), // data can be `string` or {object}!
+        headers: {
+          'Content-Type': 'application/json'
+        }
+    });
+    console.error(await response.json());
   }
 
-  handleRSubmit = e => {
+  handleInstrucAddSubmit = e => {
+    this.closeAddInstrucModal();
+    this.AddInstrucData();
+  }
+
+  RemoveInstrucData = async () => {
+      const data = { level: 0 };
+      console.log("Selected User inside fetch call function");
+      console.log(this.state.selectedUser);
+      const response = await fetch(`/api/user/${this.state.selectedUser.value.user_id}/permission`, {
+      method: 'PUT', // or 'PUT'
+      body: JSON.stringify(data), // data can be `string` or {object}!
+      headers: {
+        'Content-Type': 'application/json'
+      } 
+    });
+    console.error(await response.json());
+  }
+
+  handleInstrucRemoveSubmit = e => {
     this.closeRemoveInstrucModal();
+    this.RemoveInstrucData();
+  }
+
+  AddAdminData = async () => {
+      const data = { level: 2 };
+      const response = await fetch(`/api/user/${this.state.selectedUser.value.user_id}/permission`, {
+      method: 'PUT', // or 'PUT'
+      body: JSON.stringify(data), // data can be `string` or {object}!
+      headers: {
+        'Content-Type': 'application/json'
+      } 
+    });
+    console.error(await response.json());
+  }
+
+  handleAdminAddSubmit = e => {
+    this.closeAddAdminModal();
+    this.AddAdminData();
+  }
+
+  RemoveAdminData = async () => {
+      const data = { level: 0 };
+      const response = await fetch(`/api/user/${this.state.selectedUser.value.user_id}/permission`, {
+      method: 'PUT', // or 'PUT'
+      body: JSON.stringify(data), // data can be `string` or {object}!
+      headers: {
+        'Content-Type': 'application/json'
+      } 
+    });
+    console.error(await response.json());
+  }
+
+  handleAdminRemoveSubmit = e => {
+    this.closeRemoveAdminModal();
+    this.RemoveAdminData();
   }
 
    /**
@@ -69,8 +139,10 @@ export default class Header extends React.Component {
     */
   render() {
 
-    const adminAddButton = <Nav.Link onClick={this.showAddInstrucModal}>Add Instructor</Nav.Link>;
-    const adminRemoveButton = <Nav.Link onClick={this.showRemoveInstrucModal}>Remove Instructor</Nav.Link>;
+    const InstrucAddButton = <Nav.Link onClick={this.showAddInstrucModal}>Add Instructor</Nav.Link>;
+    const InstrucRemoveButton = <Nav.Link onClick={this.showRemoveInstrucModal}>Remove Instructor</Nav.Link>;
+    const AdminAddButton = <Nav.Link onClick={this.showAddAdminModal}>Add Admin</Nav.Link>;
+    const AdminRemoveButton = <Nav.Link onClick={this.showRemoveAdminModal}>Remove Admin</Nav.Link>;
 
     const loginButton =
       <GoogleLogin 
@@ -97,33 +169,81 @@ export default class Header extends React.Component {
           <TextSearch setSearch={this.props.setSearch} />
           <Nav className="mr-auto">
           <AddPostModal />
-          {localStorage.getItem('userPermissions') == 2 && adminAddButton}
-            <Modal show={this.state.showAdd} onHide={this.closeAddInstrucModal}>
+          {localStorage.getItem('userPermissions') == 2 && InstrucAddButton}
+            <Modal show={this.state.showAddI} onHide={this.closeAddInstrucModal}>
               <Modal.Header closeButton>
-                <Modal.Title>Add Instructor to Class</Modal.Title>
+                <Modal.Title>Add Instructor</Modal.Title>
               </Modal.Header>
               <Modal.Body>
-                <Form  onSubmit={this.handleASubmit}>
+                <Form  onSubmit={this.handleInstrucAddSubmit}>
                   <Form.Group>
                     <Form.Label>Users: </Form.Label>
-                      <Select value={this.state.selectedUser} options={this.state.users.map(x => {return {'value': x, 'label': x.name}})} onChange={this.onChange}/>
+                      <Select value={this.state.selectedUser} options={this.state.users.filter(x => { if (x.permission == 0) { return{x} }}).map(x => {return {'value': x, 'label': x.name}})} onChange={this.onChange}/>
                   </Form.Group>
                 </Form>
               </Modal.Body>
               <Modal.Footer>
-                <Button type="submit" variant="primary" onClick={this.handleASubmit}>
+                <Button type="submit" variant="primary" onClick={this.handleInstrucAddSubmit}>
                 Confirm Change
                 </Button>
             </Modal.Footer>
             </Modal>
-            {localStorage.getItem('userPermissions') == 2 && adminRemoveButton}
-            <Modal show={this.state.showRemove} onHide={this.closeRemoveInstrucModal}>
+            {localStorage.getItem('userPermissions') == 2 && InstrucRemoveButton}
+            <Modal show={this.state.showRemoveI} onHide={this.closeRemoveInstrucModal}>
               <Modal.Header closeButton>
-                <Modal.Title>Remove Instructor from Class</Modal.Title>
+                <Modal.Title>Remove Instructor</Modal.Title>
               </Modal.Header>
               <Modal.Body>
-
+                <Form  onSubmit={this.handleInstrucRemoveSubmit}>
+                  <Form.Group>
+                    <Form.Label>Users: </Form.Label>
+                      <Select value={this.state.selectedUser} options={this.state.users.filter(x => { if (x.permission == 1) { return{x} } }).map(x => { return {'value': x, 'label': x.name}})} onChange={this.onChange}/>
+                  </Form.Group>
+                </Form>
               </Modal.Body>
+              <Modal.Footer>
+                <Button type="submit" variant="primary" onClick={this.handleInstrucRemoveSubmit}>
+                Confirm Change
+                </Button>
+              </Modal.Footer>
+            </Modal>
+            {localStorage.getItem('userPermissions') == 2 && AdminAddButton}
+            <Modal show={this.state.showAddA} onHide={this.closeAddAdminModal}>
+              <Modal.Header closeButton>
+                <Modal.Title>Add Admin</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                <Form  onSubmit={this.handleAdminAddSubmit}>
+                  <Form.Group>
+                    <Form.Label>Users: </Form.Label>
+                      <Select value={this.state.selectedUser} options={this.state.users.filter(x => { if (x.permission < 2) { return{x} } }).map(x => { return {'value': x, 'label': x.name}})} onChange={this.onChange}/>
+                  </Form.Group>
+                </Form>
+              </Modal.Body>
+              <Modal.Footer>
+                <Button type="submit" variant="primary" onClick={this.handleAdminAddSubmit}>
+                Confirm Change
+                </Button>
+              </Modal.Footer>
+            </Modal>
+            {localStorage.getItem('userPermissions') == 2 && AdminRemoveButton}
+            <Modal show={this.state.showRemoveA} onHide={this.closeRemoveAdminModal}>
+              <Modal.Header closeButton>
+                <Modal.Title>Remove Admin</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                <Form  onSubmit={this.handleAdminRemoveSubmit}>
+                  <Form.Group>
+                    <Form.Label>Users: </Form.Label>
+                      <Select value={this.state.selectedUser} options={this.state.users.filter(x => { if (x.permission == 2) { return{x} } }).map(x => { return {'value': x, 'label': x.name}})} onChange={this.onChange}/>
+                  </Form.Group>
+                </Form>
+              </Modal.Body>
+              <Modal.Footer>
+                <Button type="submit" variant="primary" onClick={this.handleAdminRemoveSubmit}>
+                Confirm Change
+                </Button>
+              </Modal.Footer>
             </Modal>
           </Nav>
             {localStorage.getItem("user") ? logoutButton : loginButton};

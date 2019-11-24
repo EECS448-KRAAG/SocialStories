@@ -36,5 +36,8 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://backend:9000"
+  "proxy": "http://backend:9000",
+  "devDependencies": {
+    "riteway": "^6.1.1"
+  }
 }

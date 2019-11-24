@@ -33,27 +33,33 @@ client.indices.create({
     index: 'eecs448'
 });
 
+let id = uuid.v4();
 client.create({
     index: "course",
-    id: uuid.v4(),
+    id: id,
     body: {
-        "title": "EECS101"
+        "title": "EECS101",
+        id: id
     }
 });
 
+id = uuid.v4();
 client.create({
     index: "course",
-    id: uuid.v4(),
+    id: id,
     body: {
-        "title": "EECS168"
+        "title": "EECS168",
+        id: id
     }
 });
 
+id = uuid.v4();
 client.create({
     index: "course",
-    id: uuid.v4(),
+    id: id,
     body: {
-        "title": "EECS448"
+        "title": "EECS448",
+        id: id
     }
 });
 

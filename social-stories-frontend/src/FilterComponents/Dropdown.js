@@ -24,7 +24,7 @@ class Dropdown extends React.Component {
             validationError: "",
             show: false
         }
-        props.setCourse("EECS101");
+        // props.setCourse("EECS101");
         /**
          * onChange functions - handles when user types in the dropdown
          * @name onChange
@@ -36,10 +36,6 @@ class Dropdown extends React.Component {
             this.props.setCourse(opt.value);
             this.setState({selectedCourse: opt});
         }
-
-       
-
-       
     }
 
     /**

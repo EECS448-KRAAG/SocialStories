@@ -55,6 +55,51 @@ router.get('/', async (req, res) => {
 });
 
 /**
+ * Create new Course
+ * @name (POST) '/api/course'
+ * @memberof module:routes/courses
+ * @function
+ * @param course {POST-Body} Post object with 'title' corresponding to the name of the new course
+ */
+router.post('/', async (req, res) => {
+    const id = uuid.v4();
+    const course_title = req.body.title.toLowerCase();
+
+    const existing_courses = await client.search({
+        index: 'course',
+        body: {
+            query: {
+                term: {
+                    "title": course_title
+                }
+            }
+        }
+    });
+
+    if (existing_courses.body.hits.hits.length !== 0 ) {
+        res.sendStatus(409);
+    } else {
+        try {
+            await client.indices.create({
+                index: course_title
+            });
+            await client.create({
+                index: "course",
+                type: '_doc',
+                id: id,
+                body: {
+                    title: course_title,
+                    id: id
+                }
+            });
+            res.sendStatus(201);
+        } catch(e) {
+            res.sendStatus(500);
+        }
+    }
+})
+
+/**
  * Search for a course by title
  * @name (GET) '/api/course/search'
  * @memberof module:routes/courses
@@ -115,7 +160,8 @@ router.get('/:course_id/search', async (req, res) => {
                         query: `*${req.query.content}*`,
                         fields: [
                             'title',
-                            'content'
+                            'content',
+                            'tags'
                         ]
                     }
                 }
@@ -126,7 +172,7 @@ router.get('/:course_id/search', async (req, res) => {
 });
 
 /**
- * Get all posts under a couse
+ * Get all posts under a course
  * @name (GET) '/api/course/:course_id:/post'
  * @memberof module:routes/courses
  * @function
@@ -147,7 +193,7 @@ router.get('/:course_id/post', async (req, res) => {
  * @memberof module:routes/courses
  * @function
  * @param course_id {Route-parameter} The name of the course to add a post to
- * @param Body {POST-Body} Post object with a 'title' and 'content' field
+ * @param Body {POST-Body} Post object with a 'title', 'content', and 'tags' field
  * @returns Status code of success of creating post
  */
 router.post('/:course_id/post', async (req, res) => {
@@ -159,7 +205,9 @@ router.post('/:course_id/post', async (req, res) => {
         body: {
             title: req.body.title,
             content: req.body.content,
-            id: id
+            id: id,
+            tags: req.body.tags,
+            flagged: false
         }
     });
     res.sendStatus(response.statusCode);
@@ -186,8 +234,57 @@ router.get('/:course_id/post/:post_id', async (req, res) => {
         console.error(e);
         res.sendStatus(500);
     }
-})
+});
 
+/**
+ * Delete specific post in specific course
+ * @name (DELETE) '/api/course/:course_id/post/:post_id
+ * @memberof module:routes/courses
+ * @function
+ * @param course_id {Route-parameter} The name of the course
+ * @param post_id {Route-parameter} The id of the post to delete
+ * @returns None.
+ */
+router.delete('/:course_id/post/:post_id', async (req, res) => {
+    try {
+        const response = await client.delete({
+            index: req.params['course_id'].toLowerCase(),
+            id: req.params['post_id']
+        });
+        res.sendStatus(200);
+    } catch (e) {
+        console.error(e);
+        res.sendStatus(404);
+    }
+});
+
+/**
+ * Flags or un-flags specified post
+ * @name (PUT) '/api/course/:course_id/post/:post_id/flag
+ * @memberof module:routes/courses
+ * @function
+ * @param course_id {Route-parameter} The name of the course
+ * @param post_id {Route-parameter} The id of the post to flag
+ * @param flagged {PUT-Body} Object with flagged property set to true or false, regarding the flagged state to set the post
+ * @returns None.
+ */
+router.put('/:course_id/post/:post_id/flag', async (req, res) => {
+    try {
+        const response = await client.update({
+            index: req.params['course_id'].toLowerCase(),
+            id: req.params['post_id'],
+            body: {
+                doc: {
+                    flagged: req.body.flagged ? req.body.flagged.toLowerCase() === 'true' : false
+                }
+            }
+        });
+        res.sendStatus(200);
+    } catch (e) {
+        console.error(e);
+        res.sendStatus(404);
+    }
+});
 
 module.exports = router;</code></pre>
         </article>
@@ -199,13 +296,13 @@ module.exports = router;</code></pre>
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-elastic-client.html">elastic-client</a></li><li><a href="module-FilterComponent_Dropdown.html">FilterComponent/Dropdown</a></li><li><a href="module-Header.html">Header</a></li><li><a href="module-routes_courses.html">routes/courses</a></li><li><a href="module-server.html">server</a></li><li><a href="module-textSearch.html">textSearch</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-App.html">App</a></li><li><a href="module-elastic-client.html">elastic-client</a></li><li><a href="module-FilterComponent_CreateClass.html">FilterComponent/CreateClass</a></li><li><a href="module-FilterComponent_Dropdown.html">FilterComponent/Dropdown</a></li><li><a href="module-Header.html">Header</a></li><li><a href="module-routes_courses.html">routes/courses</a></li><li><a href="module-routes_users.html">routes/users</a></li><li><a href="module-server.html">server</a></li><li><a href="module-textSearch.html">textSearch</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Mon Nov 04 2019 11:19:16 GMT-0600 (Central Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Sun Nov 24 2019 15:06:40 GMT-0600 (Central Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>

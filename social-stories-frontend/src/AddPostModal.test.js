@@ -30,7 +30,24 @@ describe("<AddPostModal>", () => {
         wrapper.unmount();
     });
 
-    
+    it("Input fields filled correctly", () => {
+        const wrapper = shallow(<Form />);
+        const inputs = {
+            courseName : "EECS101",
+            title: "I need your help",
+            content: "I am kidding I dont need any help",
+            tags: ["genius","lol"]
+        };
+
+        //Dropdown input fields is at Dropdown.test.js
+        const titleInput = wrapper.find("#form-title");
+        titleInput.value = inputs.title;
+        expect(titleInput.value).toBe("I need your help");
+
+        const contentInput = wrapper.find("#form-post");
+        contentInput.value = inputs.content;
+        expect(contentInput.value).toBe("I am kidding I dont need any help");
+    });
     
 
 

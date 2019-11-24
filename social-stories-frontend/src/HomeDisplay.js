@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Card from "react-bootstrap/Card";
 import {Button, Badge} from 'react-bootstrap';
 import './HomeDisplay.css';

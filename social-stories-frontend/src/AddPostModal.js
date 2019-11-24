@@ -100,7 +100,7 @@ export default class AddPostModal extends React.Component {
   }
 
   render() {
-    console.log("Post", this.state.Post);
+    // console.log("Post", this.state.Post);
       return (
         <>
         <Nav.Link onClick={this.showModal}>Create Post</Nav.Link>
@@ -114,18 +114,18 @@ export default class AddPostModal extends React.Component {
                 <Form.Label>Course: </Form.Label>
                 <Dropdown setCourse={this.setCourse} show={false} />
               </Form.Group>
-              <Form.Group controlId="exampleForm.ControlInput1">
+              <Form.Group >
                 <Form.Label>Title:</Form.Label>
-                <Form.Control onChange={this.handleTitleChange} placeholder="Enter Title" />
+                <Form.Control id="form-title" onChange={this.handleTitleChange} placeholder="Enter Title" />
               </Form.Group>
-              <Form.Group controlId="exampleForm.ControlTextarea1">
+              <Form.Group c>
                 <Form.Label>Post: </Form.Label>
-                <Form.Control onChange={this.handleContentChange} required as="textarea" rows="3" name="content" />
+                <Form.Control id="form-post" onChange={this.handleContentChange} required as="textarea" rows="3" name="content" />
               </Form.Group>
             </Form>
             <Form.Group>
             <Form.Label>Tags: </Form.Label>
-              <Tags tagsChange={this.handleTagsChange} />
+              <Tags id="form-tags" tagsChange={this.handleTagsChange} />
             </Form.Group>
         </Modal.Body>
         <Modal.Footer>

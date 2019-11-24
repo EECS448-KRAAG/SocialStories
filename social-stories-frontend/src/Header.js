@@ -5,7 +5,7 @@
  */
 
 import React from 'react';
-import {Navbar, Nav, Modal, Form, DropdownButton, Dropdown, Button} from "react-bootstrap";
+import {Navbar, Nav, Modal, Form, Button} from "react-bootstrap";
 import Select from 'react-select';
 import TextSearch from './textSearch';
 import AddPostModal from './AddPostModal';
@@ -93,11 +93,11 @@ export default class Header extends React.Component {
       <Navbar collapseOnSelect bg="dark" variant="dark" expand="md" sticky="top">
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse>
-          <Navbar.Brand href="/"><img src="./logo.png" height="40px" /></Navbar.Brand>
+          <Navbar.Brand href="/"><img alt="logo" src="./logo.png" height="40px" /></Navbar.Brand>
           <TextSearch setSearch={this.props.setSearch} />
           <Nav className="mr-auto">
           <AddPostModal />
-          {localStorage.getItem('userPermissions') == 2 && adminAddButton}
+          {localStorage.getItem('userPermissions') === 2 && adminAddButton}
             <Modal show={this.state.showAdd} onHide={this.closeAddInstrucModal}>
               <Modal.Header closeButton>
                 <Modal.Title>Add Instructor to Class</Modal.Title>
@@ -116,7 +116,7 @@ export default class Header extends React.Component {
                 </Button>
             </Modal.Footer>
             </Modal>
-            {localStorage.getItem('userPermissions') == 2 && adminRemoveButton}
+            {localStorage.getItem('userPermissions') === 2 && adminRemoveButton}
             <Modal show={this.state.showRemove} onHide={this.closeRemoveInstrucModal}>
               <Modal.Header closeButton>
                 <Modal.Title>Remove Instructor from Class</Modal.Title>

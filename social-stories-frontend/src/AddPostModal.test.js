@@ -17,6 +17,7 @@ describe("<AddPostModal>", () => {
         wrapper.find("Button").simulate("click");
         expect(wrapper.find(Modal).prop("show")).toEqual(false);
     });
+
     //Testing function calls
     it("call the handleSubmit on submit button click", () => {
         const handleSubmit = jest.fn();
@@ -28,6 +29,13 @@ describe("<AddPostModal>", () => {
         wrapper.find("Button").simulate("click");
         expect(handleSubmit).toHaveBeenCalled();
         wrapper.unmount();
+    });
+
+     it("open AddPostModal when Create Post on the nav bar is clicked", () => {
+        const wrapper = shallow(<AddPostModal />);
+        wrapper.find("#nav-modal").simulate("click");
+        expect(wrapper.find(Modal).prop("show")).toEqual(true);
+
     });
 
     it("Input fields filled correctly", () => {
@@ -47,6 +55,8 @@ describe("<AddPostModal>", () => {
         const contentInput = wrapper.find("#form-post");
         contentInput.value = inputs.content;
         expect(contentInput.value).toBe("I am kidding I dont need any help");
+
+        //TODO: Tags input at Tags.test.js
     });
     
 

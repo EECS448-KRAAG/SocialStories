@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: social-stories-frontend/src/FilterComponents/createCourse.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: social-stories-frontend/src/FilterComponents/createCourse.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React from 'react'
+import { Modal, Button, Form } from 'react-bootstrap';
+import './filter.css'
+
+/**
+ * Create class component
+ * @module FilterComponent/CreateClass
+ * @requires none
+ */
+export default class CreateClass extends React.Component
+{
+    /**
+     * Constructor
+     * @name constructor
+     * @memberof module:FilterComponent/CreateClass
+     * @function constructor
+     * @returns none
+    */
+    constructor()
+    {
+        super();
+        this.state = 
+        {
+            course: "",
+            show:false
+        }
+    }
+    /**
+     * onClick function - handles when user clicks the addCourse button
+     * @name onClick
+     * @memberof module:FilterComponent/CreateClass
+     * @function onClick
+     * @returns none
+    */
+    onClick = () =>
+    {
+        console.log("clicked!");
+        this.setState({show:true})
+    }
+
+    /**
+     * handleSubmit function - handles submission of createClass form
+     * @name handleSubmit
+     * @memberof module:FilterComponent/CreateClass
+     * @function handleSubmit
+     * @returns none
+    */
+
+    handleSubmit = (e) =>
+    {
+        console.log("course adding attempt");
+        
+        console.log(this.state.course);
+        this.closeModal();
+        this.postData();
+    }
+
+    /**
+     * postData function - posts data given by user to the backend
+     * @name postData
+     * @memberof module:FilterComponent/CreateClass
+     * @function postData
+     * @returns none
+    */
+
+    async postData(){
+        const data = { title: this.state.course.toUpperCase() };
+        const response = await fetch('/api/course', {
+            method: 'POST', // or 'PUT'
+            body: JSON.stringify(data), // data can be `string` or {object}!
+            headers: {
+              'Content-Type': 'application/json'
+            }
+        });
+        console.error(await response.json());
+    }
+
+    /**
+     * closeModal function - handles exit for modal
+     * @name closeModal
+     * @memberof module:FilterComponent/createClass
+     * @function closeModal
+     * @returns none
+    */
+
+    closeModal= () =>
+    {
+        this.setState({show:false});
+        console.log("close attempt");
+    }
+
+     /**
+     * handleCourseChange function - handles changes in text field
+     * @name handleCourseChange
+     * @memberof module:FilterComponent/createClass
+     * @function handleCourseChange
+     * @returns none
+    */
+
+    handleCourseChange= (e) =>
+    {
+        this.setState({course:e.target.value});
+        console.log(e.target.value);
+    }
+
+    /**
+     *Render - provides UI for adding a course
+     * @name render
+     * @memberof module:FilterComponent/createClass
+     * @function render
+     * @returns UI
+    */
+    render ()
+    { 
+        return(
+            
+            &lt;div className="addCourseModal" onHide={this.closeModal}>
+                &lt;Button variant="primary" className="button" value ="add course" onClick={this.onClick}>Add Course&lt;/Button>
+                &lt;Modal show={this.state.show} onHide={this.closeModal}>
+                    &lt;Modal.Header closeButton>
+                    &lt;Modal.Title>Add Course&lt;/Modal.Title>
+                    &lt;/Modal.Header> 
+                    &lt;Modal.Body>
+                        &lt;Form onSubmit={this.handleSubmit}>
+                            &lt;Form.Label>Enter class to add:&lt;/Form.Label>
+                            &lt;Form.Control onChange={this.handleCourseChange}  />
+                        &lt;/Form>
+                        
+                    &lt;/Modal.Body>
+
+                    &lt;Modal.Footer>
+                        &lt;Button variant="secondary" onClick={this.closeModal}>Close&lt;/Button>
+                        &lt;Button type="submit" variant="primary" onClick={this.handleSubmit}>Submit&lt;/Button>
+                    &lt;/Modal.Footer>
+                &lt;/Modal>
+                
+            &lt;/div>
+        );
+        
+    }
+    
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-App.html">App</a></li><li><a href="module-elastic-client.html">elastic-client</a></li><li><a href="module-FilterComponent_CreateClass.html">FilterComponent/CreateClass</a></li><li><a href="module-FilterComponent_Dropdown.html">FilterComponent/Dropdown</a></li><li><a href="module-Header.html">Header</a></li><li><a href="module-routes_courses.html">routes/courses</a></li><li><a href="module-routes_users.html">routes/users</a></li><li><a href="module-server.html">server</a></li><li><a href="module-textSearch.html">textSearch</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Sun Nov 24 2019 15:06:40 GMT-0600 (Central Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

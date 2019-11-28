@@ -40,9 +40,7 @@ function HomeDisplay(props) {
           <Card.Body>
             <Card.Text>{post.content}</Card.Text>
             <h4>{post.tags.map(x => <Badge variant="dark" style={{marginRight: "4px"}} key={x} >{x}</Badge>)}</h4>
-            <Button variant="warning" size="sm" onClick={() => flagPost(post.id)}>Flag</Button>
-            <br />
-            <br />
+            <Button variant="warning" onClick={() => flagPost(post.id)}>Flag</Button>
             {localStorage.getItem('userPermissions')>0 &&
             <Button variant="outline-danger"
             onClick={() => deletePost(post.id)}> Delete</Button> }

@@ -126,6 +126,7 @@ router.get('/:course_id/search', async (req, res) => {
     } else {
         const posts = await client.search({
             index: valid_courses.body.hits.hits[0]['_source'].title.toLowerCase(),
+            size: 250,
             body: {
                 query: {
                     query_string: {
@@ -242,12 +243,13 @@ router.delete('/:course_id/post/:post_id', async (req, res) => {
  */
 router.put('/:course_id/post/:post_id/flag', async (req, res) => {
     try {
+        console.log(req.body);
         const response = await client.update({
             index: req.params['course_id'].toLowerCase(),
             id: req.params['post_id'],
             body: {
                 doc: {
-                    flagged: req.body.flagged ? req.body.flagged.toLowerCase() === 'true' : false
+                    flagged: !!req.body.flagged
                 }
             }
         });

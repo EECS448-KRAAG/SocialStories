@@ -70,6 +70,11 @@ class App extends React.Component{
     }
   }
 
+
+  componentDidMount() {
+    this.updateView();
+  }
+
   /**
    *Render - provides UI for front page
     * @name render

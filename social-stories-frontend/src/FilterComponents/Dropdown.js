@@ -52,7 +52,9 @@ class Dropdown extends React.Component {
     }
 
    
-
+    componentDidMount() {
+        this.props.setCourse(this.state.selectedCourse.value);
+    }
 
     
 

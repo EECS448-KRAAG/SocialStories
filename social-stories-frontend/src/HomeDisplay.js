@@ -23,7 +23,10 @@ function HomeDisplay(props) {
       method: "PUT",
       body: JSON.stringify({
         flagged: true
-      })
+      }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
     });
   }
 
@@ -36,7 +39,7 @@ function HomeDisplay(props) {
           </Card.Header>
           <Card.Body>
             <Card.Text>{post.content}</Card.Text>
-            <h4>{post.tags.map(x => <Badge variant="dark" style={{marginRight: "4px"}}>{x}</Badge>)}</h4>
+            <h4>{post.tags.map(x => <Badge variant="dark" style={{marginRight: "4px"}} key={x} >{x}</Badge>)}</h4>
             <Button variant="warning" size="sm" onClick={() => flagPost(post.id)}>Flag</Button>
             <br />
             <br />

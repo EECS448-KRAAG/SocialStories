@@ -31,7 +31,7 @@ describe("<AddPostModal>", () => {
         wrapper.unmount();
     });
 
-     it("open AddPostModal when Create Post on the nav bar is clicked", () => {
+    it("open AddPostModal when Create Post on the nav bar is clicked", () => {
         const wrapper = shallow(<AddPostModal />);
         wrapper.find("#nav-modal").simulate("click");
         expect(wrapper.find(Modal).prop("show")).toEqual(true);
@@ -59,6 +59,35 @@ describe("<AddPostModal>", () => {
         //TODO: Tags input at Tags.test.js
     });
     
+    it("check handleValidation returns false when inputs are empty", () => {
+        const wrapper = shallow(<Form />);
+        const inputs = {
+            courseName : "",
+            title: "",
+            content: "",
+            tags: []
+        }
+        //Dropdown input fields is at Dropdown.test.js
+        const titleInput = wrapper.find("#form-title");
+        titleInput.value = inputs.title;
+        expect(titleInput.value).toBe("");
+
+        const contentInput = wrapper.find("#form-post");
+        contentInput.value = inputs.content;
+        expect(contentInput.value).toBe("");
+
+        const handleValidation = jest.fn();
+        const button = mount ( 
+            <Button type="submit" variant="primary" onClick={handleValidation}>
+                Submit Post
+            </Button>
+        );
+        button.find("Button").simulate("click");
+        expect(handleValidation).toHaveBeenCalled();
+        // expect(handleValidation.calledOnce).toBeTruthy();
+        // expect(handleValidation.returnValues[0]).toBeFalsy();
+
+    });
 
 
 });

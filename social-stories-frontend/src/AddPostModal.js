@@ -135,7 +135,7 @@ export default class AddPostModal extends React.Component {
       return (
         <>
         <Nav.Link id="nav-modal" onClick={this.showModal}>Create Post</Nav.Link>
-        <Modal show={this.state.show} onHide={this.closeModal}>
+        <Modal show={this.state.show} onHide={this.closeModal} size="lg">
         <Modal.Header closeButton={this.closeModal}>
           <Modal.Title>Add Post</Modal.Title>
         </Modal.Header>
@@ -158,6 +158,7 @@ export default class AddPostModal extends React.Component {
             </Form>
             <Form.Group>
             <Form.Label>Tags: </Form.Label>
+              <br />
               <Tags id="form-tags" tagsChange={this.handleTagsChange} />
             </Form.Group>
         </Modal.Body>

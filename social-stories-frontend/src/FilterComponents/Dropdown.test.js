@@ -14,7 +14,7 @@ describe('Dropdown component', () =>
     it('renders without crashing', () =>
     {
         const div = document.createElement("div");
-        ReactDOM.render(<Dropdown/>, div);
+        ReactDOM.render(<Dropdown setCourse={() => {}}/>, div);
     })
 
     it('renders correctly', done => { // 1
@@ -25,7 +25,7 @@ describe('Dropdown component', () =>
         });
         jest.spyOn(global, 'fetch').mockImplementation(() => mockFetchPromise); // 4
         
-        const wrapper = shallow(<Dropdown />); // 5
+        const wrapper = shallow(<Dropdown setCourse={() => {}} />); // 5
                                 
         expect(global.fetch).toHaveBeenCalledTimes(1);
         expect(global.fetch).toHaveBeenCalledWith('/api/course');

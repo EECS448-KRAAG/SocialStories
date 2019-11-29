@@ -30,7 +30,7 @@ class App extends React.Component{
 
   /**
    * Sets course accodrding to user input
-   * @name set course
+   * @name setCourse
    * @memberof module:App
    * @function setCourse
    * @param courseName: course name given by user

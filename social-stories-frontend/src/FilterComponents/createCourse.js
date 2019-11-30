@@ -114,9 +114,9 @@ export default class CreateClass extends React.Component
     { 
         return(
             
-            <div className="addCourseModal" onHide={this.closeModal}>
-                <Button variant="primary" className="button" value ="add course" onClick={this.onClick}>Add Course</Button>
-                <Modal show={this.state.show} onHide={this.closeModal}>
+            <div className="addCourseModal"  onHide={this.closeModal}>
+                <Button variant="primary" id="modalTrig" className="button" value ="add course" onClick={this.onClick}>Add Course</Button>
+                <Modal id="modal" show={this.state.show} onHide={this.closeModal}>
                     <Modal.Header closeButton>
                     <Modal.Title>Add Course</Modal.Title>
                     </Modal.Header> 
@@ -129,8 +129,8 @@ export default class CreateClass extends React.Component
                     </Modal.Body>
 
                     <Modal.Footer>
-                        <Button variant="secondary" onClick={this.closeModal}>Close</Button>
-                        <Button type="submit" variant="primary" onClick={this.handleSubmit}>Submit</Button>
+                        <Button  variant="secondary" onClick={this.closeModal}>Close</Button>
+                        <Button id="open" type="submit" variant="primary" onClick={this.handleSubmit}>Submit</Button>
                     </Modal.Footer>
                 </Modal>
                 

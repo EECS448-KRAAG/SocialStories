@@ -73,7 +73,6 @@ router.get('/:user_id/permission', async (req, res) => {
  * @param level {PUT-Body} Number to set the level of an existing user
  */
 router.put('/:user_id/permission', async (req, res) => {
-    console.log(req.body);
     try {
         await client.update({
             index: 'permission',

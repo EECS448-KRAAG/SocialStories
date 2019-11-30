@@ -23,12 +23,12 @@ describe('Users', () => {
     describe('PUT /api/user/user_id/permission', () => {
         before(() => {
             chai.request(server)
-            .get('/api/user/21/permission')
+            .get('/api/user/24/permission')
             .end();
         });
         it('it should change user permissions for a given user', (done) => {
             chai.request(server)
-            .put('/api/user/21/permission')
+            .put('/api/user/24/permission')
             .send({level: 2})
             .end((err, res) => {
                 res.should.have.status(202);
@@ -37,14 +37,16 @@ describe('Users', () => {
         });
 
         it('it should have newly changed user permission status changed', (done) => {
-            chai.request(server)
-            .get('/api/user/21/permission')
-            .end((err, res) => {
-                res.should.have.status(200);
-                res.body.should.have.property('permission');
-                res.body.permission.should.equal(2);
-                done();
-            });
-        });
+            setTimeout(() => {
+                chai.request(server)
+                .get('/api/user/24/permission')
+                .end((err, res) => {
+                    res.should.have.status(200);
+                    res.body.should.have.property('permission');
+                    res.body.permission.should.equal(2);
+                    done();
+                });
+            }, 1000)
+        }).timeout(10000);
     });
 });

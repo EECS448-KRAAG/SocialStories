@@ -21,7 +21,8 @@ const uuid = require('uuid');
 router.get('/', async (req, res) => {
     const result = await client.search({
         index: 'course',
-        body: {}
+        body: {},
+        size: 250
     });
     res.json(result.body.hits.hits.map(x => x['_source']));
 });
@@ -91,7 +92,8 @@ router.get('/search', async (req, res) => {
                     ]
                 }
             }
-        }
+        },
+        size: 250
     });
 
     res.json(result.body.hits.hits.map(x => x['_source']));
@@ -243,7 +245,6 @@ router.delete('/:course_id/post/:post_id', async (req, res) => {
  */
 router.put('/:course_id/post/:post_id/flag', async (req, res) => {
     try {
-        console.log(req.body);
         const response = await client.update({
             index: req.params['course_id'].toLowerCase(),
             id: req.params['post_id'],

@@ -65,21 +65,16 @@ export default class CreateClass extends React.Component
 
     async postData(){
         const data = { title: this.state.course.toUpperCase() };
-        try{
-            const response = await fetch('/api/course', {
-                method: 'POST', // or 'PUT'
-                body: JSON.stringify(data), // data can be `string` or {object}!
-                headers: {
-                  'Content-Type': 'application/json'
-                }
-            });
+        const response = await fetch('/api/course', {
+            method: 'POST', // or 'PUT'
+            body: JSON.stringify(data), // data can be `string` or {object}!
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        if (response.status === 409) {
+            alert("Sorry, that course already exists");
         }
-        catch(ex)
-        {
-            alert(ex.toString());
-        }
-       
-        console.error(await response.json());
     }
 
     /**

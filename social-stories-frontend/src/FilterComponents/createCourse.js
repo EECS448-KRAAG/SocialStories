@@ -69,10 +69,12 @@ export default class CreateClass extends React.Component
             method: 'POST', // or 'PUT'
             body: JSON.stringify(data), // data can be `string` or {object}!
             headers: {
-              'Content-Type': 'application/json'
+                'Content-Type': 'application/json'
             }
         });
-        console.error(await response.json());
+        if (response.status === 409) {
+            alert("Sorry, that course already exists");
+        }
     }
 
     /**

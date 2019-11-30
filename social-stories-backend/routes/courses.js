@@ -6,10 +6,10 @@
  * @requires module:elastic-client
  */
 
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const client = require('../utils/elastic-client');
-const uuid = require('uuid');
+const client = require("../utils/elastic-client");
+const uuid = require("uuid");
 
 /**
  * Get all courses
@@ -17,13 +17,14 @@ const uuid = require('uuid');
  * @memberof module:routes/courses
  * @function
  * @returns All courses
-*/
-router.get('/', async (req, res) => {
-    const result = await client.search({
-        index: 'course',
-        body: {}
-    });
-    res.json(result.body.hits.hits.map(x => x['_source']));
+ */
+router.get("/", async (req, res) => {
+  const result = await client.search({
+    index: "course",
+    body: {},
+    size: 250
+  });
+  res.json(result.body.hits.hits.map(x => x["_source"]));
 });
 
 /**
@@ -33,43 +34,43 @@ router.get('/', async (req, res) => {
  * @function
  * @param course {POST-Body} Post object with 'title' corresponding to the name of the new course
  */
-router.post('/', async (req, res) => {
-    const id = uuid.v4();
-    const course_title = req.body.title.toLowerCase();
+router.post("/", async (req, res) => {
+  const id = uuid.v4();
+  const course_title = req.body.title.toLowerCase();
 
-    const existing_courses = await client.search({
-        index: 'course',
-        body: {
-            query: {
-                term: {
-                    "title": course_title
-                }
-            }
+  const existing_courses = await client.search({
+    index: "course",
+    body: {
+      query: {
+        term: {
+          title: course_title
         }
-    });
-
-    if (existing_courses.body.hits.hits.length !== 0 ) {
-        res.sendStatus(409);
-    } else {
-        try {
-            await client.indices.create({
-                index: course_title
-            });
-            await client.create({
-                index: "course",
-                type: '_doc',
-                id: id,
-                body: {
-                    title: course_title,
-                    id: id
-                }
-            });
-            res.sendStatus(201);
-        } catch(e) {
-            res.sendStatus(500);
-        }
+      }
     }
-})
+  });
+
+  if (existing_courses.body.hits.hits.length !== 0) {
+    res.sendStatus(409);
+  } else {
+    try {
+      await client.indices.create({
+        index: course_title
+      });
+      await client.create({
+        index: "course",
+        type: "_doc",
+        id: id,
+        body: {
+          title: course_title,
+          id: id
+        }
+      });
+      res.sendStatus(201);
+    } catch (e) {
+      res.sendStatus(500);
+    }
+  }
+});
 
 /**
  * Search for a course by title
@@ -79,22 +80,21 @@ router.post('/', async (req, res) => {
  * @param course {GET-Parameter} Object with 'course' set to the query string
  * @returns All courses matching search query
  */
-router.get('/search', async (req, res) => {
-    const result = await client.search({
-        index: 'course',
-        body: {
-            query: {
-                query_string: {
-                    query: `*${req.query.course}*`,
-                    fields: [
-                        'title'
-                    ]
-                }
-            }
+router.get("/search", async (req, res) => {
+  const result = await client.search({
+    index: "course",
+    body: {
+      query: {
+        query_string: {
+          query: `*${req.query.course}*`,
+          fields: ["title"]
         }
-    });
+      }
+    },
+    size: 250
+  });
 
-    res.json(result.body.hits.hits.map(x => x['_source']));
+  res.json(result.body.hits.hits.map(x => x["_source"]));
 });
 
 /**
@@ -106,42 +106,36 @@ router.get('/search', async (req, res) => {
  * @param body {GET-Query-parameter} Object with 'content' field set to the query string
  * @returns All posts under a course matching the given query string
  */
-router.get('/:course_id/search', async (req, res) => {
-    const valid_courses = await client.search({
-        index: 'course',
-        body: {
-            query: {
-                query_string: {
-                    query: `*${req.params['course_id']}*`,
-                    fields: [
-                        'title'
-                    ]
-                }
-            }
+router.get("/:course_id/search", async (req, res) => {
+  const valid_courses = await client.search({
+    index: "course",
+    body: {
+      query: {
+        query_string: {
+          query: `*${req.params["course_id"]}*`,
+          fields: ["title"]
         }
-    });
-
-    if (valid_courses.body.hits.total.value == 0) {
-        res.sendStatus(404);
-    } else {
-        const posts = await client.search({
-            index: valid_courses.body.hits.hits[0]['_source'].title.toLowerCase(),
-            size: 250,
-            body: {
-                query: {
-                    query_string: {
-                        query: `*${req.query.content}*`,
-                        fields: [
-                            'title',
-                            'content',
-                            'tags'
-                        ]
-                    }
-                }
-            }
-        });
-        res.json(posts.body.hits.hits.map(x => x['_source']));
+      }
     }
+  });
+
+  if (valid_courses.body.hits.total.value == 0) {
+    res.sendStatus(404);
+  } else {
+    const posts = await client.search({
+      index: valid_courses.body.hits.hits[0]["_source"].title.toLowerCase(),
+      size: 250,
+      body: {
+        query: {
+          query_string: {
+            query: `*${req.query.content}*`,
+            fields: ["title", "content", "tags"]
+          }
+        }
+      }
+    });
+    res.json(posts.body.hits.hits.map(x => x["_source"]));
+  }
 });
 
 /**
@@ -152,12 +146,12 @@ router.get('/:course_id/search', async (req, res) => {
  * @param course_id {Route-parameter} The name of the course to get courses for
  * @returns All posts under a given course
  */
-router.get('/:course_id/post', async (req, res) => {
-    const response = await client.search({
-        index: req.params['course_id'].toLowerCase(),
-        body: {}
-    });
-    res.json(response.body.hits.hits.map(x => x['_source']));
+router.get("/:course_id/post", async (req, res) => {
+  const response = await client.search({
+    index: req.params["course_id"].toLowerCase(),
+    body: {}
+  });
+  res.json(response.body.hits.hits.map(x => x["_source"]));
 });
 
 /**
@@ -169,22 +163,22 @@ router.get('/:course_id/post', async (req, res) => {
  * @param Body {POST-Body} Post object with a 'title', 'content', and 'tags' field
  * @returns Status code of success of creating post
  */
-router.post('/:course_id/post', async (req, res) => {
-    const id = uuid.v4();
-    const response = await client.create({
-        index: req.params['course_id'].toLowerCase(),
-        type: '_doc',
-        id: id,
-        body: {
-            title: req.body.title,
-            content: req.body.content,
-            id: id,
-            tags: req.body.tags,
-            flagged: false
-        }
-    });
-    res.sendStatus(response.statusCode);
-})
+router.post("/:course_id/post", async (req, res) => {
+  const id = uuid.v4();
+  const response = await client.create({
+    index: req.params["course_id"].toLowerCase(),
+    type: "_doc",
+    id: id,
+    body: {
+      title: req.body.title,
+      content: req.body.content,
+      id: id,
+      tags: req.body.tags,
+      flagged: false
+    }
+  });
+  res.sendStatus(response.statusCode);
+});
 
 /**
  * Gets specific post under a course
@@ -195,18 +189,18 @@ router.post('/:course_id/post', async (req, res) => {
  * @param post_id {Route-parameter} The id of the post to get
  * @returns Post under a course with given id
  */
-router.get('/:course_id/post/:post_id', async (req, res) => {
-    try {
-        const response = await client.get({
-            index: req.params['course_id'].toLowerCase(),
-            type: '_doc',
-            id: req.params['post_id']
-        });
-        res.json(response.body['_source']);
-    } catch (e) {
-        console.error(e);
-        res.sendStatus(500);
-    }
+router.get("/:course_id/post/:post_id", async (req, res) => {
+  try {
+    const response = await client.get({
+      index: req.params["course_id"].toLowerCase(),
+      type: "_doc",
+      id: req.params["post_id"]
+    });
+    res.json(response.body["_source"]);
+  } catch (e) {
+    console.error(e);
+    res.sendStatus(500);
+  }
 });
 
 /**
@@ -218,17 +212,17 @@ router.get('/:course_id/post/:post_id', async (req, res) => {
  * @param post_id {Route-parameter} The id of the post to delete
  * @returns None.
  */
-router.delete('/:course_id/post/:post_id', async (req, res) => {
-    try {
-        const response = await client.delete({
-            index: req.params['course_id'].toLowerCase(),
-            id: req.params['post_id']
-        });
-        res.sendStatus(200);
-    } catch (e) {
-        console.error(e);
-        res.sendStatus(404);
-    }
+router.delete("/:course_id/post/:post_id", async (req, res) => {
+  try {
+    const response = await client.delete({
+      index: req.params["course_id"].toLowerCase(),
+      id: req.params["post_id"]
+    });
+    res.sendStatus(200);
+  } catch (e) {
+    console.error(e);
+    res.sendStatus(404);
+  }
 });
 
 /**
@@ -241,23 +235,22 @@ router.delete('/:course_id/post/:post_id', async (req, res) => {
  * @param flagged {PUT-Body} Object with flagged property set to true or false, regarding the flagged state to set the post
  * @returns None.
  */
-router.put('/:course_id/post/:post_id/flag', async (req, res) => {
-    try {
-        console.log(req.body);
-        const response = await client.update({
-            index: req.params['course_id'].toLowerCase(),
-            id: req.params['post_id'],
-            body: {
-                doc: {
-                    flagged: !!req.body.flagged
-                }
-            }
-        });
-        res.sendStatus(200);
-    } catch (e) {
-        console.error(e);
-        res.sendStatus(404);
-    }
+router.put("/:course_id/post/:post_id/flag", async (req, res) => {
+  try {
+    const response = await client.update({
+      index: req.params["course_id"].toLowerCase(),
+      id: req.params["post_id"],
+      body: {
+        doc: {
+          flagged: !!req.body.flagged
+        }
+      }
+    });
+    res.sendStatus(200);
+  } catch (e) {
+    console.error(e);
+    res.sendStatus(404);
+  }
 });
 
 module.exports = router;

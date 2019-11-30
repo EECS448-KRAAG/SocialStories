@@ -66,3 +66,8 @@ To bootstrap the environment with fake data for testing simply run the following
 To view the most up to date documentation simply open [./documentation/index.html](./documentation/index.html). To generate documentation run:
 
 `npx jsdoc -r -c jsdoc.config.json .`
+
+### Bugs List
+* Bug1
+* Bug2
+* Bug3

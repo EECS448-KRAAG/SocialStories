@@ -1,109 +1,81 @@
-const client = require('./utils/elastic-client');
-const uuid = require('uuid');
+const client = require("./utils/elastic-client");
+const uuid = require("uuid");
+const data = require("./data");
+
+async function createCourse(title) {
+  const id = uuid.v4();
+  const course_title = title.toLowerCase();
+
+  const existing_courses = await client.search({
+    index: "course",
+    body: {
+      query: {
+        term: {
+          title: course_title
+        }
+      }
+    }
+  });
+
+  if (existing_courses.body.hits.hits.length !== 0) {
+    return;
+  } else {
+    await client.indices.create({
+      index: course_title
+    });
+    await client.create({
+      index: "course",
+      type: "_doc",
+      id: id,
+      body: {
+        title: course_title,
+        id: id
+      }
+    });
+    return;
+  }
+}
 
 console.log("Creating Fake Courses and Posts");
-client.indices.create({
-    index: 'course'
-});
 
-client.indices.create({
-    index: 'permission'
-});
-
-client.create({
-    index: 'permission',
+async function generateData() {
+  await client.indices.create({
+    index: "course"
+  });
+  
+  await client.indices.create({
+    index: "permission"
+  });
+  
+  await client.create({
+    index: "permission",
     id: "110911772696331606638",
     body: {
-        user_id: "110911772696331606638",
-        permission: 2,
-        name: "Grant Gollier",
-        courses: []
+      user_id: "110911772696331606638",
+      permission: 2,
+      name: "Grant Gollier",
+      courses: []
     }
-});
-
-client.indices.create({
-    index: 'eecs101'
-});
-
-client.indices.create({
-    index: 'eecs168'
-});
-
-client.indices.create({
-    index: 'eecs448'
-});
-
-let id = uuid.v4();
-client.create({
-    index: "course",
-    id: id,
-    body: {
-        "title": "EECS101",
-        id: id
+  });
+  for (post of data) {
+    try {
+      await createCourse(post.Course);
+    } catch(e) {
+      console.log("Duplicated Course, it's chill");
     }
-});
-
-id = uuid.v4();
-client.create({
-    index: "course",
-    id: id,
-    body: {
-        "title": "EECS168",
-        id: id
-    }
-});
-
-id = uuid.v4();
-client.create({
-    index: "course",
-    id: id,
-    body: {
-        "title": "EECS448",
-        id: id
-    }
-});
-
-for (i = 0; i < 5; i++) {
-    id = uuid.v4();
-    client.create({
-        index: "eecs101",
+    const id = uuid.v4();
+    await client.create({
+      index: post.Course.toLowerCase(),
+      id: id,
+      body: {
         id: id,
-        body: {
-            id: id,
-            title: `Help Me Please: ${i}`,
-            content: `This is the body of post ${i}`,
-            tags: [`${i}`, 'Free'],
-            flagged: false
-        }
-    })
+        title: post.Title,
+        content: post.Content,
+        tags: post.Tags.split(","),
+        flagged: false
+      }
+  });
+  }
 }
 
-for (i = 0; i < 5; i++) {
-    id = uuid.v4();
-    client.create({
-        index: "eecs168",
-        id: id,
-        body: {
-            id: id,
-            title: `Help Me Please: ${i}`,
-            content: `This is the body of post ${i}`,
-            tags: [`${i+5}`, "C++"],
-            flagged: false
-        }
-    })
-}
-
-for (i = 0; i < 5; i++) {
-    id = uuid.v4();
-    client.create({
-        index: "eecs448",
-        id: id,
-        body: {
-            id: id,
-            title: `Help Me Please: ${i}`,
-            content: `This is the body of post ${i}`,
-            tags: [`${i+10}`, "Unity"],
-            flagged: false
-        }
-    })
-}    
+generateData().then(console.log("Done!")).catch(console.error("We chill"));

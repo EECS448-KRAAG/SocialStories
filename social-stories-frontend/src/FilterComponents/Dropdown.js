@@ -20,7 +20,7 @@ class Dropdown extends React.Component {
         super(props);
         this.state = {
             courses: [],
-            selectedCourse: {'value': "EECS101", 'label': "EECS101"},
+            selectedCourse: {'value': "EECS448", 'label': "EECS448"},
             validationError: "",
             show: false
         }

@@ -68,9 +68,9 @@ export default class AddPostModal extends React.Component {
  * @returns none
  */
  handleTagsChange= async (newArray) => {
-   await this.setState({
-     Post: {...this.state.Post,tags: [...newArray]}
-   });
+  await this.setState({
+    Post: {...this.state.Post,tags: [...newArray]}
+  });
  }
  /**
  * Close the modal and post the data if the input is not empty, otherwise an alert pops up
@@ -81,15 +81,15 @@ export default class AddPostModal extends React.Component {
  * @returns none
  */
  handleSubmit = e => {
-   // e.preventDefault();
-   if (this.handleValidation()){
-     this.postData();
-     this.closeModal();
-     console.log("Form data", this.state.Post.courseName, this.state.Post.title,this.state.Post.content);
-   } else {
-     console.log("Failed:", this.state.Post.courseName, this.state.Post.title,this.state.Post.content);
-     alert("Form has errors!! Fill the form properly");
-   }
+  // e.preventDefault();
+  if (this.handleValidation()){
+    this.postData();
+    this.closeModal();
+    console.log("Form data", this.state.Post.courseName, this.state.Post.title,this.state.Post.content);
+  } else {
+    console.log("Failed:", this.state.Post.courseName, this.state.Post.title,this.state.Post.content);
+    alert("Form has errors!! Fill the form properly");
+  }
  
  }
  /**
@@ -100,23 +100,23 @@ export default class AddPostModal extends React.Component {
  * @returns none
  */
  async postData() {
-   console.log("this.state.Post",this.state.Post);
-   const postURL = `/api/course/${this.state.Post.courseName.toLowerCase()}/post`;
-   const data = this.state.Post;
- 
-   try {
-     const response = await fetch(postURL, {
-       method: 'POST', // or 'PUT'
-       body: JSON.stringify(data), // data can be `string` or {object}!
-       headers: {
-         'Content-Type': 'application/json'
-       }
-     });
-     const json = await response.json();
-     console.log('Success:', JSON.stringify(json));
-   } catch (error) {
-     console.error('Error:', error);
-   }
+  console.log("this.state.Post",this.state.Post);
+  const postURL = `/api/course/${this.state.Post.courseName.toLowerCase()}/post`;
+  const data = this.state.Post;
+
+  try {
+    const response = await fetch(postURL, {
+      method: 'POST', // or 'PUT'
+      body: JSON.stringify(data), // data can be `string` or {object}!
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    const json = await response.json();
+    console.log('Success:', JSON.stringify(json));
+  } catch (error) {
+    console.error('Error:', error);
+  }
  }
  /**
  * Set course data of the drop down
@@ -125,8 +125,8 @@ export default class AddPostModal extends React.Component {
  * @function
  * @returns none
  */
- setCourse = async (courseName) => {
-   await this.setState({Post:{...this.state.Post,courseName: courseName}});
+setCourse = async (courseName) => {
+  await this.setState({Post:{...this.state.Post,courseName: courseName}});
  }
  /**
  * Check that the inputs are not empty
@@ -163,8 +163,7 @@ export default class AddPostModal extends React.Component {
    * @returns The UI to be displayed.
    */
  render() {
-   // console.log("Post", this.state.Post);
-     return (
+  return (
        <>
        <Nav.Link id="nav-modal" onClick={this.showModal}>Create Post</Nav.Link>
        <Modal show={this.state.show} onHide={this.closeModal}>

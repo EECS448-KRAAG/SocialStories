@@ -1,3 +1,8 @@
+/**
+ * Header module.
+ * @module Tags
+ * @requires none
+ */
 import React from 'react';
 import "./Tags.css";
 import {Badge} from "react-bootstrap";
@@ -15,11 +20,25 @@ export default class Tags extends React.Component {
     this.handleInputKeyDown = this.handleInputKeyDown.bind(this);
     this.handleRemoveItem = this.handleRemoveItem.bind(this);
   }
-
+  /**
+   * Updates the value of input when user input to the textbox
+   * @name handleInputChange
+   * @memberof module:Tags
+   * @function
+   * @param e {Object} The event object created when user input to the textbox
+   * @returns none
+   */
   handleInputChange(e) {
     this.setState({ input: e.target.value });   
   }
-
+  /**
+   * Remove the item
+   * @name handleRemoveItem
+   * @memberof module:Tags
+   * @function
+   * @param index {Object} The index of the object to be deleted
+   * @returns The object after removing the deleted object
+   */
   handleRemoveItem(index) {
     return () => {
       this.setState(state => ({
@@ -27,7 +46,14 @@ export default class Tags extends React.Component {
       }));
     }
   }
-  
+  /**
+   * When Enter is pressed, make it into a tag
+   * @name handleInputKeyDown
+   * @memberof module:Tags
+   * @function
+   * @param e {Object} The event object created when user input to the textbox
+   * @returns none
+   */
   handleInputKeyDown(e) {
     //enter keycode is 13
     let currInput = e.target.value;
@@ -44,7 +70,13 @@ export default class Tags extends React.Component {
         }
     }
   }
-
+  /**
+    * Provides UI for Tags
+    * @name render
+    * @memberof module:Tags
+    * @function
+    * @returns The UI to be displayed.
+    */
   render() {
     return (
       <label>

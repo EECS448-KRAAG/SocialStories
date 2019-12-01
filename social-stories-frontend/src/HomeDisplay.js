@@ -30,8 +30,40 @@ function HomeDisplay(props) {
     });
   }
 
-  return (
-    <>
+  var showFlagged = false;
+  const viewFlaggedPosts = () => {
+    showFlagged = !showFlagged;
+    console.log(showFlagged);
+  }
+
+  function FlaggedPosts() {
+    var data = props.data.filter(post => post.flagged == true);
+    console.log("flagged", data);
+    return (
+      <>
+      {data.map(post => (
+        <Card key={post.id}>
+          <Card.Header>
+            <h1>{post.title}</h1>
+          </Card.Header>
+          <Card.Body>
+            <Card.Text>{post.content}</Card.Text>
+            <h4>{post.tags.map(x => <Badge variant="dark" style={{marginRight: "4px"}} key={x} >{x}</Badge>)}</h4>
+            <Button variant="warning" onClick={() => flagPost(post.id)}>Flag</Button>
+            {localStorage.getItem('userPermissions')>0 &&
+            <Button variant="outline-danger"
+            onClick={() => deletePost(post.id)}> Delete</Button> }
+          </Card.Body>
+        </Card>
+      ))}
+      </>
+    );
+  }
+
+  function AllPosts() {
+    console.log("all", props.data)
+    return(
+      <>
       {props.data.map(post => (
         <Card key={post.id}>
           <Card.Header>
@@ -47,6 +79,16 @@ function HomeDisplay(props) {
           </Card.Body>
         </Card>
       ))}
+      </>
+    );
+  }
+
+  return (
+    <>
+    {localStorage.getItem('userPermissions')>0 &&
+    <Button variant="warning" onClick={viewFlaggedPosts}> View Flagged Post</Button> }
+
+      {showFlagged ? <FlaggedPosts /> : <AllPosts />}
     </>
   );
 }

@@ -1,3 +1,9 @@
+/**
+ * Dropdown module
+ * @module HomeDisplay
+ * @requires none
+ */
+
 import React, { useState } from "react";
 import Card from "react-bootstrap/Card";
 import {Button, Badge} from 'react-bootstrap';
@@ -6,7 +12,7 @@ import './HomeDisplay.css';
 /**
 * HomeDisplay Module
 * @name HomeDisplay
-* @memberof App Module
+* @memberof module:HomeDisplay Module
 * @function HomeDisplay
 * @param props: variables needed by this method
 * @returns cards with post id as title and content

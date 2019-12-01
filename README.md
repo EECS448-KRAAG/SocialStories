@@ -73,3 +73,4 @@ To view the most up to date documentation simply open [./documentation/index.htm
   * Search input is not sanitized and a few specially crafted queries can overload Elasticsearch for a few seconds due to the wildcard search we're using.
   
 * Frontend
+    * Admin can remove self as admin, possibly leading to there not being any admins left.

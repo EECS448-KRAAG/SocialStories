@@ -7,6 +7,21 @@ client.indices.create({
 });
 
 client.indices.create({
+    index: 'permission'
+});
+
+client.create({
+    index: 'permission',
+    id: "110911772696331606638",
+    body: {
+        user_id: "110911772696331606638",
+        permission: 2,
+        name: "Grant Gollier",
+        courses: []
+    }
+});
+
+client.indices.create({
     index: 'eecs101'
 });
 
@@ -18,31 +33,37 @@ client.indices.create({
     index: 'eecs448'
 });
 
+let id = uuid.v4();
 client.create({
     index: "course",
-    id: uuid.v4(),
+    id: id,
     body: {
-        "title": "EECS101"
+        "title": "EECS101",
+        id: id
     }
 });
 
+id = uuid.v4();
 client.create({
     index: "course",
-    id: uuid.v4(),
+    id: id,
     body: {
-        "title": "EECS168"
+        "title": "EECS168",
+        id: id
     }
 });
 
+id = uuid.v4();
 client.create({
     index: "course",
-    id: uuid.v4(),
+    id: id,
     body: {
-        "title": "EECS448"
+        "title": "EECS448",
+        id: id
     }
 });
 
-for (i = 0; i < 10; i++) {
+for (i = 0; i < 5; i++) {
     id = uuid.v4();
     client.create({
         index: "eecs101",
@@ -50,12 +71,14 @@ for (i = 0; i < 10; i++) {
         body: {
             id: id,
             title: `Help Me Please: ${i}`,
-            content: `This is the body of post ${i}`
+            content: `This is the body of post ${i}`,
+            tags: [`${i}`, 'Free'],
+            flagged: false
         }
     })
 }
 
-for (i = 0; i < 10; i++) {
+for (i = 0; i < 5; i++) {
     id = uuid.v4();
     client.create({
         index: "eecs168",
@@ -63,12 +86,14 @@ for (i = 0; i < 10; i++) {
         body: {
             id: id,
             title: `Help Me Please: ${i}`,
-            content: `This is the body of post ${i}`
+            content: `This is the body of post ${i}`,
+            tags: [`${i+5}`, "C++"],
+            flagged: false
         }
     })
 }
 
-for (i = 0; i < 10; i++) {
+for (i = 0; i < 5; i++) {
     id = uuid.v4();
     client.create({
         index: "eecs448",
@@ -76,7 +101,9 @@ for (i = 0; i < 10; i++) {
         body: {
             id: id,
             title: `Help Me Please: ${i}`,
-            content: `This is the body of post ${i}`
+            content: `This is the body of post ${i}`,
+            tags: [`${i+10}`, "Unity"],
+            flagged: false
         }
     })
 }    

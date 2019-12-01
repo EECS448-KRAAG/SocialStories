@@ -30,7 +30,7 @@ class App extends React.Component{
 
   /**
    * Sets course accodrding to user input
-   * @name set course
+   * @name setCourse
    * @memberof module:App
    * @function setCourse
    * @param courseName: course name given by user
@@ -70,6 +70,11 @@ class App extends React.Component{
     }
   }
 
+
+  componentDidMount() {
+    this.updateView();
+  }
+
   /**
    *Render - provides UI for front page
     * @name render
@@ -82,7 +87,13 @@ class App extends React.Component{
       <div className="App">
         <Header setSearch={this.setSearch} />
         <Dropdown setCourse={this.setCourse} />
-        {this.state.data && <HomeDisplay data={this.state.data} />}
+        {/* <CreateClass /> */}
+        {this.state.data && <HomeDisplay data={this.state.data} course={this.state.courseName}/>}
+        <hr />
+        
+        <div style={{textAlign: 'center'}}>
+          <p>Made with <span role="img" aria-label="heart emoji" >❤️</span> by KRAAG</p>
+        </div>
       </div>
     );
   }

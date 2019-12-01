@@ -1,0 +1,21 @@
+.dropdown
+{
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    width: 100%;
+}
+
+.container
+{
+    width:100%;
+    display: flex;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+.selectDrop
+{
+    width:500px;
+    margin-right: 10px;
+}

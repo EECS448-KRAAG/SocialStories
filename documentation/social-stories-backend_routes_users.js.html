@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: social-stories-backend/routes/users.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: social-stories-backend/routes/users.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Route manager for users.
+ * @module routes/users
+ * @requires express
+ * @requires uuid
+ * @requires module:elastic-client
+ */
+
+const express = require("express");
+const router = express.Router();
+const client = require("../utils/elastic-client");
+
+
+/**
+ * Get list of all users
+ * @name (GET) '/api/user/'
+ * @memberof module:routes/users
+ * @function
+ * @returns All users
+ */
+router.get('/', async (req, res) => {
+    const response = await client.search({
+        index: 'permission',
+        body: {}
+    });
+    res.json(response.body.hits.hits.map(x => x['_source']));
+})
+
+/**
+ * Set new users permission level or get existing user permission level
+ * @name (GET) '/api/user/:user_id:/permission'
+ * @memberof module:routes/users
+ * @function
+ * @param user_id {Get-Query-Param} User id from Google API
+ * @returns User permission level (0 is none, 1 is Instructor, 2 is Admin)
+ */
+router.get('/:user_id/permission', async (req, res) => {
+    const existing_users = await client.search({
+        index: 'permission',
+        body: {
+            query: {
+                match: {
+                    user_id: req.params['user_id']
+                }
+            }
+        }
+    });
+    if (existing_users.body.hits.hits.length === 1) {
+        const user_permission = existing_users.body.hits.hits[0]['_source'].permission;
+        res.json({permission: user_permission});
+    } else {
+        await client.create({
+            index: 'permission',
+            id: req.params['user_id'],
+            body: {
+                user_id: req.params['user_id'],
+                name: req.query.name,
+                permission: 0,
+                courses: []
+            }
+        });
+        res.json({permission: 0});
+    }
+});
+
+
+/**
+ * Update user's permission level
+ * @name (PUT) '/api/user/:user_id/permission'
+ * @memberof module:routes/users
+ * @function
+ * @param user_id {Get-Query-Param} User id from Google API (of an existing user)
+ * @param level {PUT-Body} Number to set the level of an existing user
+ */
+router.put('/:user_id/permission', async (req, res) => {
+    console.log(req.body);
+    try {
+        await client.update({
+            index: 'permission',
+            id: req.params['user_id'],
+            body: {
+                doc: {
+                    permission: req.body.level
+                }
+            }
+        });
+        res.sendStatus(202);
+    } catch(e) {
+        console.error(e);
+        res.sendStatus(404);
+    }
+});
+
+/**
+ * Update list of courses for a user
+ * @name (PUT) '/api/user/:user_id/course
+ * @memberof module:routes/users
+ * @function
+ * @param user_id {Get-Query-Param} User id from Google API
+ * @param course {PUT-Body} Object with course property of new course to add to user
+ * @return None
+ */
+router.put('/:user_id/course', async (req, res) => {
+    const userResponse = await client.get({
+        index: 'permission',
+        id: req.params['user_id']
+    });
+    const courses = [req.body.course];
+    if (userResponse.body['_source'].courses) {
+        userResponse.body['_source'].courses.map(x => courses.push(x));
+    }
+
+    await client.update({
+        index: 'permission',
+        id: req.params['user_id'],
+        body: {
+            doc: {
+                courses: courses
+            }
+        }
+    });
+    res.sendStatus(200);
+});
+
+module.exports = router;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-App.html">App</a></li><li><a href="module-elastic-client.html">elastic-client</a></li><li><a href="module-FilterComponent_CreateClass.html">FilterComponent/CreateClass</a></li><li><a href="module-FilterComponent_Dropdown.html">FilterComponent/Dropdown</a></li><li><a href="module-Header.html">Header</a></li><li><a href="module-routes_courses.html">routes/courses</a></li><li><a href="module-routes_users.html">routes/users</a></li><li><a href="module-server.html">server</a></li><li><a href="module-textSearch.html">textSearch</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Sun Nov 24 2019 15:06:40 GMT-0600 (Central Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

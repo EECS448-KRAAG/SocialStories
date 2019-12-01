@@ -5,126 +5,132 @@
  */
 
 import React from 'react';
-import {Navbar, Nav, Modal, Button, Form} from "react-bootstrap";
+import {Navbar, Nav, Modal, Form, Button} from "react-bootstrap";
+import Select from 'react-select';
 import TextSearch from './textSearch';
-import Dropdown from './FilterComponents/Dropdown';
+import AddPostModal from './AddPostModal';
+import {GoogleLogin, GoogleLogout} from 'react-google-login';
 
 //TODO: Make sure that content is required
 export default class Header extends React.Component {
 
   state = {
-    show: false,
-    showAddInstruc: false,
-    showRemoveInstruc: false,
-    users: [],
-    Post: {
-      courseName : " ",
-      title: "",
-      content: ""
-    }
-    };
+    showAddI: false,
+    showRemoveI: false,
+    showAddA: false,
+    showRemoveA: false,
+    selectedUser: {},
+    users: []
+  };
 
-    //Add comment
-    showAddInstrucModal = e => { this.setState({ showAddInstruc: true }); }
+  showAddInstrucModal = e => {this.setState({showAddI: true});};
+  closeAddInstrucModal = e => {this.setState({showAddI: false});};
+  showRemoveInstrucModal = e => {this.setState({showRemoveI: true});};
+  closeRemoveInstrucModal = e => {this.setState({showRemoveI: false});};
+  showAddAdminModal = e => {this.setState({showAddA: true});};
+  closeAddAdminModal = e => {this.setState({showAddA: false});};
+  showRemoveAdminModal = e => {this.setState({showRemoveA: true});};
+  closeRemoveAdminModal = e => {this.setState({showRemoveA: false});};
 
-    //Add comment
-    closeAddInstrucModal = e => { this.setState({ showAddInstruc: false }); }
-
-    showRemoveInstrucModal = e => { this.setState({ showRemoveInstruc: true }); }
-
-    closeRemoveInstrucModal = e => { this.setState({ showRemoveInstruc: false }); }
-
-    componentWillMount() {
-        window.fetch('/api/user')
-        .then(response => response.json())
-        .then(json => this.setState({ users: json }));
-    }
-
-    handleAdminModalSubmit = e => {
-
-    }
-
-  /**
-  * Updates the value of show state to true when the user click on the add post on navbar
-  * @name showModal
-  * @memberof module:Header
-  * @function
-  * @param event {Object} The event object created when the user click on the add post on navbar
-  * @returns none
-  */
-  showModal = e => {this.setState({show: true});};
-  /**
-  * Updates the value of show state to false when the user click on the add post on navbar
-  * @name closeModal
-  * @memberof module:Header
-  * @function
-  * @param event {Object} The event object created when the user click on the add post on navbar
-  * @returns none
-  */
-  closeModal = e => {this.setState({show: false});};
-  /**
-  /**
-  * Updates the value of Post title to the input value when user input to the textbox
-  * @name handleTitleChange
-  * @memberof module:Header
-  * @function
-  * @param event {Object} The event object created when user input to the textbox
-  * @returns none
-  */
-  handleTitleChange = e => { this.setState({Post:{title: e.target.value, courseName: this.state.Post.courseName,content: this.state.Post.content}})};
-  /**
-  /**
-  * Updates the value of Post content to the input value when user input to the textarea
-  * @name handleContentChange
-  * @memberof module:Header
-  * @function
-  * @param event {Object} The event object created when user input to the textarea
-  * @returns none
-  */
-  handleContentChange = e => { this.setState({Post:{content: e.target.value, courseName: this.state.Post.courseName,title:this.state.Post.title}})};
-  /**
-  * Close the modal and post the data
-  * @name handleSubmit
-  * @memberof module:Header
-  * @function
-  * @param event {Object} The event object hit on the submit button at the modal
-  * @returns none
-  */
-  handleSubmit = e => {
-    this.closeModal();
-    this.postData();
-    console.log("Form data", this.state.Post.courseName, this.state.Post.title,this.state.Post.content);
+  onChange = e => {
+    console.log(e);
+    this.setState({selectedUser: e});
   }
 
-  /**
-  * Posts the data to the " /api/course/{{course_id}}/post"
-  * @name postData
-  * @memberof module:Header
-  * @function
-  * @returns none
-  */
-  async postData(){
-    const postURL = `/api/course/${this.state.Post.courseName.toLowerCase()}/post`;
-    const data = this.state.Post;
+  componentWillMount() {
+    window.fetch('/api/user')
+    .then(response=> response.json())
+    .then(json=> this.setState({users: json}));
+  }
 
-    try {
-      const response = await fetch(postURL, {
-        method: 'POST', // or 'PUT'
+  handleGoogleLogin = async (account) => {
+    localStorage.setItem("user", JSON.stringify(account));
+    this.forceUpdate();
+    const raw_permissions = await window.fetch(`/api/user/${account.googleId}/permission?name=${account.profileObj.name}`);
+    const data = await raw_permissions.json();
+    localStorage.setItem('userPermissions', data.permission);
+    window.location.reload();
+  }
+
+  handleGoogleLogout = async () => {
+    localStorage.removeItem("user");
+    localStorage.removeItem("userPermissions");
+    this.forceUpdate();
+    window.location.reload();
+  }
+
+  AddInstrucData = async () => {
+        const data = { level: 1 };
+        console.log("Selected User inside fetch call function");
+        console.log(this.state.selectedUser);
+        const response = await fetch(`/api/user/${this.state.selectedUser.value.user_id}/permission`, {
+        method: 'PUT', // or 'PUT'
         body: JSON.stringify(data), // data can be `string` or {object}!
         headers: {
           'Content-Type': 'application/json'
         }
-      });
-      const json = await response.json();
-      console.log('Success:', JSON.stringify(json));
-    } catch (error) {
-      console.error('Error:', error);
-    }
+    });
+    console.error(await response.json());
   }
 
-  setCourse = async (courseName) => {
-    await this.setState({Post:{courseName: courseName}});
+  handleInstrucAddSubmit = e => {
+    this.closeAddInstrucModal();
+    this.AddInstrucData();
   }
+
+  RemoveInstrucData = async () => {
+      const data = { level: 0 };
+      console.log("Selected User inside fetch call function");
+      console.log(this.state.selectedUser);
+      const response = await fetch(`/api/user/${this.state.selectedUser.value.user_id}/permission`, {
+      method: 'PUT', // or 'PUT'
+      body: JSON.stringify(data), // data can be `string` or {object}!
+      headers: {
+        'Content-Type': 'application/json'
+      } 
+    });
+    console.error(await response.json());
+  }
+
+  handleInstrucRemoveSubmit = e => {
+    this.closeRemoveInstrucModal();
+    this.RemoveInstrucData();
+  }
+
+  AddAdminData = async () => {
+      const data = { level: 2 };
+      const response = await fetch(`/api/user/${this.state.selectedUser.value.user_id}/permission`, {
+      method: 'PUT', // or 'PUT'
+      body: JSON.stringify(data), // data can be `string` or {object}!
+      headers: {
+        'Content-Type': 'application/json'
+      } 
+    });
+    console.error(await response.json());
+  }
+
+  handleAdminAddSubmit = e => {
+    this.closeAddAdminModal();
+    this.AddAdminData();
+  }
+
+  RemoveAdminData = async () => {
+      const data = { level: 0 };
+      const response = await fetch(`/api/user/${this.state.selectedUser.value.user_id}/permission`, {
+      method: 'PUT', // or 'PUT'
+      body: JSON.stringify(data), // data can be `string` or {object}!
+      headers: {
+        'Content-Type': 'application/json'
+      } 
+    });
+    console.error(await response.json());
+  }
+
+  handleAdminRemoveSubmit = e => {
+    this.closeRemoveAdminModal();
+    this.RemoveAdminData();
+  }
+
    /**
     * Provides UI for navbar and modal
     * @name render
@@ -133,71 +139,115 @@ export default class Header extends React.Component {
     * @returns The UI to be displayed.
     */
   render() {
-    const addInstructorButton = <Nav.Link onClick={this.showAddInstrucModal}>Add Instructor</Nav.Link>;
-    const removeInstructorButton = <Nav.Link onClick={this.showRemoveInstrucModal}>Remove Instructor</Nav.Link>;
+
+    const InstrucAddButton = <Nav.Link onClick={this.showAddInstrucModal}>Add Instructor</Nav.Link>;
+    const InstrucRemoveButton = <Nav.Link onClick={this.showRemoveInstrucModal}>Remove Instructor</Nav.Link>;
+    const AdminAddButton = <Nav.Link onClick={this.showAddAdminModal}>Add Admin</Nav.Link>;
+    const AdminRemoveButton = <Nav.Link onClick={this.showRemoveAdminModal}>Remove Admin</Nav.Link>;
+
+    const loginButton =
+      <GoogleLogin 
+        clientId = "701234863585-26m47ep06fv24ebas5j934t0shn0a9ru.apps.googleusercontent.com"
+        buttonText="Login"
+        onSuccess={this.handleGoogleLogin}
+        onFailure={console.error}
+        cookiePolicy={'single_host_origin'}
+        theme="dark"
+      />;
+
+      const logoutButton = <GoogleLogout 
+        clientId="701234863585-26m47ep06fv24ebas5j934t0shn0a9ru.apps.googleusercontent.com"
+        buttonText="Logout"
+        onLogoutSuccess={this.handleGoogleLogout}
+        theme="dark"
+      />;
+    
     return (
       <Navbar collapseOnSelect bg="dark" variant="dark" expand="md" sticky="top">
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse>
-          <Navbar.Brand>Classes++</Navbar.Brand>
+          <Navbar.Brand href="/"><img src="./logo.png" height="40px" alt="Classes++" /></Navbar.Brand>
+          <TextSearch setSearch={this.props.setSearch} />
           <Nav className="mr-auto">
-            <Nav.Link href="#home">Home</Nav.Link>
-            <Nav.Link onClick={this.showModal}>Create Post</Nav.Link>
-
-            <Modal show={this.state.show} onHide={this.closeModal}>
-                <Modal.Header closeButton>
-                  <Modal.Title>Add Post</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <Form  onSubmit={this.handleSubmit}>
-                      <Form.Group>
-                        <Form.Label>Course: </Form.Label>
-                        <Dropdown setCourse={this.setCourse} />
-                      </Form.Group>
-                      <Form.Group controlId="exampleForm.ControlInput1">
-                        <Form.Label>Title:</Form.Label>
-                        <Form.Control onChange={this.handleTitleChange} placeholder="Enter Title" />
-                      </Form.Group>
-                      <Form.Group controlId="exampleForm.ControlTextarea1">
-                        <Form.Label>Post: </Form.Label>
-                        <Form.Control onChange={this.handleContentChange} required as="textarea" rows="3" name="content" />
-                      </Form.Group>
-                    </Form>
-                </Modal.Body>
-                <Modal.Footer>
-                <Button type="submit" variant="primary" onClick={this.handleSubmit}>
-                    Submit Post
+          <AddPostModal />
+          {parseInt(localStorage.getItem('userPermissions')) === 2 && AdminAddButton}
+            <Modal show={this.state.showAdd} onHide={this.closeAddInstrucModal}>
+              <Modal.Header closeButton>
+                <Modal.Title>Add Instructor</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                <Form  onSubmit={this.handleInstrucAddSubmit}>
+                  <Form.Group>
+                    <Form.Label>Users: </Form.Label>
+                      <Select value={this.state.selectedUser} options={this.state.users.filter(x => { if (x.permission == 0) { return{x} }}).map(x => {return {'value': x, 'label': x.name}})} onChange={this.onChange}/>
+                  </Form.Group>
+                </Form>
+              </Modal.Body>
+              <Modal.Footer>
+                <Button type="submit" variant="primary" onClick={this.handleInstrucAddSubmit}>
+                Confirm Change
                 </Button>
-                </Modal.Footer>
+            </Modal.Footer>
+            </Modal> 
+            {parseInt(localStorage.getItem('userPermissions')) === 2 && AdminRemoveButton}
+            <Modal show={this.state.showRemove} onHide={this.closeRemoveInstrucModal}>
+              <Modal.Header closeButton>
+                <Modal.Title>Remove Instructor</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                <Form  onSubmit={this.handleInstrucRemoveSubmit}>
+                  <Form.Group>
+                    <Form.Label>Users: </Form.Label>
+                      <Select value={this.state.selectedUser} options={this.state.users.filter(x => { if (x.permission == 1) { return{x} } }).map(x => { return {'value': x, 'label': x.name}})} onChange={this.onChange}/>
+                  </Form.Group>
+                </Form>
+              </Modal.Body>
+              <Modal.Footer>
+                <Button type="submit" variant="primary" onClick={this.handleInstrucRemoveSubmit}>
+                Confirm Change
+                </Button>
+              </Modal.Footer>
             </Modal>
-
-            {localStorage.getItem('userPermissions') == 2 && addInstructorButton}
-            <Modal show={this.state.showAddInstruc} onHide={this.closeAddInstrucModal}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Add Instructor to Class</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    List of Users:
-                    <Dropdown users.name/>
-                    <Form onSubmit={this.handleAdminModalSubmit}>
-                        
-                    </Form>
-                </Modal.Body>
+            {localStorage.getItem('userPermissions') == 2 && AdminAddButton}
+            <Modal show={this.state.showAddA} onHide={this.closeAddAdminModal}>
+              <Modal.Header closeButton>
+                <Modal.Title>Add Admin</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                <Form  onSubmit={this.handleAdminAddSubmit}>
+                  <Form.Group>
+                    <Form.Label>Users: </Form.Label>
+                      <Select value={this.state.selectedUser} options={this.state.users.filter(x => { if (x.permission < 2) { return{x} } }).map(x => { return {'value': x, 'label': x.name}})} onChange={this.onChange}/>
+                  </Form.Group>
+                </Form>
+              </Modal.Body>
+              <Modal.Footer>
+                <Button type="submit" variant="primary" onClick={this.handleAdminAddSubmit}>
+                Confirm Change
+                </Button>
+              </Modal.Footer>
             </Modal>
-
-            {localStorage.getItem('userPermissions') == 2 && removeInstructorButton}
-            <Modal show={this.state.showRemoveInstruc} onHide={this.closeRemoveInstrucModal}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Remove Instructor to Class</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    List of Users:
-                    <Dropdown users.name/>
-        
-                </Modal.Body>
+            {localStorage.getItem('userPermissions') == 2 && AdminRemoveButton}
+            <Modal show={this.state.showRemoveA} onHide={this.closeRemoveAdminModal}>
+              <Modal.Header closeButton>
+                <Modal.Title>Remove Admin</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                <Form  onSubmit={this.handleAdminRemoveSubmit}>
+                  <Form.Group>
+                    <Form.Label>Users: </Form.Label>
+                      <Select value={this.state.selectedUser} options={this.state.users.filter(x => { if (x.permission == 2) { return{x} } }).map(x => { return {'value': x, 'label': x.name}})} onChange={this.onChange}/>
+                  </Form.Group>
+                </Form>
+              </Modal.Body>
+              <Modal.Footer>
+                <Button type="submit" variant="primary" onClick={this.handleAdminRemoveSubmit}>
+                Confirm Change
+                </Button>
+              </Modal.Footer>
             </Modal>
-            </Nav>
-            <TextSearch setSearch={this.props.setSearch} />
+          </Nav>
+            {localStorage.getItem("user") ? logoutButton : loginButton};
         </Navbar.Collapse>
       </Navbar>
     );

@@ -7,7 +7,6 @@
 import React from 'react';
 import Form from "react-bootstrap/Form";
 import FormControl from "react-bootstrap/FormControl";
-import Button from "react-bootstrap/Button";
 
 //formUpdate taken from https://medium.com/byte-sized-react/controlled-forms-in-react-68e59362a119
 //html code taken from https://react-bootstrap.github.io/components/navbar/
@@ -33,17 +32,8 @@ class TextSearch extends React.Component {
         * @returns none
         */
         this.formUpdate = (event) => {
+            this.props.setSearch(event.target.value);
             this.setState({ input: event.target.value });
-        }
-        /**
-        * Updates the value of searchParam in App.js when the search button is pressed, resets the search field to be blank.
-        * @name searchUpdate
-        * @memberof module:textSearch
-        * @function
-        */
-        this.searchUpdate = () => {
-            this.props.setSearch(this.state.input);
-            this.setState({ input: '' }); //resets the search bar text field to blank
         }
     }
 
@@ -56,12 +46,9 @@ class TextSearch extends React.Component {
     */
     render() {
         return (
-            <>
-                <Form inline>
-                    <FormControl type="text" value={this.state.input} placeholder="Search" className="mr-sm-2" onChange={this.formUpdate} />
-                    <Button variant="outline-success" onClick={this.searchUpdate}>Search</Button>
-                </Form>
-            </>
+            <Form inline>
+                <FormControl type="text" value={this.state.input} placeholder="Search" className="mr-sm-2" onChange={this.formUpdate} />
+            </Form>
         );
     }
 }

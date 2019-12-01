@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: social-stories-backend/server.js</title>
+    <title>JSDoc: Source: social-stories-frontend/src/HomeDisplay.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: social-stories-backend/server.js</h1>
+    <h1 class="page-title">Source: social-stories-frontend/src/HomeDisplay.js</h1>
 
     
 
@@ -26,40 +26,48 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>/**
- * Main module to run backend server. Starts server on port 9000
- * @module server
- * @requires express
- * @requires morgan
- * @requires body-parser
- * @requires module:routes/courses
- */
+            <pre class="prettyprint source linenums"><code>import React from "react";
+import Card from "react-bootstrap/Card";
+import {Button, Badge} from 'react-bootstrap';
+import './HomeDisplay.css';
 
-const express = require("express");
-const morgan = require("morgan");
-const bodyParser = require('body-parser');
+/**
+* HomeDisplay Module
+* @name HomeDisplay
+* @memberof App Module
+* @function HomeDisplay
+* @param props: variables needed by this method
+* @returns cards with post id as title and content
+*/
+function HomeDisplay(props) {
 
-const coursesRoute = require("./routes/courses");
-const usersRoute = require("./routes/users");
+  const deletePost = async (id) => {
+    await window.fetch(`/api/course/${props.course}/post/${id}`, {method: "DELETE"});
+    window.location.reload();
+  }
 
-const app = express();
-const port = process.env.NODE_ENV === 'test' ? 9001 : 9000;
-
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-
-if (process.env.NODE_ENV !== 'test') {
-    app.use(morgan('dev'));
+  return (
+    &lt;>
+      {props.data.map(post => (
+        &lt;Card key={post.id}>
+          &lt;Card.Header>
+            &lt;h1>{post.title}&lt;/h1>
+          &lt;/Card.Header>
+          &lt;Card.Body>
+            &lt;Card.Text>{post.content}&lt;/Card.Text>
+            &lt;h4>{post.tags.map(x => &lt;Badge variant="dark" style={{marginRight: "4px"}}>{x}&lt;/Badge>)}&lt;/h4>
+            {localStorage.getItem('userPermissions')>0 &amp;&amp; 
+            &lt;Button variant="outline-danger" 
+            onClick={() => deletePost(post.id)}> Delete&lt;/Button> }
+          &lt;/Card.Body>
+        &lt;/Card>
+      ))}
+    &lt;/>
+  );
 }
 
-app.use("/api/course", coursesRoute);
-app.use("/api/user", usersRoute);
-
-app.listen(port, () => {
-    console.log(`Server started on port ${port}`);
-});
-
-module.exports = app;</code></pre>
+export default HomeDisplay;
+</code></pre>
         </article>
     </section>
 

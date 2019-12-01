@@ -30,14 +30,18 @@ export default class Tags extends React.Component {
   
   handleInputKeyDown(e) {
     //enter keycode is 13
-    if ( e.keyCode === 13 ) {
-      const {value} = e.target;
-      
-      this.setState({
-        items: [...this.state.items, value],
-        input: ''
-      });
-      this.props.tagsChange([...this.state.items, value]);
+    let currInput = e.target.value;
+      if (currInput.length !== 0)  {
+      if ( e.keyCode === 13 ) {
+        
+          const {value} = e.target;
+          
+          this.setState({
+            items: [...this.state.items, value],
+            input: ''
+          });
+          this.props.tagsChange([...this.state.items, value]);
+        }
     }
   }
 

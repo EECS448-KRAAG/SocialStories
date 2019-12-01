@@ -197,4 +197,3 @@ export default class AddPostModal extends React.Component {
      );
  };
 }
-

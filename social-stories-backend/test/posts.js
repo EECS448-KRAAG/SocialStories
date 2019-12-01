@@ -3,10 +3,28 @@ process.env.NODE_ENV = "test";
 const chai = require("chai");
 const chaiHttp = require("chai-http");
 const server = require("../server");
+const client = require('../utils/elastic-client');
 const should = chai.should();
 chai.use(chaiHttp);
 
 const persistentCourseName = `TEST${(Math.random() * 1000).toFixed(0)}`;
+
+before((done) => {
+  setTimeout(async () => {
+    try {
+      await client.indices.create({
+        index: "course"
+      });
+      
+      await client.indices.create({
+        index: "permission"
+      });
+    } catch (error) {
+      console.log(error);
+    }
+    done();
+  }, 10000);
+});
 
 describe("Courses", () => {
   describe("POST /api/course/", () => {

@@ -68,6 +68,7 @@ To view the most up to date documentation simply open [./documentation/index.htm
 `npx jsdoc -r -c jsdoc.config.json .`
 
 ### Bugs List
-* Bug1
-* Bug2
-* Bug3
+* Backend
+  * The viewing post list is limited to 250 posts, which means that if there are more than 250 posts, the user has no way to know what they are missing posts.
+  
+* Frontend

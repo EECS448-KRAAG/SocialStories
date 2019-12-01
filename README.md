@@ -62,6 +62,14 @@ To bootstrap the environment with fake data for testing simply run the following
 
 `docker-compose exec backend node bootstrap.js`
 
+### Testing
+To test the full stack at once simply run
+
+`./test.sh`
+
+from an environment that supports shell scripts (i.e. Linux/Mac OS/WSL). Note the warning about needing to manually quit the frontend test
+runner to continue on to the backend tests.
+
 ## Documentation
 To view the most up to date documentation simply open [./documentation/index.html](./documentation/index.html). To generate documentation run:
 

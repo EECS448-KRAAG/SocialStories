@@ -171,8 +171,6 @@ export default class Header extends React.Component {
     */
     AddInstrucData = async () => {
             const data = { level: 1 };
-            console.log("Selected User inside fetch call function");
-            console.log(this.state.selectedUser);
             const response = await fetch(`/api/user/${this.state.selectedUser.value.user_id}/permission`, {
             method: 'PUT', // or 'PUT'
             body: JSON.stringify(data), // data can be `string` or {object}!
@@ -206,8 +204,6 @@ export default class Header extends React.Component {
     */
     RemoveInstrucData = async () => {
           const data = { level: 0 };
-          console.log("Selected User inside fetch call function");
-          console.log(this.state.selectedUser);
           const response = await fetch(`/api/user/${this.state.selectedUser.value.user_id}/permission`, {
           method: 'PUT', // or 'PUT'
           body: JSON.stringify(data), // data can be `string` or {object}!

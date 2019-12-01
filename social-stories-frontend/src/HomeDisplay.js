@@ -7,6 +7,7 @@
 import React, { useState } from "react";
 import Card from "react-bootstrap/Card";
 import {Button, Badge} from 'react-bootstrap';
+import AutoLinkText from 'react-autolink-text2';
 import './HomeDisplay.css';
 
 /**
@@ -57,7 +58,7 @@ function HomeDisplay(props) {
             <h1>{post.title}</h1>
           </Card.Header>
           <Card.Body>
-            <Card.Text>{post.content}</Card.Text>
+            <Card.Text><AutoLinkText text={post.content} /></Card.Text>
             <h4>
               {post.tags.map(x => (
                 <Badge variant="dark" style={{ marginRight: "4px" }} key={x}>

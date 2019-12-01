@@ -67,8 +67,9 @@ To view the most up to date documentation simply open [./documentation/index.htm
 
 `npx jsdoc -r -c jsdoc.config.json .`
 
-### Bugs List
+## Bugs List
 * Backend
   * The viewing post list is limited to 250 posts, which means that if there are more than 250 posts, the user has no way to know what they are missing posts.
+  * Search input is not sanitized and a few specially crafted queries can overload Elasticsearch for a few seconds due to the wildcard search we're using.
   
 * Frontend

@@ -170,8 +170,8 @@ export default class Header extends React.Component {
           <TextSearch setSearch={this.props.setSearch} />
           <Nav className="mr-auto">
           <AddPostModal />
-          {parseInt(localStorage.getItem('userPermissions')) === 2 && AdminAddButton}
-            <Modal show={this.state.showAdd} onHide={this.closeAddInstrucModal}>
+          {parseInt(localStorage.getItem('userPermissions')) === 2 && InstrucAddButton}
+            <Modal show={this.state.showAddI} onHide={this.closeAddInstrucModal}>
               <Modal.Header closeButton>
                 <Modal.Title>Add Instructor</Modal.Title>
               </Modal.Header>
@@ -189,8 +189,8 @@ export default class Header extends React.Component {
                 </Button>
             </Modal.Footer>
             </Modal> 
-            {parseInt(localStorage.getItem('userPermissions')) === 2 && AdminRemoveButton}
-            <Modal show={this.state.showRemove} onHide={this.closeRemoveInstrucModal}>
+            {parseInt(localStorage.getItem('userPermissions')) === 2 && InstrucRemoveButton}
+            <Modal show={this.state.showRemoveI} onHide={this.closeRemoveInstrucModal}>
               <Modal.Header closeButton>
                 <Modal.Title>Remove Instructor</Modal.Title>
               </Modal.Header>

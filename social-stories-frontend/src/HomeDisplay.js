@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Card from "react-bootstrap/Card";
 import {Button, Badge} from 'react-bootstrap';
 import './HomeDisplay.css';
@@ -30,17 +30,21 @@ function HomeDisplay(props) {
     });
   }
 
-  var showFlagged = false;
-  const viewFlaggedPosts = () => {
-    showFlagged = !showFlagged;
-    console.log(showFlagged);
-  }
+  const [viewOnlyFlaggedPosts, setViewOnlyFlaggedPosts] = useState(true);
+  const data = viewOnlyFlaggedPosts ? props.data : props.data.filter(x => x.flagged === true);
 
-  function FlaggedPosts() {
-    var data = props.data.filter(post => post.flagged == true);
-    console.log("flagged", data);
-    return (
-      <>
+
+  return (
+    <>
+      {localStorage.getItem("userPermissions") > 0 && (
+        <div className="container">
+          <Button
+            variant="warning"
+            onClick={() => setViewOnlyFlaggedPosts(!viewOnlyFlaggedPosts)}>
+            Toggle View Flagged Post
+          </Button>
+        </div>
+      )}
       {data.map(post => (
         <Card key={post.id}>
           <Card.Header>
@@ -48,47 +52,26 @@ function HomeDisplay(props) {
           </Card.Header>
           <Card.Body>
             <Card.Text>{post.content}</Card.Text>
-            <h4>{post.tags.map(x => <Badge variant="dark" style={{marginRight: "4px"}} key={x} >{x}</Badge>)}</h4>
-            <Button variant="warning" onClick={() => flagPost(post.id)}>Flag</Button>
-            {localStorage.getItem('userPermissions')>0 &&
-            <Button variant="outline-danger"
-            onClick={() => deletePost(post.id)}> Delete</Button> }
+            <h4>
+              {post.tags.map(x => (
+                <Badge variant="dark" style={{ marginRight: "4px" }} key={x}>
+                  {x}
+                </Badge>
+              ))}
+            </h4>
+            <Button variant="warning" onClick={() => flagPost(post.id)}>
+              Flag
+            </Button>
+            {localStorage.getItem("userPermissions") > 0 && (
+              <Button
+                variant="outline-danger"
+                onClick={() => deletePost(post.id)}>
+                Delete
+              </Button>
+            )}
           </Card.Body>
         </Card>
       ))}
-      </>
-    );
-  }
-
-  function AllPosts() {
-    console.log("all", props.data)
-    return(
-      <>
-      {props.data.map(post => (
-        <Card key={post.id}>
-          <Card.Header>
-            <h1>{post.title}</h1>
-          </Card.Header>
-          <Card.Body>
-            <Card.Text>{post.content}</Card.Text>
-            <h4>{post.tags.map(x => <Badge variant="dark" style={{marginRight: "4px"}} key={x} >{x}</Badge>)}</h4>
-            <Button variant="warning" onClick={() => flagPost(post.id)}>Flag</Button>
-            {localStorage.getItem('userPermissions')>0 &&
-            <Button variant="outline-danger"
-            onClick={() => deletePost(post.id)}> Delete</Button> }
-          </Card.Body>
-        </Card>
-      ))}
-      </>
-    );
-  }
-
-  return (
-    <>
-    {localStorage.getItem('userPermissions')>0 &&
-    <Button variant="warning" onClick={viewFlaggedPosts}> View Flagged Post</Button> }
-
-      {showFlagged ? <FlaggedPosts /> : <AllPosts />}
     </>
   );
 }

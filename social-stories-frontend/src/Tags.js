@@ -1,3 +1,8 @@
+/**
+ * Header module.
+ * @module Tags
+ * @requires none
+ */
 import React from 'react';
 import "./Tags.css";
 import {Badge} from "react-bootstrap";
@@ -68,7 +73,7 @@ export default class Tags extends React.Component {
   /**
     * Provides UI for Tags
     * @name render
-    * @memberof module:Header
+    * @memberof module:Tags
     * @function
     * @returns The UI to be displayed.
     */

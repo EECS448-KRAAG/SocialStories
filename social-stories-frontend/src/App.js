@@ -6,7 +6,7 @@ import Dropdown from './FilterComponents/Dropdown';
 
 
 /**
- * Dropdown module
+ * Main app module
  * @module App
  * @requires none
  */

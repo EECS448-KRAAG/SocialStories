@@ -1,3 +1,9 @@
+/**
+ * Dropdown module
+ * @module AddPostModal
+ * @requires none
+ */
+
 import React from 'react';
 import {Modal, Nav, Form, Button} from "react-bootstrap";
 import Dropdown from './FilterComponents/Dropdown';

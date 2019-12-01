@@ -132,7 +132,7 @@ export default class Header extends React.Component {
   }
 
    /**
-    * Provides UI for navbar and modal
+    * Provides UI for navbar 
     * @name render
     * @memberof module:Header
     * @function
@@ -179,7 +179,7 @@ export default class Header extends React.Component {
                 <Form  onSubmit={this.handleInstrucAddSubmit}>
                   <Form.Group>
                     <Form.Label>Users: </Form.Label>
-                      <Select value={this.state.selectedUser} options={this.state.users.filter(x => { if (x.permission == 0) { return{x} }}).map(x => {return {'value': x, 'label': x.name}})} onChange={this.onChange}/>
+                      <Select value={this.state.selectedUser} options={this.state.users.filter(x => { if (x.permission === 0) { return{x} }}).map(x => {return {'value': x, 'label': x.name}})} onChange={this.onChange}/>
                   </Form.Group>
                 </Form>
               </Modal.Body>
@@ -198,7 +198,7 @@ export default class Header extends React.Component {
                 <Form  onSubmit={this.handleInstrucRemoveSubmit}>
                   <Form.Group>
                     <Form.Label>Users: </Form.Label>
-                      <Select value={this.state.selectedUser} options={this.state.users.filter(x => { if (x.permission == 1) { return{x} } }).map(x => { return {'value': x, 'label': x.name}})} onChange={this.onChange}/>
+                      <Select value={this.state.selectedUser} options={this.state.users.filter(x => { if (x.permission === 1) { return{x} } }).map(x => { return {'value': x, 'label': x.name}})} onChange={this.onChange}/>
                   </Form.Group>
                 </Form>
               </Modal.Body>
@@ -208,7 +208,7 @@ export default class Header extends React.Component {
                 </Button>
               </Modal.Footer>
             </Modal>
-            {localStorage.getItem('userPermissions') == 2 && AdminAddButton}
+            {localStorage.getItem('userPermissions') === 2 && AdminAddButton}
             <Modal show={this.state.showAddA} onHide={this.closeAddAdminModal}>
               <Modal.Header closeButton>
                 <Modal.Title>Add Admin</Modal.Title>
@@ -227,7 +227,7 @@ export default class Header extends React.Component {
                 </Button>
               </Modal.Footer>
             </Modal>
-            {localStorage.getItem('userPermissions') == 2 && AdminRemoveButton}
+            {localStorage.getItem('userPermissions') === 2 && AdminRemoveButton}
             <Modal show={this.state.showRemoveA} onHide={this.closeRemoveAdminModal}>
               <Modal.Header closeButton>
                 <Modal.Title>Remove Admin</Modal.Title>
@@ -236,7 +236,7 @@ export default class Header extends React.Component {
                 <Form  onSubmit={this.handleAdminRemoveSubmit}>
                   <Form.Group>
                     <Form.Label>Users: </Form.Label>
-                      <Select value={this.state.selectedUser} options={this.state.users.filter(x => { if (x.permission == 2) { return{x} } }).map(x => { return {'value': x, 'label': x.name}})} onChange={this.onChange}/>
+                      <Select value={this.state.selectedUser} options={this.state.users.filter(x => { if (x.permission === 2) { return{x} } }).map(x => { return {'value': x, 'label': x.name}})} onChange={this.onChange}/>
                   </Form.Group>
                 </Form>
               </Modal.Body>

@@ -37,7 +37,7 @@ function HomeDisplay(props) {
   }
 
   function FlaggedPosts() {
-    var data = props.data.filter(post => post.flagged == true);
+    var data = props.data.filter(post => post.flagged === true);
     console.log("flagged", data);
     return (
       <>

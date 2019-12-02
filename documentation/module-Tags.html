@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Module: App</title>
+    <title>JSDoc: Module: Tags</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Module: App</h1>
+    <h1 class="page-title">Module: Tags</h1>
 
     
 
@@ -38,7 +38,7 @@
     <div class="container-overview">
     
         
-            <div class="description">Main app module</div>
+            <div class="description">Header module.</div>
         
 
         
@@ -87,7 +87,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="social-stories-frontend_src_App.js.html">social-stories-frontend/src/App.js</a>, <a href="social-stories-frontend_src_App.js.html#line8">line 8</a>
+        <a href="social-stories-frontend_src_Tags.js.html">social-stories-frontend/src/Tags.js</a>, <a href="social-stories-frontend_src_Tags.js.html#line1">line 1</a>
     </li></ul></dd>
     
 
@@ -150,7 +150,7 @@
     
 
     
-    <h4 class="name" id=".constructor"><span class="type-signature">(static) </span>constructor<span class="signature">(props:)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".handleInputChange"><span class="type-signature">(static) </span>handleInputChange<span class="signature">(e)</span><span class="type-signature"></span></h4>
     
 
     
@@ -158,7 +158,7 @@
 
 
 <div class="description">
-    Constructor for the app
+    Updates the value of input when user input to the textbox
 </div>
 
 
@@ -194,10 +194,15 @@
 
         <tr>
             
-                <td class="name"><code>props:</code></td>
+                <td class="name"><code>e</code></td>
             
 
             <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
             
             </td>
 
@@ -205,7 +210,7 @@
 
             
 
-            <td class="description last">variables needed by this method</td>
+            <td class="description last">The event object created when user input to the textbox</td>
         </tr>
 
     
@@ -246,7 +251,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="social-stories-frontend_src_App.js.html">social-stories-frontend/src/App.js</a>, <a href="social-stories-frontend_src_App.js.html#line15">line 15</a>
+        <a href="social-stories-frontend_src_Tags.js.html">social-stories-frontend/src/Tags.js</a>, <a href="social-stories-frontend_src_Tags.js.html#line23">line 23</a>
     </li></ul></dd>
     
 
@@ -276,6 +281,300 @@
         
 <div class="param-desc">
     none
+</div>
+
+
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id=".handleInputKeyDown"><span class="type-signature">(static) </span>handleInputKeyDown<span class="signature">(e)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    When Enter is pressed, make it into a tag
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>e</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The event object created when user input to the textbox</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="social-stories-frontend_src_Tags.js.html">social-stories-frontend/src/Tags.js</a>, <a href="social-stories-frontend_src_Tags.js.html#line49">line 49</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    none
+</div>
+
+
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id=".handleRemoveItem"><span class="type-signature">(static) </span>handleRemoveItem<span class="signature">(index)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Remove the item
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>index</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The index of the object to be deleted</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="social-stories-frontend_src_Tags.js.html">social-stories-frontend/src/Tags.js</a>, <a href="social-stories-frontend_src_Tags.js.html#line34">line 34</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    The object after removing the deleted object
 </div>
 
 
@@ -300,7 +599,7 @@
 
 
 <div class="description">
-    Render - provides UI for front page
+    Provides UI for Tags
 </div>
 
 
@@ -344,7 +643,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="social-stories-frontend_src_App.js.html">social-stories-frontend/src/App.js</a>, <a href="social-stories-frontend_src_App.js.html#line78">line 78</a>
+        <a href="social-stories-frontend_src_Tags.js.html">social-stories-frontend/src/Tags.js</a>, <a href="social-stories-frontend_src_Tags.js.html#line73">line 73</a>
     </li></ul></dd>
     
 
@@ -373,433 +672,7 @@
 
         
 <div class="param-desc">
-    UI
-</div>
-
-
-
-    
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id=".setCourse"><span class="type-signature">(static) </span>setCourse<span class="signature">(courseName:)</span><span class="type-signature"></span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    Sets course accodrding to user input
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>courseName:</code></td>
-            
-
-            <td class="type">
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">course name given by user</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="social-stories-frontend_src_App.js.html">social-stories-frontend/src/App.js</a>, <a href="social-stories-frontend_src_App.js.html#line31">line 31</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    none
-</div>
-
-
-
-    
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id=".setSearch"><span class="type-signature">(static) </span>setSearch<span class="signature">(search:)</span><span class="type-signature"></span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    Sets search query to user input
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>search:</code></td>
-            
-
-            <td class="type">
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">string to search for</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="social-stories-frontend_src_App.js.html">social-stories-frontend/src/App.js</a>, <a href="social-stories-frontend_src_App.js.html#line44">line 44</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    none
-</div>
-
-
-
-    
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id=".updateView"><span class="type-signature">(static) </span>updateView<span class="signature">(none)</span><span class="type-signature"></span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    Pulls data and displays it
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>none</code></td>
-            
-
-            <td class="type">
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="social-stories-frontend_src_App.js.html">social-stories-frontend/src/App.js</a>, <a href="social-stories-frontend_src_App.js.html#line58">line 58</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    none
+    The UI to be displayed.
 </div>
 
 

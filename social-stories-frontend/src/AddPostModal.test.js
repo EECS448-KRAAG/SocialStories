@@ -47,7 +47,6 @@ describe("<AddPostModal>", () => {
            tags: ["genius","lol"]
        };
  
-       //Dropdown input fields is at Dropdown.test.js
        const titleInput = wrapper.find("#form-title");
        titleInput.value = inputs.title;
        expect(titleInput.value).toBe("I need your help");
@@ -56,7 +55,6 @@ describe("<AddPostModal>", () => {
        contentInput.value = inputs.content;
        expect(contentInput.value).toBe("I am kidding I dont need any help");
  
-       //TODO: Tags input at Tags.test.js
    });
    it("check handleValidation called once", () => {
        const handleValidation = jest.fn();

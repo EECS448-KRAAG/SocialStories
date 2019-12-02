@@ -39,7 +39,6 @@ import TextSearch from './textSearch';
 import AddPostModal from './AddPostModal';
 import {GoogleLogin, GoogleLogout} from 'react-google-login';
 
-//TODO: Make sure that content is required
 export default class Header extends React.Component {
 
   state = {
@@ -51,121 +50,284 @@ export default class Header extends React.Component {
     users: []
   };
 
-  showAddInstrucModal = e => {this.setState({showAddI: true});};
-  closeAddInstrucModal = e => {this.setState({showAddI: false});};
-  showRemoveInstrucModal = e => {this.setState({showRemoveI: true});};
-  closeRemoveInstrucModal = e => {this.setState({showRemoveI: false});};
-  showAddAdminModal = e => {this.setState({showAddA: true});};
-  closeAddAdminModal = e => {this.setState({showAddA: false});};
-  showRemoveAdminModal = e => {this.setState({showRemoveA: true});};
-  closeRemoveAdminModal = e => {this.setState({showRemoveA: false});};
-
-  onChange = e => {
-    console.log(e);
-    this.setState({selectedUser: e});
-  }
-
-  componentWillMount() {
-    window.fetch('/api/user')
-    .then(response=> response.json())
-    .then(json=> this.setState({users: json}));
-  }
-
-  handleGoogleLogin = async (account) => {
-    localStorage.setItem("user", JSON.stringify(account));
-    this.forceUpdate();
-    const raw_permissions = await window.fetch(`/api/user/${account.googleId}/permission?name=${account.profileObj.name}`);
-    const data = await raw_permissions.json();
-    localStorage.setItem('userPermissions', data.permission);
-    window.location.reload();
-  }
-
-  handleGoogleLogout = async () => {
-    localStorage.removeItem("user");
-    localStorage.removeItem("userPermissions");
-    this.forceUpdate();
-    window.location.reload();
-  }
-
-  AddInstrucData = async () => {
-        const data = { level: 1 };
-        console.log("Selected User inside fetch call function");
-        console.log(this.state.selectedUser);
-        const response = await fetch(`/api/user/${this.state.selectedUser.value.user_id}/permission`, {
-        method: 'PUT', // or 'PUT'
-        body: JSON.stringify(data), // data can be `string` or {object}!
-        headers: {
-          'Content-Type': 'application/json'
-        }
-    });
-    console.error(await response.json());
-  }
-
-  handleInstrucAddSubmit = e => {
-    this.closeAddInstrucModal();
-    this.AddInstrucData();
-  }
-
-  RemoveInstrucData = async () => {
-      const data = { level: 0 };
-      console.log("Selected User inside fetch call function");
-      console.log(this.state.selectedUser);
-      const response = await fetch(`/api/user/${this.state.selectedUser.value.user_id}/permission`, {
-      method: 'PUT', // or 'PUT'
-      body: JSON.stringify(data), // data can be `string` or {object}!
-      headers: {
-        'Content-Type': 'application/json'
-      } 
-    });
-    console.error(await response.json());
-  }
-
-  handleInstrucRemoveSubmit = e => {
-    this.closeRemoveInstrucModal();
-    this.RemoveInstrucData();
-  }
-
-  AddAdminData = async () => {
-      const data = { level: 2 };
-      const response = await fetch(`/api/user/${this.state.selectedUser.value.user_id}/permission`, {
-      method: 'PUT', // or 'PUT'
-      body: JSON.stringify(data), // data can be `string` or {object}!
-      headers: {
-        'Content-Type': 'application/json'
-      } 
-    });
-    console.error(await response.json());
-  }
-
-  handleAdminAddSubmit = e => {
-    this.closeAddAdminModal();
-    this.AddAdminData();
-  }
-
-  RemoveAdminData = async () => {
-      const data = { level: 0 };
-      const response = await fetch(`/api/user/${this.state.selectedUser.value.user_id}/permission`, {
-      method: 'PUT', // or 'PUT'
-      body: JSON.stringify(data), // data can be `string` or {object}!
-      headers: {
-        'Content-Type': 'application/json'
-      } 
-    });
-    console.error(await response.json());
-  }
-
-  handleAdminRemoveSubmit = e => {
-    this.closeRemoveAdminModal();
-    this.RemoveAdminData();
-  }
-
    /**
-    * Provides UI for navbar and modal
-    * @name render
+   * Updates the value of showAddI state to true when the user click on the add post on navbar
+   * @name showAddInstrucModal
+   * @memberof module:Header
+   * @function
+   * @param e {Object} The event object created when the user clicks on "Add Instructor" located on the navbar
+   * @returns none
+   */
+    showAddInstrucModal = e => { this.setState({ showAddI: true }); };
+
+    /**
+    * Updates the value of showAddI state to false when the user click on the add post on navbar
+    * @name closeAddInstrucModal
     * @memberof module:Header
     * @function
-    * @returns The UI to be displayed.
+    * @param e {Object} The event object created when the user clicks either on the "x" button or the "Confirm Change" button in the modal
+    * @returns none
     */
+    closeAddInstrucModal = e => { this.setState({ showAddI: false }); };
+
+    /**
+    * Updates the value of showRemoveI state to true when the user click on the add post on navbar
+    * @name showRemoveInstrucModal
+    * @memberof module:Header
+    * @function
+    * @param e {Object} The event object created when the user clicks on "Remove Instructor" located on the navbar
+    * @returns none
+    */
+    showRemoveInstrucModal = e => { this.setState({ showRemoveI: true }); };
+
+    /**
+    * Updates the value of showRemoveI state to false when the user click on the add post on navbar
+    * @name closeRemoveInstrucModal
+    * @memberof module:Header
+    * @function
+    * @param e {Object} The event object created when the user clicks either on the "x" button or the "Confirm Change" button in the modal
+    * @returns none
+    */
+    closeRemoveInstrucModal = e => { this.setState({ showRemoveI: false }); };
+
+    /**
+    * Updates the value of showAddA state to true when the user click on the add post on navbar
+    * @name showAddAdminModal
+    * @memberof module:Header
+    * @function
+    * @param e {Object} The event object created when the user clicks on "Add Admin" located on the navbar
+    * @returns none
+    */
+    showAddAdminModal = e => { this.setState({ showAddA: true }); };
+
+    /**
+    * Updates the value of showAddA state to false when the user click on the add post on navbar
+    * @name closeAddAdminModal
+    * @memberof module:Header
+    * @function
+    * @param e {Object} The event object created when the user clicks either on the "x" button or the "Confirm Change" button in the modal
+    * @returns none
+    */
+    closeAddAdminModal = e => { this.setState({ showAddA: false }); };
+
+    /**
+    * Updates the value of showRemoveA state to true when the user click on the add post on navbar
+    * @name showRemoveAdminModal
+    * @memberof module:Header
+    * @function
+    * @param e {Object} The event object created when the user clicks on "Remove Admin" located on the navbar
+    * @returns none
+    */
+    showRemoveAdminModal = e => { this.setState({ showRemoveA: true }); };
+
+    /**
+    * Updates the value of showRemoveA state to false when the user click on the add post on navbar
+    * @name closeRemoveAdminModal
+    * @memberof module:Header
+    * @function
+    * @param e {Object} The event object created when the user clicks either on the "x" button or the "Confirm Change" button in the modal
+    * @returns none
+    */
+    closeRemoveAdminModal = e => {this.setState({showRemoveA: false});};
+
+    /**
+    * Updates the value of the selectedUser state to match whatever the user has typed or selected from the dropdown
+    * @name onChange
+    * @memberof module:Header
+    * @function
+    * @param e {Object} The event object created when the user types or selects a user from the dropdown.
+    * @returns none
+    */
+    onChange = e => {
+      console.log(e);
+      this.setState({selectedUser: e});
+    }
+
+    /**
+    * Called once before the initial render. Gets the list of all users from the backend and stores them in the users state.
+    * @name componentWillMount
+    * @memberof module:Header
+    * @function
+    * @param none
+    * @returns none
+    */
+    componentWillMount() {
+      window.fetch('/api/user')
+      .then(response=> response.json())
+      .then(json=> this.setState({users: json}));
+    }
+
+    /**
+    * Handles setting permissions and getting user information from their Google login.
+    * @name handleGoogleLogin
+    * @memberof module:Header
+    * @function
+    * @param account {Object} The account object created when the user logins using Google.
+    * @returns none
+    */
+    handleGoogleLogin = async (account) => {
+        localStorage.setItem("user", JSON.stringify(account));
+        this.forceUpdate();
+        const raw_permissions = await window.fetch(`/api/user/${account.googleId}/permission?name=${account.profileObj.name}`);
+        const data = await raw_permissions.json();
+        localStorage.setItem('userPermissions', data.permission);
+        window.location.reload();
+    }
+
+    /**
+    * Handles removing permissions and user information after a users logouts.
+    * @name handleGoogleLogout
+    * @memberof module:Header
+    * @function
+    * @param none
+    * @returns none
+    */
+    handleGoogleLogout = async () => {
+        localStorage.removeItem("user");
+        localStorage.removeItem("userPermissions");
+        this.forceUpdate();
+        window.location.reload();
+    }
+
+    /**
+    * Updates the backend to reflect that a new user has instructor permissions.
+    * @name AddInstrucData
+    * @memberof module:Header
+    * @function
+    * @param none
+    * @returns none
+    */
+    AddInstrucData = async () => {
+            const data = { level: 1 };
+            const response = await fetch(`/api/user/${this.state.selectedUser.value.user_id}/permission`, {
+            method: 'PUT', // or 'PUT'
+            body: JSON.stringify(data), // data can be `string` or {object}!
+            headers: {
+              'Content-Type': 'application/json'
+            }
+        });
+        console.error(await response.json());
+    }
+
+    /**
+    * Closes the Add Instructor modal and calls the AddInstrucData function to handle updating the backend.
+    * @name handleInstrucAddSubmit
+    * @memberof module:Header
+    * @function
+    * @param e {Object} The event object created when the user clicks on the "Confirm Change" button in the Add Instructor modal
+    * @returns none
+    */
+    handleInstrucAddSubmit = e => {
+        this.closeAddInstrucModal();
+        this.AddInstrucData();
+    }
+
+    /**
+    * Updates the backend to reflect that a user no longer has instructor permissions.
+    * @name RemoveInstrucData
+    * @memberof module:Header
+    * @function
+    * @param none
+    * @returns none
+    */
+    RemoveInstrucData = async () => {
+          const data = { level: 0 };
+          const response = await fetch(`/api/user/${this.state.selectedUser.value.user_id}/permission`, {
+          method: 'PUT', // or 'PUT'
+          body: JSON.stringify(data), // data can be `string` or {object}!
+          headers: {
+            'Content-Type': 'application/json'
+          } 
+        });
+        console.error(await response.json());
+    }
+
+    /**
+    * Closes the Remove Instructor modal and calls the RemoveInstrucData function to handle updating the backend.
+    * @name handleInstrucRemoveSubmit
+    * @memberof module:Header
+    * @function
+    * @param e {Object} The event object created when the user clicks on the "Confirm Change" button in the Remove Instructor modal
+    * @returns none
+    */
+    handleInstrucRemoveSubmit = e => {
+        this.closeRemoveInstrucModal();
+        this.RemoveInstrucData();
+    }
+
+    /**
+    * Updates the backend to reflect that a new user has administrator permissions.
+    * @name AddAdminData
+    * @memberof module:Header
+    * @function
+    * @param none
+    * @returns none
+    */
+    AddAdminData = async () => {
+          const data = { level: 2 };
+          const response = await fetch(`/api/user/${this.state.selectedUser.value.user_id}/permission`, {
+          method: 'PUT', // or 'PUT'
+          body: JSON.stringify(data), // data can be `string` or {object}!
+          headers: {
+            'Content-Type': 'application/json'
+          } 
+        });
+        console.error(await response.json());
+    }
+
+    /**
+    * Closes the Add Admin modal and calls the AddAdminData function to handle updating the backend.
+    * @name handleAdminAddSubmit
+    * @memberof module:Header
+    * @function
+    * @param e {Object} The event object created when the user clicks on the "Confirm Change" button in the Add Admin modal
+    * @returns none
+    */
+    handleAdminAddSubmit = e => {
+        this.closeAddAdminModal();
+        this.AddAdminData();
+    }
+
+    /**
+    * Updates the backend to reflect that a user no longer has administrator permissions.
+    * @name RemoveAdminData
+    * @memberof module:Header
+    * @function
+    * @param none
+    * @returns none
+    */
+    RemoveAdminData = async () => {
+          const data = { level: 0 };
+          const response = await fetch(`/api/user/${this.state.selectedUser.value.user_id}/permission`, {
+          method: 'PUT', // or 'PUT'
+          body: JSON.stringify(data), // data can be `string` or {object}!
+          headers: {
+            'Content-Type': 'application/json'
+          } 
+        });
+        console.error(await response.json());
+    }
+
+    /**
+    * Closes the Remove Admin modal and calls the RemoveAdminData function to handle updating the backend.
+    * @name handleAdminRemoveSubmit
+    * @memberof module:Header
+    * @function
+    * @param e {Object} The event object created when the user clicks on the "Confirm Change" button in the Remove Admin modal
+    * @returns none
+    */
+    handleAdminRemoveSubmit = e => {
+        this.closeRemoveAdminModal();
+        this.RemoveAdminData();
+    }
+
+   /**
+   * Provides UI for navbar and modal
+   * @name render
+   * @memberof module:Header
+   * @function
+   * @returns The UI to be displayed.
+   */
   render() {
 
     const InstrucAddButton = &lt;Nav.Link onClick={this.showAddInstrucModal}>Add Instructor&lt;/Nav.Link>;
@@ -207,7 +369,13 @@ export default class Header extends React.Component {
                 &lt;Form  onSubmit={this.handleInstrucAddSubmit}>
                   &lt;Form.Group>
                     &lt;Form.Label>Users: &lt;/Form.Label>
-                      &lt;Select value={this.state.selectedUser} options={this.state.users.filter(x => { if (x.permission == 0) { return{x} }}).map(x => {return {'value': x, 'label': x.name}})} onChange={this.onChange}/>
+                      &lt;Select
+                        value={this.state.selectedUser}
+                        options={this.state.users
+                          .filter(x => x.permission === 0)
+                          .map(x => {return {'value': x, 'label': x.name}})} 
+                        onChange={this.onChange}
+                      />
                   &lt;/Form.Group>
                 &lt;/Form>
               &lt;/Modal.Body>
@@ -226,7 +394,13 @@ export default class Header extends React.Component {
                 &lt;Form  onSubmit={this.handleInstrucRemoveSubmit}>
                   &lt;Form.Group>
                     &lt;Form.Label>Users: &lt;/Form.Label>
-                      &lt;Select value={this.state.selectedUser} options={this.state.users.filter(x => { if (x.permission == 1) { return{x} } }).map(x => { return {'value': x, 'label': x.name}})} onChange={this.onChange}/>
+                      &lt;Select
+                        value={this.state.selectedUser}
+                        options={this.state.users
+                          .filter(x => x.permission === 1 )
+                          .map(x => { return {'value': x, 'label': x.name}})}
+                        onChange={this.onChange}
+                      />
                   &lt;/Form.Group>
                 &lt;/Form>
               &lt;/Modal.Body>
@@ -236,7 +410,7 @@ export default class Header extends React.Component {
                 &lt;/Button>
               &lt;/Modal.Footer>
             &lt;/Modal>
-            {localStorage.getItem('userPermissions') == 2 &amp;&amp; AdminAddButton}
+            { parseInt(localStorage.getItem('userPermissions')) === 2 &amp;&amp; AdminAddButton }
             &lt;Modal show={this.state.showAddA} onHide={this.closeAddAdminModal}>
               &lt;Modal.Header closeButton>
                 &lt;Modal.Title>Add Admin&lt;/Modal.Title>
@@ -245,7 +419,13 @@ export default class Header extends React.Component {
                 &lt;Form  onSubmit={this.handleAdminAddSubmit}>
                   &lt;Form.Group>
                     &lt;Form.Label>Users: &lt;/Form.Label>
-                      &lt;Select value={this.state.selectedUser} options={this.state.users.filter(x => { if (x.permission &lt; 2) { return{x} } }).map(x => { return {'value': x, 'label': x.name}})} onChange={this.onChange}/>
+                      &lt;Select
+                        value={this.state.selectedUser}
+                        options={this.state.users
+                          .filter(x => x.permission &lt; 2)
+                          .map(x => { return {'value': x, 'label': x.name}})}
+                        onChange={this.onChange}
+                      />
                   &lt;/Form.Group>
                 &lt;/Form>
               &lt;/Modal.Body>
@@ -255,7 +435,7 @@ export default class Header extends React.Component {
                 &lt;/Button>
               &lt;/Modal.Footer>
             &lt;/Modal>
-            {localStorage.getItem('userPermissions') == 2 &amp;&amp; AdminRemoveButton}
+            {parseInt(localStorage.getItem('userPermissions')) === 2 &amp;&amp; AdminRemoveButton}
             &lt;Modal show={this.state.showRemoveA} onHide={this.closeRemoveAdminModal}>
               &lt;Modal.Header closeButton>
                 &lt;Modal.Title>Remove Admin&lt;/Modal.Title>
@@ -264,7 +444,13 @@ export default class Header extends React.Component {
                 &lt;Form  onSubmit={this.handleAdminRemoveSubmit}>
                   &lt;Form.Group>
                     &lt;Form.Label>Users: &lt;/Form.Label>
-                      &lt;Select value={this.state.selectedUser} options={this.state.users.filter(x => { if (x.permission == 2) { return{x} } }).map(x => { return {'value': x, 'label': x.name}})} onChange={this.onChange}/>
+                      &lt;Select
+                        value={this.state.selectedUser}
+                        options={this.state.users
+                          .filter(x => x.permission === 2)
+                          .map(x => { return {'value': x, 'label': x.name}})}
+                        onChange={this.onChange}
+                      />
                   &lt;/Form.Group>
                 &lt;/Form>
               &lt;/Modal.Body>
@@ -292,13 +478,13 @@ export default class Header extends React.Component {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-AddPostModal.html">AddPostModal</a></li><li><a href="module-App.html">App</a></li><li><a href="module-elastic-client.html">elastic-client</a></li><li><a href="module-FilterComponent_CreateClass.html">FilterComponent/CreateClass</a></li><li><a href="module-FilterComponent_Dropdown.html">FilterComponent/Dropdown</a></li><li><a href="module-Header.html">Header</a></li><li><a href="module-HomeDisplay.html">HomeDisplay</a></li><li><a href="module-routes_courses.html">routes/courses</a></li><li><a href="module-routes_users.html">routes/users</a></li><li><a href="module-server.html">server</a></li><li><a href="module-textSearch.html">textSearch</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-AddPostModal.html">AddPostModal</a></li><li><a href="module-App.html">App</a></li><li><a href="module-elastic-client.html">elastic-client</a></li><li><a href="module-FilterComponent_CreateClass.html">FilterComponent/CreateClass</a></li><li><a href="module-FilterComponent_Dropdown.html">FilterComponent/Dropdown</a></li><li><a href="module-Header.html">Header</a></li><li><a href="module-HomeDisplay.html">HomeDisplay</a></li><li><a href="module-routes_courses.html">routes/courses</a></li><li><a href="module-routes_users.html">routes/users</a></li><li><a href="module-server.html">server</a></li><li><a href="module-Tags.html">Tags</a></li><li><a href="module-textSearch.html">textSearch</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Sun Dec 01 2019 11:28:13 GMT-0600 (Central Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Sun Dec 01 2019 18:44:59 GMT-0600 (Central Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>

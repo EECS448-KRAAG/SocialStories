@@ -83,3 +83,4 @@ To view the most up to date documentation simply open [./documentation/index.htm
 * Frontend
   * Admin can remove self as admin, possibly leading to there not being any admins left.
   * Refreshing page leaves currently selected course. This happens when logging in and out, etc.
+  * Manually typing into the class search dropdown causes the website to crash if backspace is pressed when there is not more text to delete.

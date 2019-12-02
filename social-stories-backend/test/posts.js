@@ -23,7 +23,7 @@ before((done) => {
       console.log(error);
     }
     done();
-  }, 10000);
+  }, 15000);
 });
 
 describe("Courses", () => {

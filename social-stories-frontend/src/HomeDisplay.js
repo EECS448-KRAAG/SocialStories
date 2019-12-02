@@ -16,15 +16,31 @@ import './HomeDisplay.css';
 * @memberof module:HomeDisplay Module
 * @function HomeDisplay
 * @param props: variables needed by this method
-* @returns cards with post id as title and content
+* @returns cards with post id as title and content. Also buttons for flags and delete for admin users
 */
 function HomeDisplay(props) {
 
+    /**
+   * requests backend to delete post then reloads the page
+   * @name deletePost
+   * @memberof module: HomeDisplay
+   * @function deletePost
+   * @param id: post specific id
+   * @returns none
+   */
   const deletePost = async (id) => {
     await window.fetch(`/api/course/${props.course}/post/${id}`, {method: "DELETE"});
     window.location.reload();
   }
 
+  /**
+ * marks the post as flagged
+ * @name flagPost
+ * @memberof module: HomeDisplay
+ * @function flagPost
+ * @param id: post specific id
+ * @returns none
+ */
   const flagPost = async(id) => {
     await window.fetch(`/api/course/${props.course}/post/${id}/flag`, {
       method: "PUT",
@@ -40,7 +56,13 @@ function HomeDisplay(props) {
   const [viewOnlyFlaggedPosts, setViewOnlyFlaggedPosts] = useState(true);
   const data = viewOnlyFlaggedPosts ? props.data : props.data.filter(x => x.flagged === true);
 
-
+  /**
+   *Render - provides UI for front page
+    * @name render
+    * @memberof module:HomeDisplay
+    * @function render
+    * @returns UI
+  */
   return (
     <>
       {localStorage.getItem("userPermissions") > 0 && (

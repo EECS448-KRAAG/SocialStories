@@ -13,11 +13,15 @@ describe('<HomeDisplay>', () =>
     content: "",
     tags: ['']
   }]
+
+  //tests that the display renders without crashing
   it('renders <HomeDisplay>', () =>
   {
       const div = document.createElement("div");
       ReactDOM.render(<HomeDisplay data={data}/>, div);
   })
+
+  //tests that the flag button is being called
   it("call flagPost", () => {
     const mockSuccessResponse = {};
     const mockJsonPromise = Promise.resolve(mockSuccessResponse); // 2
@@ -31,6 +35,7 @@ describe('<HomeDisplay>', () =>
       expect(global.fetch).toHaveBeenCalledWith("/api/course/undefined/post/undefined/flag", {"body": "{\"flagged\":true}", "headers": {"Content-Type": "application/json"}, "method": "PUT"});
   });
 
+  //tests that the delete button is being called
   it("call deletePost", () => {
     const mockSuccessResponse = {};
     const mockJsonPromise = Promise.resolve(mockSuccessResponse); // 2
